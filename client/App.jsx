@@ -1,27 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react"
+import ReactDOM from "react-dom"
+import Graph from "./Components/Graph"
 
-const App = (props) => {   
-  const [name, setName] = useState('');
+// Styles
+import "./styles.scss"
+
+const App = (props) => {
+  const [name, setName] = useState("")
   useEffect(() => {
-    dataSync();
-  }, []);
+    dataSync()
+  }, [])
 
-  const dataSync = async() => {
-    try{
-      const result = await fetch('/api/getname');
-      const data = await result.json();
-      setName(data);
-    } 
-    catch(err) {
-      console.log(err);
+  const dataSync = async () => {
+    try {
+      const result = await fetch("/api/getname")
+      const data = await result.json()
+      setName(data)
+    } catch (err) {
+      console.log(err)
     }
-  };
-  return(
+  }
+  return (
     <div>
       <h1>Hello, {name}</h1>
+      <Graph />
     </div>
-  );
-  
-};
+  )
+}
 
-export default App;
+export default App
