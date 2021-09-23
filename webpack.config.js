@@ -12,7 +12,7 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/'
   },
-  mode: 'production',  
+  mode: 'development',
   devtool: 'eval-source-map',
   devServer: {
     port: 8080,
@@ -20,6 +20,9 @@ module.exports = {
     historyApiFallback: true,
     proxy: {
       '/api/**': {
+        target: 'http://localhost:3000/',
+      },
+      '/auth/**': {
         target: 'http://localhost:3000/',
       }
     }

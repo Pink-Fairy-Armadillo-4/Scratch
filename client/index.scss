@@ -1,0 +1,93 @@
+body {
+    background-color: white;
+    margin: 0;
+}
+
+.landingpage {
+    width: 100vw;
+    height: 100vh;
+    
+    .navbar {
+        background: rgb(233, 120, 216);
+        background: linear-gradient(180deg, rgb(233, 131, 218) 9%, rgba(230,141,225,1) 54%, rgba(195,93,173,0.9906337535014006) 89%);
+        box-shadow: 2px 0px 9px rgb(194, 63, 190);
+        width: 100%;
+        height: 6vh;
+        display: flex;
+        align-items: center;
+
+          .navbuttoncontainer1 {
+              width: 80vw;
+              margin-left: 3vw;
+          }
+
+        .aboutbutton {
+            background: transparent;
+            color:white;
+            height: 3.5vh;
+            border: none;
+            font-size: 1em;
+            font-weight: 600; 
+               &:hover{
+                   font-size: 1.2em;
+               }
+        }
+
+        .authbutton {
+            background:transparent;
+            color: white;
+            height: 3.5vh;
+            width: 4vw;
+            margin: 1vh 1vw;
+            border: 1.2px solid white;
+            border-radius: 3px;
+                &:hover {
+                    border: 2px solid white;
+                }
+        }
+    }
+}
+
+.modal {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: transparent(0, 0, 0, 0.25);
+  
+.modal_content {
+    background-color: rgba(249, 226, 249, 0.776);
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+    padding: 20px;
+    border-radius: 8px;
+    height: 35vh;
+    border-radius: 5px;
+    box-shadow: 10px 15px 30px rgba(0, 0, 0, .2);
+  } 
+
+  .modal_content_login {
+    background-color: rgba(249, 226, 249, 0.776);
+    position: absolute;
+    top: 20%;
+    right: 37.5%;
+    width: 25%;
+    padding: 20px;
+    border-radius: 8px;
+    height: 35vh;
+    border-radius: 5px;
+    box-shadow: 10px 15px 30px rgba(0, 0, 0, .2);
+}
+
+  .close {
+    color: Black;
+    float: right;
+      &:hover{
+      color: rgb(101, 101, 101);
+      cursor: pointer;
+      }
+  }
+}
+  
