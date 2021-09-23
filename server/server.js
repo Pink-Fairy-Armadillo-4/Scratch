@@ -7,6 +7,8 @@ require('dotenv').config();
 const app = express();
 const PORT = 3000;
 
+const db = require('./models/pfaModels.js');
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -19,7 +21,7 @@ app.get('*', function(req, res) {
     }
   });
 });
-   
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
