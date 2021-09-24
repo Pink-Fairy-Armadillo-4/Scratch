@@ -13,14 +13,27 @@ const App = (props) => {
   const authToken = localStorage.getItem('token');
 
   useEffect(() => {
-    dataSync();
+    fetchData();
   }, []);
 
-  const dataSync = async() => {
-    try{
-      const result = '6';
-    } 
-    finally {
+  const fetchData = async() => {
+    try {
+      if (authToken) {
+        const isToken = await fetch('auth/verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({'token': authToken})
+        });
+        if (isToken) {
+          setAuth(true);
+        } else {
+          localStorage.removeItem('token');
+
+        }
+      }
+    } finally {
       setIsLoading(false);
     }
   };

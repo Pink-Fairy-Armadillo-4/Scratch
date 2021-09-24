@@ -18,3 +18,5 @@ router.get('/allSkills', dbController.getSkills, (req, res) => {
 router.get('/allSkillGroups', dbController.getUserGroups, (req, res) => {
   res.status(200).json(res.locals.skillGroups);
 });
+
+module.exports = router;

@@ -18,14 +18,12 @@ const LandingPage = (props) => {
   const togglePopReg = () => {
     seenSignUp ? setSeenSignUp(false) : setSeenSignUp(true); 
   };
-    
-
 
   return (
     <div className='landingpage'>
       {seen && <PopUp toggle={togglePop}/>}
       {seenLog && <PopUpLog toggleLog={togglePopLog} auth={props.auth} setAuth={props.setAuth}/>}
-      {seenSignUp && <PopUpReg toggleReg={togglePopReg} />}
+      {seenSignUp && <PopUpReg toggleReg={togglePopReg} auth={props.auth} setAuth={props.setAuth} />}
       <div className='navbar'>
         <div className='navbuttoncontainer1'>
           <button className='aboutbutton' onClick={togglePop}>
