@@ -1,5 +1,6 @@
 const models = require('../models/pfaModels');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const authController = {};
 
@@ -117,5 +118,21 @@ authController.createUser = async (req, res, next) => {
     });
   }
 };
+
+authController.createSession = async(req, res, next) => {
+  try{
+    if (res.locals.verification.hasLogged !== true) {
+      return next();
+    } 
+    const token = await jwt.sign({id: req.body.email}, process.env.ID_SALT);
+    res.cookie('ssid', token, {maxAge: 300000});
+    return next();
+  }
+  catch (err) {
+    console.log(err);
+  }
+};
+
+
 
 module.exports = authController;

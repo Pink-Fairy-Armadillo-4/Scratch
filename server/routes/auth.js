@@ -11,7 +11,7 @@ router.post('/login', authController.verifyUser, (req, res) => {
   res.status(200).json(res.locals.verification);
 });
 
-router.post('/signup', authController.createUser, (req, res) => {
+router.post('/signup', authController.createUser, authController.createSession, (req, res) => {
   let statusCode = 200;
   if (res.locals.verification.hasLogged == false || res.locals.verification.hasLogged == 'format') {
     statusCode = 401;
