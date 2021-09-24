@@ -11,12 +11,14 @@ const PopUpReg = (props) => {
     lastName: null,
     email: null,
     password: null,
-    skillsToTeach: [],
+    skillsToTeach: {},
   };
   //state to submit info for authorization
   const [data, setData] = useState(info);
   //state to handle skills available in database
   const [skills, setSkills] = useState([]);
+
+  const [skillId, setSkillId] = useState({});
   //loading component while awaiting data
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,9 +32,15 @@ const PopUpReg = (props) => {
   }, []);
   const fetchData = async() => {
     try{
-      const res = await fetch('/api/skills');
+      const res = await fetch('/api/allSkills');
       const response = await res.json();
-      setSkills(response);
+      const skillNames = [];
+      for (let i = 0; i < response.length; i++) {
+        skillNames.push(response[i].name);
+        setSkillId(prevstate => {prevstate[response[i].name] = response[i]._id; 
+          return prevstate;});
+      }
+      setSkills(skillNames);
     }
     finally {
       setIsLoading(false);
@@ -44,10 +52,23 @@ const PopUpReg = (props) => {
   };
   //if skills to teach weren't added to array - add, otherwise remove from array
   const skillButtonClick = (e) => {
-    data.skillsToTeach.includes(e) ? setData(prevstate => {
-      prevstate.skillsToTeach.splice(prevstate.skillsToTeach.indexOf(e),1); 
-      return {...prevstate, skillsToTeach:prevstate.skillsToTeach};})
-      : setData(prevstate => ({...prevstate, skillsToTeach: [...prevstate.skillsToTeach, e]}));
+
+    data.skillsToTeach[e] ? setData(prevstate => {
+      delete prevstate.skillsToTeach[e];
+      return prevstate;
+    })
+      : setData(prevstate => {prevstate.skillsToTeach[e] = skillId[e];
+        return prevstate;
+      });
+
+    //data.skillsToTeach.includes(e) ? setData(prevstate => {
+
+    // prevstate.skillsToTeach.splice(prevstate.skillsToTeach.indexOf(e),1); 
+
+
+    // return {...prevstate, skillsToTeach:prevstate.skillsToTeach};})
+
+    // : setData(prevstate => ({...prevstate, skillsToTeach: [...prevstate.skillsToTeach, e]}));
   };
 
   const passwordEntered = (e) => {
