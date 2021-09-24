@@ -20,10 +20,12 @@ class Graph extends React.Component {
         { name: "apple", id: 1 },
         { name: "orange", id: 2 },
         { name: "banana", id: 3 },
+        { name: "peanut butter", id: 4 },
       ],
       links: [
         { source: 0, target: 1, id: 0 },
         { source: 0, target: 2, id: 1 },
+        { source: 3, target: 4, id: 2 },
       ],
     }
     this.handleAddNode = this.handleAddNode.bind(this)
@@ -65,9 +67,9 @@ class Graph extends React.Component {
   }
 
   render() {
-    // var links = this.state.links.map((link) => {
-    //   return <Link key={link.id} data={link} />
-    // })
+    var links = this.state.links.map((link) => {
+      return <Link key={link.id} data={link} />
+    })
     var nodes = this.state.nodes.map((node) => {
       return <Node data={node} name={node.name} key={node.id} />
     })
@@ -93,7 +95,7 @@ class Graph extends React.Component {
           </div>
         </form>
         <svg className="graph" width={FORCE.width} height={FORCE.height}>
-          {/* <g>{links}</g> */}
+          <g>{links}</g>
           <g>{nodes}</g>
         </svg>
       </div>
