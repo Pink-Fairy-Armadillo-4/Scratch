@@ -26,12 +26,16 @@ const App = (props) => {
           },
           body: JSON.stringify({'token': authToken})
         });
-        if (isToken) {
+        const isTokenVerif = await isToken.json();
+        if (isTokenVerif === true) {
           setAuth(true);
         } else {
           localStorage.removeItem('token');
-
+          setAuth(false);
         }
+      }
+      else {
+        setAuth(false);
       }
     } finally {
       setIsLoading(false);
@@ -40,10 +44,7 @@ const App = (props) => {
   
   return(
     <div className='maindiv'>
-      {isLoading && 
-      <div className='loading'>
-        <CircularProgress />
-      </div>}
+     
       {!isLoading && (
         <Switch >
 
@@ -56,7 +57,9 @@ const App = (props) => {
           </Route>
 
           <Route exact path='/main'>
-            {auth ? <MainPage
+            {auth ? <MainPage  
+              auth = {auth}
+              setAuth = {setAuth}
             /> : <Redirect to='/' />}
           </Route>
 
@@ -74,4 +77,4 @@ const App = (props) => {
   );
 };
 
-export default App
+export default App;
