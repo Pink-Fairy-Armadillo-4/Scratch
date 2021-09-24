@@ -108,19 +108,19 @@ const PopUpReg = (props) => {
       });
       const resp = await res.json();
       console.log('resp', resp);
-      if (!resp.haslogged) {
+      if (!resp.hasLogged) {
         setErrorOnSignup(true);
       }
-      else if (resp.haslogged === 'format') {
+      else if (resp.hasLogged === 'format') {
         setErrorOnSignup('format');
       }
-      else if (resp.haslogged) {
+      else if (resp.hasLogged) {
         const rightCookie = findCookie(document.cookie);
         if (rightCookie) {
           localStorage.setItem('token', rightCookie);
-          localStorage.setItem('name', `${resp.name.firstName} ${resp.name.lastName}`);
+          localStorage.setItem('name', `${resp.userInfo.firstName} ${resp.userInfo.lastName}`);
         }
-        if(resp.admin) {
+        if(resp.userInfo.isAdmin) {
           localStorage.setItem('admin', 'true');
         }
         props.setAuth(true);

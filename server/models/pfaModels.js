@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 
 // sets a schema for the 'user' collection
@@ -31,6 +32,26 @@ const userSchema = new Schema({
     },
   ],
 });
+
+//set up preprocess for encrypting password
+userSchema.pre('save', async function save (next){
+  try{
+    const SALT_WORK_FACTOR = 10;
+    const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
+    this.password = await bcrypt.hash(this.password, salt);
+    return next();
+  }
+  catch(err){
+    return next(err);
+  }
+});
+
+//cannot access password with arrow func
+userSchema.methods.verify = async (password) => {
+  const check = bcrypt.compare(password, this.password);
+  return check;
+};
+
 
 const User = mongoose.model('user', userSchema);
 

@@ -51,9 +51,9 @@ const PopUpLog = ({auth, setAuth, toggleLog}) => {
         const rightCookie = findCookie(document.cookie);
         if (rightCookie) {
           localStorage.setItem('token', rightCookie);
-          localStorage.setItem('name', `${resp.name.firstName} ${resp.name.lastName}`);
+          localStorage.setItem('name', `${resp.userInfo.firstName} ${resp.userInfo.lastName}`);
         }
-        if(resp.admin) {
+        if(resp.userInfo.isAdmin) {
           localStorage.setItem('admin', 'true');
         }
         setAuth(true);
