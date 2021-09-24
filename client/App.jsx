@@ -1,30 +1,77 @@
-import React, { useState, useEffect } from "react"
-import ReactDOM from "react-dom"
-import Graph from "./Components/Graph"
+import React, { useState, useEffect } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { CircularProgress } from  '@material-ui/core';
+import LandingPage from './components/LandingPage';
+import MainPage from './components/MainPage';
+import './index.scss';
+import AccountPage from './components/AccountPage';
+import ErrorPage from './components/ErrorPage';
 
-// Styles
-import "./styles.scss"
+const App = (props) => {   
+  const [auth, setAuth] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const authToken = localStorage.getItem('token');
 
-const App = (props) => {
-  const [name, setName] = useState("")
   useEffect(() => {
-    dataSync()
-  }, [])
+    fetchData();
+  }, []);
 
-  const dataSync = async () => {
+  const fetchData = async() => {
     try {
-      const result = await fetch("/api/getname")
-      const data = await result.json()
-      setName(data)
-    } catch (err) {
-      console.log(err)
+      if (authToken) {
+        const isToken = await fetch('auth/verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({'token': authToken})
+        });
+        if (isToken) {
+          setAuth(true);
+        } else {
+          localStorage.removeItem('token');
+
+        }
+      }
+    } finally {
+      setIsLoading(false);
     }
-  }
-  return (
-    <div>
-      <Graph />
+  };
+  
+  return(
+    <div className='maindiv'>
+      {isLoading && 
+      <div className='loading'>
+        <CircularProgress />
+      </div>}
+      {!isLoading && (
+        <Switch >
+
+          <Route exact path='/'>
+            {auth ? <Redirect to='/main' /> 
+              : <LandingPage 
+                auth = {auth}
+                setAuth = {setAuth}
+              />}
+          </Route>
+
+          <Route exact path='/main'>
+            {auth ? <MainPage
+            /> : <Redirect to='/' />}
+          </Route>
+
+          <Route exact path='/account'>
+            {auth ? <AccountPage
+            /> : <Redirect to='/' />}
+          </Route>
+
+          <Route path="/404" component={ErrorPage} />
+          <Redirect to="/404" />
+
+        </Switch>
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default App
