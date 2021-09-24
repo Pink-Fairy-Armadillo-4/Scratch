@@ -8,8 +8,14 @@ const FORCE = (function (nsp) {
     initForce = (nodes, links) => {
       nsp.force = d3
         .forceSimulation(nodes)
-        .force("charge", d3.forceManyBody().strength(-200))
-        .force("link", d3.forceLink(links).distance(70))
+        .force("charge", d3.forceManyBody().strength(-1))
+        .force(
+          "link",
+          d3
+            .forceLink(links)
+            .distance(1)
+            .id((d) => d.id)
+        )
         .force(
           "center",
           d3
@@ -17,15 +23,13 @@ const FORCE = (function (nsp) {
             .x(nsp.width / 2)
             .y(nsp.height / 2)
         )
-        .force("collide", d3.forceCollide([5]).iterations([5]))
+        .force("collision", d3.forceCollide().radius(10))
     },
     enterNode = (selection) => {
       const circle = selection
         .select("circle")
-        .attr("r", 25)
+        .attr("r", 5)
         .style("fill", (d) => {
-          console.log(`D property: ${d}`)
-          console.log(`D group property: ${d.group}`)
           return d.group === "user" ? "#a58afc" : "#5b93f0"
         })
         .style("stroke", "white")
@@ -52,7 +56,7 @@ const FORCE = (function (nsp) {
         })
     },
     enterLink = (selection) => {
-      selection.attr("stroke-width", 2).attr("stroke", "white")
+      selection.attr("stroke", "#999").attr("stroke-width", 2)
     },
     updateLink = (selection) => {
       selection
