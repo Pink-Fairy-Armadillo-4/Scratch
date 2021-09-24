@@ -22,7 +22,6 @@ const App = (props) => {
   }
   return (
     <div>
-      <h1>Hello, {name}</h1>
       <Graph />
     </div>
   )

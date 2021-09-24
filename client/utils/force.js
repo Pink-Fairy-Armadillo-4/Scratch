@@ -3,9 +3,8 @@ import ReactDOM from "react-dom"
 import * as d3 from "d3"
 
 const FORCE = (function (nsp) {
-  var width = 1080,
-    height = 250,
-    color = d3.scaleOrdinal(d3.schemeCategory10),
+  var width = 900,
+    height = 720,
     initForce = (nodes, links) => {
       nsp.force = d3
         .forceSimulation(nodes)
@@ -21,22 +20,26 @@ const FORCE = (function (nsp) {
         .force("collide", d3.forceCollide([5]).iterations([5]))
     },
     enterNode = (selection) => {
-      var circle = selection
+      const circle = selection
         .select("circle")
         .attr("r", 25)
-        .style("fill", "tomato")
-        .style("stroke", "bisque")
-        .style("stroke-width", "3px")
+        .style("fill", (d) => {
+          console.log(`D property: ${d}`)
+          console.log(`D group property: ${d.group}`)
+          return d.group === "user" ? "#a58afc" : "#5b93f0"
+        })
+        .style("stroke", "white")
+        .style("stroke-width", "1px")
 
       selection
         .select("text")
-        .style("fill", "honeydew")
+        .style("fill", "white")
         .style("font-weight", "600")
         .style("text-transform", "uppercase")
         .style("text-anchor", "middle")
         .style("alignment-baseline", "middle")
         .style("font-size", "10px")
-        .style("font-family", "cursive")
+        .style("font-family", "Roboto")
     },
     updateNode = (selection) => {
       selection
@@ -49,7 +52,7 @@ const FORCE = (function (nsp) {
         })
     },
     enterLink = (selection) => {
-      selection.attr("stroke-width", 3).attr("stroke", "bisque")
+      selection.attr("stroke-width", 2).attr("stroke", "white")
     },
     updateLink = (selection) => {
       selection
