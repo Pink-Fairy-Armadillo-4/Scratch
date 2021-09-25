@@ -17,6 +17,7 @@ dbController.getUsers = async (req, res, next) => {
     
     const users = await models.User.find(queryFilter, specifiedFields);
     res.locals.users = users;
+    res.locals.userCount = users.length;
     next();
   } catch(err) {
     next({
@@ -35,6 +36,7 @@ dbController.getUserGroups = async (req, res, next) => {
     // object specifying the fields to be requested from db
     const specifiedFields = {
       name: 1,
+      color: 1,
     };
     
     const userGroups = await models.UserGroup.find(queryFilter, specifiedFields);
@@ -64,6 +66,7 @@ dbController.getSkills = async (req, res, next) => {
     
     const skills = await models.Skill.find(queryFilter, specifiedFields);
     res.locals.skills = skills;
+    res.locals.skillCount = skills.length;
     next();
   } catch(err) {
     next({
@@ -82,6 +85,7 @@ dbController.getSkillGroups = async (req, res, next) => {
     // object specifying the fields to be requested from db
     const specifiedFields = {
       name: 1,
+      color: 1,
     };
     
     const skillGroups = await models.SkillGroup.find(queryFilter, specifiedFields);
