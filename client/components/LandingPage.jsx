@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import PopUp from './PopUp';
 import PopUpLog from './PopUpLog';
 import PopUpReg from './PopUpReg';
+import logo from '../images/logo.png' ;
 
 const LandingPage = (props) => {
 
@@ -40,6 +41,9 @@ const LandingPage = (props) => {
           Signup
           </button>
         </div>
+      </div>
+      <div className = 'logocontainer'>
+        <img alt='intro' className='logoImg' src={logo} />
       </div>
     </div>
   );

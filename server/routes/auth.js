@@ -4,27 +4,29 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 
 
-router.post('/login', authController.verifyUser, (req, res) => {
-  // testing purpose 
-  console.log(res.locals.verification);
-
-  res.status(200).json(res.locals.verification);
-});
-
-router.post('/signup', authController.createUser, (req, res) => {
+router.post('/signup', authController.createUser, authController.createSession, (req, res) => {
   let statusCode = 200;
-  if (res.locals.verification.hasLogged == false || res.locals.verification.hasLogged == 'format') {
+  if (res.locals.verification.hasLogged == false || res.locals.verification.hasLogged == 'format' || res.locals.verification.hasLogged == 'empty') {
     statusCode = 401;
   }
 
   res.status(statusCode).json(res.locals.verification);
 });
 
-router.get('/login', authController.verifyUser, (req, res) => {
+router.post('/login', authController.verifyUser, authController.createSession, (req, res) => {
   // testing purpose 
   console.log(res.locals.verification);
+  let statusCode = 200;
+  if (res.locals.verification.hasLogged == false) {
+    statusCode = 401;
+  }
+  res.status(statusCode).json(res.locals.verification);
+});
 
-  res.status(200).json(res.locals.verification);
+router.post('/verify', authController.verifyToken, (req, res) => {
+  res.locals.tokenVerif === true ? 
+    res.status(200).json(true) :
+    res.status(401).json(false);
 });
 
 module.exports = router;

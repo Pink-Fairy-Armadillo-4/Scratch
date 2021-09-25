@@ -47,7 +47,7 @@ userSchema.pre('save', async function save (next){
 });
 
 //cannot access password with arrow func
-userSchema.methods.verify = async (password) => {
+userSchema.methods.verify = async function (password) {
   const check = bcrypt.compare(password, this.password);
   return check;
 };
