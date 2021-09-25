@@ -108,19 +108,22 @@ const PopUpReg = (props) => {
       });
       const resp = await res.json();
       console.log('resp', resp);
-      if (!resp.haslogged) {
+      if (!resp.hasLogged) {
         setErrorOnSignup(true);
       }
-      else if (resp.haslogged === 'format') {
+      else if (resp.hasLogged === 'format') {
         setErrorOnSignup('format');
       }
-      else if (resp.haslogged) {
+      else if (resp.hasLogged === 'empty') {
+        setErrorOnSignup('empty');
+      }
+      else if (resp.hasLogged) {
         const rightCookie = findCookie(document.cookie);
         if (rightCookie) {
           localStorage.setItem('token', rightCookie);
-          localStorage.setItem('name', `${resp.name.firstName} ${resp.name.lastName}`);
+          localStorage.setItem('name', `${resp.userInfo.firstName} ${resp.userInfo.lastName}`);
         }
-        if(resp.admin) {
+        if(resp.userInfo.isAdmin) {
           localStorage.setItem('admin', 'true');
         }
         props.setAuth(true);
@@ -133,7 +136,7 @@ const PopUpReg = (props) => {
   };
 
   useEffect(() => {
-    if(errorOnSignup === true || errorOnSignup === 'format'){
+    if(errorOnSignup === true || errorOnSignup === 'format' || errorOnSignup === 'empty'){
       setTimeout(() => {
         setErrorOnSignup(false);
       }, 3000);}
@@ -156,12 +159,18 @@ const PopUpReg = (props) => {
             <h4>SIGNUP</h4> 
             {errorOnSignup === true && 
             <div className='loginerror-message'>
-            This email had been registered before. Please try to login.
+               This email is registered in our system. Please try to login.           
+            </div>
+            }
+            {errorOnSignup === 'empty' && 
+            <div className='loginerror-message'>
+              All fields are required.           
             </div>
             }
             {errorOnSignup === 'format' && <div className='errordiv'>
-              <p>Incorrect email format. Please enter valid email. 
-              </p>
+              <div className='loginerror-message'>
+                Incorrect email format. Please enter valid email. 
+              </div>
             </div>}
             <form className='loginform'>
               <div className="form-group">

@@ -44,16 +44,17 @@ const PopUpLog = ({auth, setAuth, toggleLog}) => {
         body: JSON.stringify(login)
       });
       const resp = await data.json();
-      if (!resp.haslogged) {
+      console.log('resp on log is', resp);
+      if (!resp.hasLogged) {
         setErrorOnLogin(true);
       }
-      else if (resp.haslogged) {
+      else if (resp.hasLogged) {
         const rightCookie = findCookie(document.cookie);
         if (rightCookie) {
           localStorage.setItem('token', rightCookie);
-          localStorage.setItem('name', `${resp.name.firstName} ${resp.name.lastName}`);
+          localStorage.setItem('name', `${resp.userInfo.firstName} ${resp.userInfo.lastName}`);
         }
-        if(resp.admin) {
+        if(resp.userInfo.isAdmin) {
           localStorage.setItem('admin', 'true');
         }
         setAuth(true);
