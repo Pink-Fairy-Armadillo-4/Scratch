@@ -28,7 +28,7 @@ class Node extends React.Component {
     const handleClick = () => {
       const data = this.props.data
       console.log(data)
-      data.group === "user" ? console.log({ id: data.id }) : console.log(null)
+      data.group === "user" ? this.props.getNodeInfo(data) : console.log(null)
     }
 
     return (

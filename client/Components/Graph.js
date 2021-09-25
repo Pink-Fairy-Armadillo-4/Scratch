@@ -54,6 +54,7 @@ class Graph extends React.Component {
           data={node}
           name={node.name}
           key={node.id}
+          getNodeInfo={this.props.getNodeInfo}
           onMouseOverCallback={(datum) => this.setState({ hoveredNode: datum })}
           onMouseOutCallback={() => this.setState({ hoveredNode: null })}
         />
