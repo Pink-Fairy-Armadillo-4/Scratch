@@ -50,6 +50,7 @@ const PopUpLog = ({auth, setAuth, toggleLog}) => {
       }
       else if (resp.hasLogged) {
         const rightCookie = findCookie(document.cookie);
+        localStorage.setItem('email', `${login.email}`);
         if (rightCookie) {
           localStorage.setItem('token', rightCookie);
           localStorage.setItem('name', `${resp.userInfo.firstName} ${resp.userInfo.lastName}`);

@@ -119,6 +119,7 @@ const PopUpReg = (props) => {
       }
       else if (resp.hasLogged) {
         const rightCookie = findCookie(document.cookie);
+        localStorage.setItem('email', `${data.email}`);
         if (rightCookie) {
           localStorage.setItem('token', rightCookie);
           localStorage.setItem('name', `${resp.userInfo.firstName} ${resp.userInfo.lastName}`);

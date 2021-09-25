@@ -1,68 +1,74 @@
-import React, { useState, useEffect } from "react"
-import { Switch, Route, Redirect } from "react-router-dom"
-import { CircularProgress } from "@material-ui/core"
-import LandingPage from "./Components/LandingPage"
-import MainPage from "./Components/MainPage"
-import "./index.scss"
-import AccountPage from "./Components/AccountPage"
-import ErrorPage from "./Components/ErrorPage"
+import React, { useState, useEffect } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { CircularProgress } from  '@material-ui/core';
+import LandingPage from './Components/LandingPage';
+import MainPage from './Components/MainPage';
+import './index.scss';
+import AccountPage from './Components/AccountPage';
+import ErrorPage from './Components/ErrorPage';
 
-const App = (props) => {
-  const [auth, setAuth] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const authToken = localStorage.getItem("token")
+const App = (props) => {   
+  const [auth, setAuth] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const authToken = localStorage.getItem('token');
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
-  const fetchData = async () => {
+  const fetchData = async() => {
     try {
       if (authToken) {
-        const isToken = await fetch("auth/verify", {
-          method: "POST",
+        const isToken = await fetch('auth/verify', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ token: authToken }),
-        })
-        const isTokenVerif = await isToken.json()
+          body: JSON.stringify({'token': authToken})
+        });
+        const isTokenVerif = await isToken.json();
         if (isTokenVerif === true) {
-          setAuth(true)
+          setAuth(true);
         } else {
-          localStorage.removeItem("token")
-          setAuth(false)
+          localStorage.removeItem('token');
+          setAuth(false);
         }
-      } else {
-        setAuth(false)
+      }
+      else {
+        setAuth(false);
       }
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
-
-  return (
-    <div className="maindiv">
+  };
+  
+  return(
+    <div className='maindiv'>
+      {isLoading && 
+     <div className='loading'>
+       <CircularProgress />
+     </div>}
       {!isLoading && (
-        <Switch>
-          <Route exact path="/">
-            {auth ? (
-              <Redirect to="/main" />
-            ) : (
-              <LandingPage auth={auth} setAuth={setAuth} />
-            )}
+        <Switch >
+
+          <Route exact path='/'>
+            {auth ? <Redirect to='/main' /> 
+              : <LandingPage 
+                auth = {auth}
+                setAuth = {setAuth}
+              />}
           </Route>
 
-          <Route exact path="/main">
-            {auth ? (
-              <MainPage auth={auth} setAuth={setAuth} />
-            ) : (
-              <Redirect to="/" />
-            )}
+          <Route exact path='/main'>
+            {auth ? <MainPage  
+              auth = {auth}
+              setAuth = {setAuth}
+            /> : <Redirect to='/' />}
           </Route>
 
-          <Route exact path="/account">
-            {auth ? <AccountPage /> : <Redirect to="/" />}
+          <Route exact path='/account'>
+            {auth ? <AccountPage
+            /> : <Redirect to='/' />}
           </Route>
 
           <Route path="/404" component={ErrorPage} />
@@ -70,7 +76,7 @@ const App = (props) => {
         </Switch>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

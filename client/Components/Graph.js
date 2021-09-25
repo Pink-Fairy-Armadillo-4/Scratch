@@ -1,35 +1,35 @@
-import React from "react"
-import * as d3 from "d3"
+import React from 'react';
+import * as d3 from 'd3';
 
 // Components
-import Link from "./Link"
-import Node from "./Node"
-import Tooltip from "./Tooltip"
+import Link from './Link';
+import Node from './Node';
+import Tooltip from './Tooltip';
 
 // Util
-import FORCE from "../utils/force"
+import FORCE from '../utils/force';
 //import data from '../utils/data';
 
 // Styles
-import "../index.scss"
+import '../index.scss';
 
 class Graph extends React.Component {
   constructor(props) {
-    super(props)
-    this.xScale = d3.scaleLinear()
-    this.yScale = d3.scaleLinear()
+    super(props);
+    this.xScale = d3.scaleLinear();
+    this.yScale = d3.scaleLinear();
     this.state = {
       data: this.props.graphData,
       hoveredNode: null,
-    }
-    console.log("thisstate", this.state)
+    };
+    console.log('thisstate', this.state);
   }
 
   componentDidMount() {
-    const data = this.state.data
-    FORCE.initForce(data.nodes, data.links)
-    FORCE.tick(this)
-    FORCE.drag()
+    const data = this.state.data;
+    FORCE.initForce(data.nodes, data.links);
+    FORCE.tick(this);
+    FORCE.drag();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -37,17 +37,17 @@ class Graph extends React.Component {
       prevState.nodes !== this.state.data.nodes ||
       prevState.links !== this.state.data.links
     ) {
-      const data = this.state.data
-      FORCE.initForce(data.nodes, data.links)
-      FORCE.tick(this)
-      FORCE.drag()
+      const data = this.state.data;
+      FORCE.initForce(data.nodes, data.links);
+      FORCE.tick(this);
+      FORCE.drag();
     }
   }
 
   render() {
     const links = this.state.data.links.map((link) => {
-      return <Link key={link.id} data={link} />
-    })
+      return <Link key={link.id} data={link} />;
+    });
     const nodes = this.state.data.nodes.map((node) => {
       return (
         <Node
@@ -58,8 +58,8 @@ class Graph extends React.Component {
           onMouseOverCallback={(datum) => this.setState({ hoveredNode: datum })}
           onMouseOutCallback={() => this.setState({ hoveredNode: null })}
         />
-      )
-    })
+      );
+    });
     return (
       <div className="graph__container">
         <svg className="graph" width={FORCE.width} height={FORCE.height}>
@@ -73,8 +73,8 @@ class Graph extends React.Component {
           />
         ) : null}
       </div>
-    )
+    );
   }
 }
 
-export default Graph
+export default Graph;

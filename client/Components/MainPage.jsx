@@ -1,43 +1,78 @@
-import React, { useState } from "react"
-import { useEffect } from "react"
-import Graph from "./Graph"
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import Graph from './Graph';
 
 const MainPage = (props) => {
-  const [requestPop, setRequestPop] = useState(false)
-  const [selectedUser, setSelectedUser] = useState({})
+  const [requestPop, setRequestPop] = useState(false);
+  const [selectedUser, setSelectedUser] = useState({});
+  const [email, setEmail] = useState('');
 
   const getNodeInfo = (nodeInfo) => {
-    console.log("nodeInfo: ", nodeInfo)
-    setSelectedUser(nodeInfo)
-  }
-
-  console.log("selectUser is", selectedUser)
+    console.log('nodeInfo: ', nodeInfo);
+    setSelectedUser(nodeInfo);
+  };
 
   const togglePop = () => {
-    requestPop ? setRequestPop(false) : setRequestPop(true)
-  }
+    requestPop ? setRequestPop(false) : setRequestPop(true);
+  };
 
-  const [graphData, setGraphData] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
+  const [graphData, setGraphData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const dataFetch = async () => {
     try {
-      const resp = await fetch("/api/nodes")
-      const data = await resp.json()
-      console.log("data", data)
-      setGraphData(data)
+      const resp = await fetch('/api/nodes');
+      const data = await resp.json();
+      console.log('data', data);
+      setGraphData(data);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
-  console.log(graphData)
+  };
 
   useEffect(() => {
-    console.log("called")
-    dataFetch()
-  }, [])
+    console.log('called');
+    dataFetch();
+  }, []);
+
+  const emailEntered = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const sendMessage = async () => {
+    try{
+      const sourceName = localStorage.getItem('name');
+      const sourceEmail = localStorage.getItem('email');
+      const data = {
+        emailToGetContacted: email,
+        sourceName,
+        sourceEmail,
+        targetEmail: selectedUser.email,
+        targetName: selectedUser.id,
+        skill: graphData.skills[0]
+      };
+      console.log('da ', data);
+      const sent = await fetch('/api/sendmessage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      const response = await sent.json();
+
+    }
+    catch(err) {
+      console.log(err);
+    }
+  };
+
+  const cancelMessage = () => {
+    setSelectedUser({});
+  };
+
   return (
     <div className="mainpage">
       <div className="navbar">
@@ -54,10 +89,11 @@ const MainPage = (props) => {
           <button
             className="authbutton"
             onClick={(e) => {
-              localStorage.removeItem("token")
-              localStorage.removeItem("admin")
-              localStorage.removeItem("name")
-              props.setAuth(false)
+              localStorage.removeItem('token');
+              localStorage.removeItem('admin');
+              localStorage.removeItem('name');
+              localStorage.removeItem('email');
+              props.setAuth(false);
             }}
           >
             Logout
@@ -67,9 +103,17 @@ const MainPage = (props) => {
       {graphData.nodes !== undefined && (
         <Graph getNodeInfo={getNodeInfo} graphData={graphData} />
       )}
-      {requestPop && <div className="messenger"> </div>}
+      {(selectedUser.id) && <div className="messenger">
+        Hi, {selectedUser.id}, I am looking forward to learning {graphData.skills[0]} from you.
+        <form>
+        Here is my contact info:
+          <input type="password" className="form-control" placeholder="Enter email" onChange={emailEntered} />
+        </form>
+        <button onClick={sendMessage}> Submit</button>
+        <button onClick={cancelMessage}>Cancel</button>
+      </div>}
     </div>
-  )
-}
+  );
+};
 
-export default MainPage
+export default MainPage;
