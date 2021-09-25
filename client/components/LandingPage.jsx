@@ -12,12 +12,19 @@ const LandingPage = (props) => {
 
   const togglePop = () => {
     seen ? setSeen(false) : setSeen(true); 
+    seenLog ? setSeenLog(false) : null;
+    seenSignUp ? setSeenSignUp(false) : null;
+
   };
   const togglePopLog = () => {
     seenLog ? setSeenLog(false) : setSeenLog(true); 
+    seen ? setSeen(false) : null;
+    seenSignUp ? setSeenSignUp(false) : null;
   };
   const togglePopReg = () => {
     seenSignUp ? setSeenSignUp(false) : setSeenSignUp(true); 
+    seen ? setSeen(false) : null;
+    seenLog ? setSeenLog(false) : null;
   };
 
   return (

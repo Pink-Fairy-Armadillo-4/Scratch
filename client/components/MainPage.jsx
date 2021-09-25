@@ -2,13 +2,20 @@ import React, { useState } from 'react';
 import Graph from './Graph';
 
 const MainPage = (props) => {
+  const [requestPop, setRequestPop] = useState(false);
+  const togglePop = () => {
+    requestPop ? setRequestPop(false) : setRequestPop(true);
+  };
 
   return (
     <div className='mainpage'>
       <div className='navbar'>
-        <div className='navbuttoncontainer1'>
-          <button className='aboutbutton'>
-          About
+        <div className='main-navbuttoncontainer1'>
+          Logo
+        </div>
+        <div className='navbuttoncontainer2'>
+          <button className='requestsbutton' onClick={togglePop}>
+          R
           </button>
         </div>
         <div className='navbuttoncontainer2'>
@@ -23,6 +30,7 @@ const MainPage = (props) => {
         </div>
       </div>
       <Graph />
+      {requestPop && <div className='messenger'> </div>}
     </div>
   );
 };
