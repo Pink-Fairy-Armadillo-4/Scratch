@@ -10,7 +10,7 @@ graphController.createNodes = (req, res, next) => {
   const skillName = [];
   const nodes = [];
   const links = [];
-
+  const seenUser = {};
   for (const skill of res.locals.skills) {
     const skillNode = {
       id: skill.name,
@@ -24,6 +24,7 @@ graphController.createNodes = (req, res, next) => {
     for (const user of skill.teachers) {
       const userNode = {
         id: '' + user.firstName + ' ' + user.lastName,
+        email: user.email,
         group: user.userGroup,
         radius: process.env.USER_R ? process.env.USER_R : 2
       };
@@ -33,8 +34,10 @@ graphController.createNodes = (req, res, next) => {
         target: skillNode.id,
         value: process.env.LINK_V ? process.env.LINK_V : 2
       };
-
-      nodes.push(userNode);
+      if (!(userNode.id in seenUser)) {
+        nodes.push(userNode);
+        seenUser[userNode.id] = true;
+      }
       links.push(link);
     }
   }
