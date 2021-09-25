@@ -88,4 +88,17 @@ const skillGroupSchema = new Schema({
 
 const SkillGroup = mongoose.model('skillGroup', skillGroupSchema);
 
+const messageSchema = new Schema({
+  // info stored on login
+  sourceName : { type: String, required: true},
+  sourceEmail : { type: String, required: true},
+  // info stored on node
+  targetName : { type: String, required: true},
+  targetEmail : { type: String, required: true},
+  // message generate on click node and send message functionality
+  messageBody : { type: String, required: true},
+  isRead : { type: Boolean, default: false},
+});
+
+const messageGroup = mongoose.model('skillGroup', skillGroupSchema);
 module.exports = { User, UserGroup, Skill, SkillGroup };
