@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { CircularProgress } from  '@material-ui/core';
-import LandingPage from './components/LandingPage';
-import MainPage from './components/MainPage';
+import LandingPage from './Components/LandingPage';
+import MainPage from './Components/MainPage';
 import './index.scss';
-import AccountPage from './components/AccountPage';
-import ErrorPage from './components/ErrorPage';
+import AccountPage from './Components/AccountPage';
+import ErrorPage from './Components/ErrorPage';
 
 const App = (props) => {   
   const [auth, setAuth] = useState(false);
