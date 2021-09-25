@@ -6,12 +6,13 @@ import Node from './Node';
 
 // Util
 import FORCE from '../utils/force';
-import data from '../utils/data';
+//import data from '../utils/data';
 
 class Graph extends React.Component {
   constructor(props) {
     super(props);
-    this.state = data;
+    this.state = this.props.graphData;
+    console.log('thisstate', this.state);
   }
 
   componentDidMount() {

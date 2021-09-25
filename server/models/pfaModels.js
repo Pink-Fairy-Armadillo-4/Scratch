@@ -9,14 +9,11 @@ const userSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   isAdmin: { type: Boolean, default: false },
-  userGroup: {
-    name: String,
-    id: { type: Schema.Types.ObjectId, ref: 'userGroup' },
-  },
+  userGroup: { type: String, default: 'user' },
   teach: [
     {
       name: String,
-      id: {
+      _id: {
         type: Schema.Types.ObjectId,
         ref: 'skill',
       },
@@ -25,7 +22,7 @@ const userSchema = new Schema({
   learn: [
     {
       name: String,
-      id: {
+      _id: {
         type: Schema.Types.ObjectId,
         ref: 'skill',
       },
@@ -58,6 +55,7 @@ const User = mongoose.model('user', userSchema);
 // sets a schema for the 'userGroup' collection
 const userGroupSchema = new Schema({
   name: { type: String, required: true },
+  color: { type: String },
 });
 
 const UserGroup = mongoose.model('userGroup', userGroupSchema);
@@ -65,16 +63,14 @@ const UserGroup = mongoose.model('userGroup', userGroupSchema);
 // sets a schema for the 'skill' collection
 const skillSchema = new Schema({
   name: { type: String, required: true },
-  skillGroup: {
-    name: String,
-    id: { type: Schema.Types.ObjectId, ref: 'skillGroup' },
-  },
+  skillGroup: { type: String, default: 'skill' },
   teachers: [
     {
       firstName: String,
       lastName: String,
       email: String,
-      id: {
+      userGroup: {type: String, default: 'user'},
+      _id: {
         type: Schema.Types.ObjectId,
         ref: 'user',
       },
@@ -87,8 +83,22 @@ const Skill = mongoose.model('skill', skillSchema);
 // sets a schema for the 'userGroup' collection
 const skillGroupSchema = new Schema({
   name: { type: String, required: true },
+  color: { type: String },
 });
 
 const SkillGroup = mongoose.model('skillGroup', skillGroupSchema);
 
+const messageSchema = new Schema({
+  // info stored on login
+  sourceName : { type: String, required: true},
+  sourceEmail : { type: String, required: true},
+  // info stored on node
+  targetName : { type: String, required: true},
+  targetEmail : { type: String, required: true},
+  // message generate on click node and send message functionality
+  messageBody : { type: String, required: true},
+  isRead : { type: Boolean, default: false},
+});
+
+const messageGroup = mongoose.model('skillGroup', skillGroupSchema);
 module.exports = { User, UserGroup, Skill, SkillGroup };

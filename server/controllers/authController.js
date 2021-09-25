@@ -1,4 +1,5 @@
 const models = require('../models/pfaModels');
+const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
 const authController = {};
@@ -73,7 +74,8 @@ authController.createUser = async (req, res, next) => {
 
     const teach = [];
     for (const key in skillsToTeach) {
-      teach.push({name: key, id: skillsToTeach[key]});
+      teach.push({name: key, _id: mongoose.Types.ObjectId(skillsToTeach[key])});
+
     }
 
     // object specifying the filters on query
@@ -102,6 +104,24 @@ authController.createUser = async (req, res, next) => {
     }
 
     const user = await models.User.create(userDoc);
+
+    // update teachers in skill to reflect the new user
+    const newTeacher = {
+      firstName,
+      lastName,
+      email,
+      _id: user._id
+    };
+  
+    const skills = Object.keys(skillsToTeach);
+    if (skills.length != 0) {
+      await models.Skill.updateMany(
+        {name: {'$in': skills}},
+        { $push: {teachers: newTeacher}});
+    }
+
+
+
     verification.hasLogged = true;
     verification.userInfo = {};
 
