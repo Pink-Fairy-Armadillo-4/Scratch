@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import Graph from './Graph';
 
 const MainPage = (props) => {
@@ -7,6 +8,28 @@ const MainPage = (props) => {
     requestPop ? setRequestPop(false) : setRequestPop(true);
   };
 
+  const [graphData, setGraphData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  
+  const dataFetch = async () => {
+    try{
+      const resp = await fetch('/api/nodes');
+      const data = await resp.json();
+      console.log('data', data);
+      setGraphData(data);
+    }
+    catch(err) {console.log(err);}
+    finally {
+      setIsLoading(false);
+    }
+  };
+  console.log(graphData);
+  
+  useEffect(() => {
+    console.log('called');
+    dataFetch();
+  }, []);
   return (
     <div className='mainpage'>
       <div className='navbar'>
@@ -29,7 +52,9 @@ const MainPage = (props) => {
           </button>
         </div>
       </div>
-      <Graph />
+      { graphData.nodes !== undefined &&
+      <Graph  graphData={graphData}/>
+      }
       {requestPop && <div className='messenger'> </div>}
     </div>
   );

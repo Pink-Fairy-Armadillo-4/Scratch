@@ -69,6 +69,7 @@ const skillSchema = new Schema({
       firstName: String,
       lastName: String,
       email: String,
+      userGroup: {type: String, default: 'user'},
       _id: {
         type: Schema.Types.ObjectId,
         ref: 'user',
