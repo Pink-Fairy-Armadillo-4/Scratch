@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { CircularProgress } from  '@material-ui/core';
 import LandingPage from './Components/LandingPage';
 import MainPage from './Components/MainPage';
 import './index.scss';
-import AccountPage from './Components/AccountPage';
 import ErrorPage from './Components/ErrorPage';
-import Requests from './Components/Requests';
+import RequestsPage from './Components/RequestsPage';
+import Settings from './Components/Settings';
 
 const App = (props) => {   
   const [auth, setAuth] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [requests, setRequests] = useState([]);
+  const [isRead, setIsRead] = useState(true);
   const authToken = localStorage.getItem('token');
 
   useEffect(() => {
@@ -38,51 +38,54 @@ const App = (props) => {
       else {
         setAuth(false);
       }
-    } finally {
-      setIsLoading(false);
+    } catch (err) {
+      console.log(err);
     }
   };
   
   return(
     <div className='maindiv'>
-      {isLoading && 
-     <div className='loading'>
-       <CircularProgress />
-     </div>}
-      {!isLoading && (
-        <Switch >
+      <Switch >
 
-          <Route exact path='/'>
-            {auth ? <Redirect to='/main' /> 
-              : <LandingPage 
-                auth = {auth}
-                setAuth = {setAuth}
-              />}
-          </Route>
+        <Route exact path='/'>
+          {auth ? <Redirect to='/main' /> 
+            : <LandingPage 
+              auth={auth}
+              setAuth={setAuth}
+            />}
+        </Route>
 
-          <Route exact path='/main'>
-            {auth ? <MainPage  
-              auth = {auth}
-              setAuth = {setAuth}
-            /> : <Redirect to='/' />}
-          </Route>
+        <Route exact path='/main'>
+          {auth ? <MainPage  
+            auth={auth}
+            setAuth={setAuth}
+            setRequests={setRequests}
+            isRead={isRead}
+            setIsRead={setIsRead}
+          /> : <Redirect to='/' />}
+        </Route>
 
-          <Route exact path='/requests'>
-            {auth ? <Requests  
-              auth = {auth}
-              setAuth = {setAuth}
-            /> : <Redirect to='/' />}
-          </Route>
+        <Route exact path='/requests'>
+          {auth ? <RequestsPage  
+            auth = {auth}
+            setAuth = {setAuth}
+            requests={requests}
+            isRead={isRead}
+            setIsRead={setIsRead}
+          /> : <Redirect to='/' />}
+        </Route>
 
-          <Route exact path='/account'>
-            {auth ? <AccountPage
-            /> : <Redirect to='/' />}
-          </Route>
+        <Route exact path='/settings'>
+          {auth ? <Settings  
+            auth = {auth}
+            setAuth = {setAuth}
+            isRead={isRead}
+          /> : <Redirect to='/' />}
+        </Route>
 
-          <Route path="/404" component={ErrorPage} />
-          <Redirect to="/404" />
-        </Switch>
-      )}
+        <Route path="/404" component={ErrorPage} />
+        <Redirect to="/404" />
+      </Switch>
     </div>
   );
 };

@@ -60,15 +60,6 @@ const PopUpReg = (props) => {
       : setData(prevstate => {prevstate.skillsToTeach[e] = skillId[e];
         return prevstate;
       });
-
-    //data.skillsToTeach.includes(e) ? setData(prevstate => {
-
-    // prevstate.skillsToTeach.splice(prevstate.skillsToTeach.indexOf(e),1); 
-
-
-    // return {...prevstate, skillsToTeach:prevstate.skillsToTeach};})
-
-    // : setData(prevstate => ({...prevstate, skillsToTeach: [...prevstate.skillsToTeach, e]}));
   };
 
   const passwordEntered = (e) => {

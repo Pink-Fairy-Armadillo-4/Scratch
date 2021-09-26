@@ -1,15 +1,24 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
-const Requests = (props) => {
+const Settings = (props) => {
   return (
     <div className='requestspage'>
       <div className="navbar">
-        <div className="main-navbuttoncontainer1">Logo</div>
+        <div className="main-navbuttoncontainer2">Logo</div>
+        <div className="navbuttoncontainer22">
+          <Link to='/'>
+            <button className="authbutton" >
+            Main
+            </button>
+          </Link>
+        </div>
         <div className="navbuttoncontainer2">
-          <button className="requestsbutton" >
+          <Link to='/requests'>
+            <button className={props.isRead ? 'requestsbutton' : 'requestsbutton-a'} >
             R
-          </button>
+            </button>
+          </Link>
         </div>
         <div className="navbuttoncontainer2">
           <button className="authbutton">Settings</button>
@@ -29,9 +38,9 @@ const Requests = (props) => {
           </button>
         </div>
       </div>
-        Here will be requests
+        Here will be settings
     </div>
   );
 };
 
-export default Requests;
+export default Settings;

@@ -8,6 +8,7 @@ import FORCE from '../utils/force';
 class Link extends React.Component {
   componentDidMount() {
     this.d3Link = d3
+      // eslint-disable-next-line react/no-find-dom-node
       .select(ReactDOM.findDOMNode(this))
       .datum(this.props.data)
       .call(FORCE.enterLink);
