@@ -204,7 +204,7 @@ body {
 }
 
 .messenger {
-  height: 18vh;
+  height: 22vh;
   width: 100%;
   position: absolute;
   bottom: 0px;
@@ -213,6 +213,8 @@ body {
   border: 1px solid rgb(223, 223, 223);
   border-radius: 3px;
   background-color: white;
+  display:flex;
+
 }
 
 //********** Graph Styles
@@ -227,4 +229,50 @@ body {
   background: #f5f5f5;
   pointer-events: none;
   white-space: nowrap;
+}
+
+.internal-messenger {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    p {
+        text-align: center;
+        margin: 2vh 50px;
+    }
+    .sendmessage {
+        height: 33px;
+        width: 50px;
+        margin: 5px 0 5px 20px;
+        border: 1px solid rgba(51, 89, 166, 1);
+        background: rgba(51, 89, 166, 1);
+        color: white;
+        border-radius: 5px;
+
+    }
+    .close {
+        color: Black;
+        float: right;
+        &:hover {
+          color: rgb(101, 101, 101);
+          cursor: pointer;
+        }
+      }
+    .form-control-messenger {
+        height: 30px;
+        width: 360px;
+        margin: 5px 0 5px 0;
+        border-radius: 5px;
+        border: 1px solid rgba(51, 89, 166, 1);
+        background: rgba(59, 96, 171, 0.119);
+    }
+}
+
+.form-wrapperdiv {
+    display: block;
+    text-align: center;
+}
+
+.recepientname {
+    font-weight: 600;
 }

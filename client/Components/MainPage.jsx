@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import Graph from './Graph';
+import SendMessage from './SendMessage';
 
 const MainPage = (props) => {
   const [requestPop, setRequestPop] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
-  const [email, setEmail] = useState('');
 
   const getNodeInfo = (nodeInfo) => {
     console.log('nodeInfo: ', nodeInfo);
     setSelectedUser(nodeInfo);
   };
+  console.log('selected user', selectedUser);
 
   const togglePop = () => {
     requestPop ? setRequestPop(false) : setRequestPop(true);
@@ -37,37 +38,6 @@ const MainPage = (props) => {
     dataFetch();
   }, []);
 
-  const emailEntered = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const sendMessage = async () => {
-    try{
-      const sourceName = localStorage.getItem('name');
-      const sourceEmail = localStorage.getItem('email');
-      const data = {
-        emailToGetContacted: email,
-        sourceName,
-        sourceEmail,
-        targetEmail: selectedUser.email,
-        targetName: selectedUser.id,
-        skill: graphData.skills[0]
-      };
-      console.log('da ', data);
-      const sent = await fetch('/api/sendmessage', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-      const response = await sent.json();
-
-    }
-    catch(err) {
-      console.log(err);
-    }
-  };
 
   const cancelMessage = () => {
     setSelectedUser({});
@@ -103,15 +73,11 @@ const MainPage = (props) => {
       {graphData.nodes !== undefined && (
         <Graph getNodeInfo={getNodeInfo} graphData={graphData} />
       )}
-      {(selectedUser.id) && <div className="messenger">
-        Hi, {selectedUser.id}, I am looking forward to learning {graphData.skills[0]} from you.
-        <form>
-        Here is my contact info:
-          <input type="password" className="form-control" placeholder="Enter email" onChange={emailEntered} />
-        </form>
-        <button onClick={sendMessage}> Submit</button>
-        <button onClick={cancelMessage}>Cancel</button>
-      </div>}
+      {(selectedUser.id) && <SendMessage 
+        selectedUser={selectedUser}
+        graphData={graphData}
+        cancelMessage={cancelMessage}
+      />}
     </div>
   );
 };
