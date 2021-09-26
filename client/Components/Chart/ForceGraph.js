@@ -22,6 +22,23 @@ class ForceGraph extends React.Component {
       data: this.props.graphData,
       hoveredNode: null,
     }
+
+    this.handleOnMouseOver = this.handleOnMouseOver.bind(this)
+    this.handleOnMouseOut = this.handleOnMouseOut.bind(this)
+  }
+
+  handleOnMouseOver() {
+    this.setState((state) => {
+      state.hoveredNode = true
+      return state
+    })
+  }
+
+  handleOnMouseOut() {
+    this.setState((state) => {
+      state.hoveredNode = null
+      return state
+    })
   }
 
   componentDidMount() {
@@ -59,8 +76,8 @@ class ForceGraph extends React.Component {
           name={node.name}
           key={node.id}
           getNodeInfo={this.props.getNodeInfo}
-          // onMouseOverCallback={(datum) => this.setState({ hoveredNode: datum })}
-          // onMouseOutCallback={() => this.setState({ hoveredNode: null })}
+          onMouseOverCallback={this.handleOnMouseOver}
+          onMouseOutCallback={this.handleOnMouseOut}
         />
       )
     })
