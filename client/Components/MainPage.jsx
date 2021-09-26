@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useEffect } from "react"
-import Graph from "./Graph"
+import Graph from "./Chart/Graph"
 
 const MainPage = (props) => {
   const [requestPop, setRequestPop] = useState(false)

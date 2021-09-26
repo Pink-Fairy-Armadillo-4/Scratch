@@ -2,16 +2,16 @@ import React from "react"
 import * as d3 from "d3"
 
 // Components
-import Link from "./Link"
-import Node from "./Node"
-import Tooltip from "./Tooltip"
+import Link from "./Link/Link"
+import Node from "./Node/Node"
+import Tooltip from "./Tooltip/Tooltip"
 
 // Util
-import FORCE from "../utils/force"
+import FORCE from "../../utils/force"
 //import data from '../utils/data';
 
 // Styles
-import "../index.scss"
+import "./graph.scss"
 
 class Graph extends React.Component {
   constructor(props) {
@@ -46,7 +46,12 @@ class Graph extends React.Component {
 
   render() {
     const links = this.state.data.links.map((link) => {
-      return <Link key={link.id} data={link} />
+      return (
+        <Link
+          key={JSON.stringify(link.source) + JSON.stringify(link.target)}
+          data={link}
+        />
+      )
     })
     const nodes = this.state.data.nodes.map((node) => {
       return (

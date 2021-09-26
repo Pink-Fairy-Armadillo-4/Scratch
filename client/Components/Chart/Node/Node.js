@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import * as d3 from "d3"
 
 // Util
-import FORCE from "../utils/force"
+import FORCE from "../../../utils/force"
 
 class Node extends React.Component {
   constructor(props) {
@@ -35,8 +35,8 @@ class Node extends React.Component {
       <g className="node">
         <circle
           onClick={handleClick}
-          onMouseOver={() => this.props.onMouseOverCallback(this.props.data)}
-          onMouseOut={() => this.props.onMouseOutCallback(null)}
+          // onMouseOver={() => this.props.onMouseOverCallback(this.props.data)}
+          // onMouseOut={() => this.props.onMouseOutCallback(null)}
         />
       </g>
     )

@@ -192,17 +192,6 @@ body {
   color: red;
 }
 
-.graph__container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-.graph {
-  position: absolute;
-  bottom: 7vh;
-  background-color: #29265f;
-  margin-left: 3.2vw;
-}
-
 .messenger {
   height: 93.3vh;
   width: 21vw;
@@ -212,18 +201,4 @@ body {
   box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.2);
   border-radius: 3px;
   background-color: rgba(125, 161, 231, 0.235);
-}
-
-//********** Graph Styles
-.Tooltip {
-  border: 1px solid #757575;
-  box-shadow: none;
-  display: table;
-  position: absolute;
-  padding: 8px;
-  text-align: left;
-  font-size: 12px;
-  background: #f5f5f5;
-  pointer-events: none;
-  white-space: nowrap;
 }

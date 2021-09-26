@@ -1,7 +1,7 @@
 import React from "react"
 
 // Styles
-import "../index.scss"
+import "./tooltip.scss"
 
 const Tooltip = ({ hoveredNode, scales }) => {
   // const { xScale, yScale } = scales
