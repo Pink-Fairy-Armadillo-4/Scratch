@@ -6,6 +6,7 @@ import MainPage from './Components/MainPage';
 import './index.scss';
 import AccountPage from './Components/AccountPage';
 import ErrorPage from './Components/ErrorPage';
+import Requests from './Components/Requests';
 
 const App = (props) => {   
   const [auth, setAuth] = useState(false);
@@ -61,6 +62,13 @@ const App = (props) => {
 
           <Route exact path='/main'>
             {auth ? <MainPage  
+              auth = {auth}
+              setAuth = {setAuth}
+            /> : <Redirect to='/' />}
+          </Route>
+
+          <Route exact path='/requests'>
+            {auth ? <Requests  
               auth = {auth}
               setAuth = {setAuth}
             /> : <Redirect to='/' />}

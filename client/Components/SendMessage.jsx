@@ -19,6 +19,7 @@ const SendMessage = (props) => {
         targetName: props.selectedUser.id,
         skill: props.graphData.skills[0]
       };
+      console.log(data);
       const sent = await fetch('/api/sendmessage', {
         method: 'POST',
         headers: {

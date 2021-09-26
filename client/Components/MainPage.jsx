@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
+import {Link} from 'react-router-dom';
 import Graph from './Graph';
 import SendMessage from './SendMessage';
+import SkillsList from './SkillsList';
 
 const MainPage = (props) => {
   const [requestPop, setRequestPop] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
+  const [graphData, setGraphData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const getNodeInfo = (nodeInfo) => {
-    console.log('nodeInfo: ', nodeInfo);
     setSelectedUser(nodeInfo);
   };
-  console.log('selected user', selectedUser);
 
   const togglePop = () => {
     requestPop ? setRequestPop(false) : setRequestPop(true);
   };
-
-  const [graphData, setGraphData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
 
   const dataFetch = async () => {
     try {
@@ -38,7 +37,6 @@ const MainPage = (props) => {
     dataFetch();
   }, []);
 
-
   const cancelMessage = () => {
     setSelectedUser({});
   };
@@ -48,9 +46,11 @@ const MainPage = (props) => {
       <div className="navbar">
         <div className="main-navbuttoncontainer1">Logo</div>
         <div className="navbuttoncontainer2">
-          <button className="requestsbutton" onClick={togglePop}>
+          <Link to="/requests">
+            <button className="requestsbutton">
             R
-          </button>
+            </button>
+          </Link>
         </div>
         <div className="navbuttoncontainer2">
           <button className="authbutton">Settings</button>
@@ -70,6 +70,13 @@ const MainPage = (props) => {
           </button>
         </div>
       </div>
+
+      <section>
+        {graphData.nodes !== undefined && 
+        <SkillsList graphData={graphData} setGraphData={setGraphData}/>
+        }
+      </section>
+
       {graphData.nodes !== undefined && (
         <Graph getNodeInfo={getNodeInfo} graphData={graphData} />
       )}

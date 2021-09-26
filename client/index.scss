@@ -198,9 +198,10 @@ body {
 }
 .graph {
   position: absolute;
-  bottom: 7vh;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);  
   background-color: #29265f;
-  margin-left: 3.2vw;
 }
 
 .messenger {
@@ -276,3 +277,44 @@ body {
 .recepientname {
     font-weight: 600;
 }
+
+.skills-container{
+    position: absolute;
+    display: flex;
+    align-items: center;    
+    flex-direction: column;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.skills-inner {
+    max-width: 600px;
+    max-height: 80px;
+    overflow: scroll;
+    margin-top: 8px;
+}
+
+.skillslist-button {
+  background: white;
+  border: 1px solid rgba(51, 89, 166, 1);
+  color: rgba(51, 89, 166, 1);
+  border-radius: 3px;
+  height: 25px;
+  margin: 0.2vh 0.2vw;
+    &:hover {
+        border: 2px solid rgba(51, 89, 166, 1);
+        // background: rgba(51, 89, 166, 1);
+        // color: white;
+    }
+}
+
+.skillslist-button-a{
+  border: 1px solid rgba(51, 89, 166, 1);
+  background: rgba(51, 89, 166, 1);
+  height: 25px;
+  border-radius: 3px;
+
+  color: white;
+}
+
