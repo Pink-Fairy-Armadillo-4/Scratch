@@ -42,6 +42,16 @@ body {
     color: white;
   }
 
+  .main-navbuttoncontainer2 {
+    margin-left: 3.1vw;
+    color: white;
+  }
+  
+  .navbuttoncontainer22{
+    width:73vw;
+  }
+
+
   .aboutbutton {
     background: transparent;
     color: white;
@@ -78,6 +88,19 @@ body {
     border-radius: 50%;
     &:hover {
       border: 2px solid white;
+      font-weight: 600;
+    }
+  }
+  .requestsbutton-a {
+    background: transparent;
+    color: rgb(38, 228, 38);
+    height: 30px;
+    width: 30px;
+    margin: 1vh 1vw;
+    border: 1.2px solid rgb(38, 228, 38);
+    border-radius: 50%;
+    &:hover {
+      border: 2px solid rgb(38, 228, 38);
       font-weight: 600;
     }
   }
