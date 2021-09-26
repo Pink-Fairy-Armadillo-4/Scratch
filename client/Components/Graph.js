@@ -1,22 +1,32 @@
 import React from 'react';
+import * as d3 from 'd3';
 
 // Components
 import Link from './Link';
 import Node from './Node';
+import Tooltip from './Tooltip';
 
 // Util
 import FORCE from '../utils/force';
 //import data from '../utils/data';
 
+// Styles
+import '../index.scss';
+
 class Graph extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.props.graphData;
+    this.xScale = d3.scaleLinear();
+    this.yScale = d3.scaleLinear();
+    this.state = {
+      data: this.props.graphData,
+      hoveredNode: null,
+    };
     console.log('thisstate', this.state);
   }
 
   componentDidMount() {
-    const data = this.state;
+    const data = this.state.data;
     FORCE.initForce(data.nodes, data.links);
     FORCE.tick(this);
     FORCE.drag();
@@ -24,10 +34,10 @@ class Graph extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (
-      prevState.nodes !== this.state.nodes ||
-      prevState.links !== this.state.links
+      prevState.nodes !== this.state.data.nodes ||
+      prevState.links !== this.state.data.links
     ) {
-      const data = this.state;
+      const data = this.state.data;
       FORCE.initForce(data.nodes, data.links);
       FORCE.tick(this);
       FORCE.drag();
@@ -35,11 +45,20 @@ class Graph extends React.Component {
   }
 
   render() {
-    const links = this.state.links.map((link) => {
+    const links = this.state.data.links.map((link) => {
       return <Link key={link.id} data={link} />;
     });
-    const nodes = this.state.nodes.map((node) => {
-      return <Node data={node} name={node.name} key={node.id} />;
+    const nodes = this.state.data.nodes.map((node) => {
+      return (
+        <Node
+          data={node}
+          name={node.name}
+          key={node.id}
+          getNodeInfo={this.props.getNodeInfo}
+          onMouseOverCallback={(datum) => this.setState({ hoveredNode: datum })}
+          onMouseOutCallback={() => this.setState({ hoveredNode: null })}
+        />
+      );
     });
     return (
       <div className="graph__container">
@@ -47,6 +66,12 @@ class Graph extends React.Component {
           <g>{links}</g>
           <g>{nodes}</g>
         </svg>
+        {this.state.hoveredNode ? (
+          <Tooltip
+            hoveredNode={this.state.hoveredNode}
+            // scales={{ xScale, yScale }}
+          />
+        ) : null}
       </div>
     );
   }

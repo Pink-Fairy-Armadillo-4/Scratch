@@ -13,7 +13,7 @@ const FORCE = (function (nsp) {
           "link",
           d3
             .forceLink(links)
-            .distance(1)
+            .distance(10)
             .id((d) => d.id)
         )
         .force(
@@ -23,7 +23,7 @@ const FORCE = (function (nsp) {
             .x(nsp.width / 2)
             .y(nsp.height / 2)
         )
-        .force("collision", d3.forceCollide().radius(10))
+        .force("collision", d3.forceCollide().radius(5))
     },
     enterNode = (selection) => {
       const circle = selection

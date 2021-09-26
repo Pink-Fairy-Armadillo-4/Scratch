@@ -44,7 +44,10 @@ const App = (props) => {
   
   return(
     <div className='maindiv'>
-     
+      {isLoading && 
+     <div className='loading'>
+       <CircularProgress />
+     </div>}
       {!isLoading && (
         <Switch >
 
@@ -70,7 +73,6 @@ const App = (props) => {
 
           <Route path="/404" component={ErrorPage} />
           <Redirect to="/404" />
-
         </Switch>
       )}
     </div>
