@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import * as d3 from "d3"
 
 // Util
-import FORCE from "../../../utils/force"
+import FORCE from "../ForceGraphGenerator"
 
 class Node extends React.Component {
   constructor(props) {

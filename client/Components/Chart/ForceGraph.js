@@ -7,13 +7,13 @@ import Node from "./Node/Node"
 import Tooltip from "./Tooltip/Tooltip"
 
 // Util
-import FORCE from "../../utils/force"
-//import data from '../utils/data';
+import FORCE from "./ForceGraphGenerator"
+// import data from '../utils/data';
 
 // Styles
 import "./graph.scss"
 
-class Graph extends React.Component {
+class ForceGraph extends React.Component {
   constructor(props) {
     super(props)
     this.xScale = d3.scaleLinear()
@@ -22,7 +22,6 @@ class Graph extends React.Component {
       data: this.props.graphData,
       hoveredNode: null,
     }
-    console.log("thisstate", this.state)
   }
 
   componentDidMount() {
@@ -60,8 +59,8 @@ class Graph extends React.Component {
           name={node.name}
           key={node.id}
           getNodeInfo={this.props.getNodeInfo}
-          onMouseOverCallback={(datum) => this.setState({ hoveredNode: datum })}
-          onMouseOutCallback={() => this.setState({ hoveredNode: null })}
+          // onMouseOverCallback={(datum) => this.setState({ hoveredNode: datum })}
+          // onMouseOutCallback={() => this.setState({ hoveredNode: null })}
         />
       )
     })
@@ -82,4 +81,4 @@ class Graph extends React.Component {
   }
 }
 
-export default Graph
+export default ForceGraph

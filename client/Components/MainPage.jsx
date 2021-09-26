@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useEffect } from "react"
-import Graph from "./Chart/Graph"
+import ForceGraph from "./Chart/ForceGraph"
 
 const MainPage = (props) => {
   const [requestPop, setRequestPop] = useState(false)
@@ -65,7 +65,7 @@ const MainPage = (props) => {
         </div>
       </div>
       {graphData.nodes !== undefined && (
-        <Graph getNodeInfo={getNodeInfo} graphData={graphData} />
+        <ForceGraph getNodeInfo={getNodeInfo} graphData={graphData} />
       )}
       {requestPop && <div className="messenger"> </div>}
     </div>
