@@ -21,15 +21,23 @@ class ForceGraph extends React.Component {
     this.state = {
       data: this.props.graphData,
       hoveredNode: null,
+      hoveredNodeData: { name: "", email: "", x: 0, y: 0 },
     }
 
     this.handleOnMouseOver = this.handleOnMouseOver.bind(this)
     this.handleOnMouseOut = this.handleOnMouseOut.bind(this)
   }
 
-  handleOnMouseOver() {
-    this.setState((state) => {
+  handleOnMouseOver(data) {
+    this.setState((state, props) => {
       state.hoveredNode = true
+      state.hoveredNodeData = {
+        name: data.name,
+        email: data.email,
+        x: data.x,
+        y: data.y,
+      }
+      console.log("Node data from hover ", data)
       return state
     })
   }
@@ -54,9 +62,9 @@ class ForceGraph extends React.Component {
       prevState.links !== this.state.data.links
     ) {
       const data = this.state.data
-      FORCE.initForce(data.nodes, data.links)
-      FORCE.tick(this)
-      FORCE.drag()
+      // FORCE.initForce(data.nodes, data.links)
+      // FORCE.tick(this)
+      // FORCE.drag()
     }
   }
 
@@ -75,6 +83,7 @@ class ForceGraph extends React.Component {
           data={node}
           name={node.name}
           key={node.id}
+          hoveredNodeData={node}
           getNodeInfo={this.props.getNodeInfo}
           onMouseOverCallback={this.handleOnMouseOver}
           onMouseOutCallback={this.handleOnMouseOut}
@@ -89,8 +98,10 @@ class ForceGraph extends React.Component {
         </svg>
         {this.state.hoveredNode ? (
           <Tooltip
+            data={this.state.hoveredNodeData}
             hoveredNode={this.state.hoveredNode}
-            // scales={{ xScale, yScale }}
+            xPosition={this.state.hoveredNodeData.x}
+            yPosition={this.state.hoveredNodeData.y}
           />
         ) : null}
       </div>

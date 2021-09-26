@@ -8,7 +8,7 @@ import FORCE from "../ForceGraphGenerator"
 class Node extends React.Component {
   constructor(props) {
     super(props)
-    console.log("Node props", props)
+    console.log("Node data", props.data)
   }
 
   componentDidMount() {
@@ -35,8 +35,12 @@ class Node extends React.Component {
       <g className="node">
         <circle
           onClick={handleClick}
-          onMouseOver={this.props.onMouseOverCallback}
-          onMouseOut={this.props.onMouseOutCallback}
+          onMouseOver={() =>
+            this.props.onMouseOverCallback(this.props.hoveredNodeData)
+          }
+          onMouseOut={() =>
+            this.props.onMouseOutCallback(this.props.hoveredNodeData)
+          }
         />
       </g>
     )
