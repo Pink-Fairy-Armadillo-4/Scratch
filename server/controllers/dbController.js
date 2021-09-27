@@ -56,9 +56,12 @@ dbController.getUserGroups = async (req, res, next) => {
 // Obtain all skills matching query filter and returning specified fields
 dbController.getSkills = async (req, res, next) => {
   try {
+    console.log(req.params.skill);
     // object specifying the filters on query
     const queryFilter = {};
-
+    if (req.params.skill != 'none'){
+      queryFilter.name = [req.params.skill];
+    }
     // object specifying the fields to be requested from db
     const specifiedFields = {
       name: 1,
