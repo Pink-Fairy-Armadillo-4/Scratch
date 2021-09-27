@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import Request from './Request';
 const RequestsPage = (props) => {
-  props.setIsRead(true);
   console.log('requests are', props.requests);
+  useEffect(() =>   {props.setIsRead(true);}, []
+  );
   return (
     <div className='requestspage'>
       <section className="navbar">

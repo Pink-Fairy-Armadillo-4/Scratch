@@ -12,6 +12,7 @@ const MainPage = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const email = localStorage.getItem('email');
   console.log('graphdata', graphData);
+  console.log('selected', selectedUser);
 
   const getNodeInfo = (nodeInfo) => {
     setSelectedUser(nodeInfo);
@@ -38,7 +39,7 @@ const MainPage = (props) => {
   useEffect(() => {
     console.log('called');
     dataFetch();
-  }, []);
+  }, [props.isRead]);
 
   const cancelMessage = () => {
     setSelectedUser({});
@@ -82,14 +83,14 @@ const MainPage = (props) => {
       }
       <section>
         {graphData.nodes !== undefined && 
-        <SkillsList graphData={graphData} setGraphData={setGraphData}/>
+        <SkillsList setSelectedUser={setSelectedUser} selectedUser={selectedUser} graphData={graphData} setGraphData={setGraphData}/>
         }
       </section>
 
       {graphData.nodes !== undefined && (
         <Graph getNodeInfo={getNodeInfo} graphData={graphData} />
       )}
-      {(selectedUser.id) && <SendMessage 
+      {(selectedUser.id && graphData.skills.length === 1) && <SendMessage 
         selectedUser={selectedUser}
         graphData={graphData}
         cancelMessage={cancelMessage}

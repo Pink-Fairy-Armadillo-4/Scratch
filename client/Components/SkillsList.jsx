@@ -7,6 +7,10 @@ const SkillsList = (props) => {
   const email = localStorage.getItem('email');
   const handleClick = async (e) => {
     try{
+      // when clicking on skill button checking first if there was a selected user in MainPage state
+      // and if there is more than one skill in graphdata.
+
+      //if (props.graphData.skills.length !== 1 && props.selectedUser.id) {props.setSelectedUser({});}
       if (selectedSkill !== e.target.id) {
         setSelectedSkill(e.target.id);
         console.log('selectedSkill', selectedSkill);
@@ -17,6 +21,7 @@ const SkillsList = (props) => {
       }
       else if (selectedSkill === e.target.id) {
         setSelectedSkill('');
+        // props.setSelectedUser({});
         const resp = await fetch('/api/nodes/all' + '&' + email);
         const data = await resp.json();
         props.setGraphData(data);
