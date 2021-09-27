@@ -23,7 +23,7 @@ router.get('/allSkillGroups', dbController.getUserGroups, (req, res) => {
   res.status(200).json(res.locals.skillGroups);
 });
 
-router.get('/nodes/:skill&:sourceEmail', 
+router.get('/nodes/:skill&:targetEmail', 
   dbController.getSkills, 
   dbController.getMessages,
   graphController.createNodes, 
