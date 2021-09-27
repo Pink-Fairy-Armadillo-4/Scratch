@@ -151,6 +151,9 @@ dbController.createMessage = async (req, res, next) => {
 
 dbController.getMessages = async (req, res, next) => {
   try {
+    if (res.locals.tokenVerif == false) {
+      return next();
+    }
     const queryFilter = {
       targetEmail: req.params.targetEmail,
     };

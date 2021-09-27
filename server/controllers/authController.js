@@ -175,6 +175,23 @@ authController.verifyToken = async (req, res, next) => {
   }
 };
 
-
+authController.verifyEmail = async (req, res, next) => {
+  try{
+    const token = req.body.token;
+    const isToken = await jwt.verify(token, process.env.ID_SALT);
+    if (isToken.id == req.params.targetEmail) {
+      console.log('isToken is', isToken);
+      res.locals.tokenVerif = true;
+    }
+    else res.locals.tokenVerif = false;
+    return next();
+  }
+  catch (err) {
+    return next({
+      log: 'Express error handler caught an error at authController.verifyToken',
+      message: {err},
+    });
+  }
+};
 
 module.exports = authController;
