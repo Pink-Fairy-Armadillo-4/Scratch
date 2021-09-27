@@ -1,5 +1,6 @@
 const express = require('express');
 const dbController = require('../controllers/dbController');
+const authController = require('../controllers/authController');
 const graphController = require('../controllers/graphController');
 
 const router = express.Router();
@@ -23,14 +24,23 @@ router.get('/allSkillGroups', dbController.getUserGroups, (req, res) => {
   res.status(200).json(res.locals.skillGroups);
 });
 
-router.get('/nodes/:skill&:targetEmail', 
-  dbController.getSkills, 
+router.get('/messages/:targetEmail', 
+  authController.verifyEmail,
   dbController.getMessages,
+  (req, res) => {
+    const data = {
+      messages: res.locals.messages
+    };
+    res.status(200).json(data);
+  }
+);
+
+router.get('/nodes/:skill', 
+  dbController.getSkills, 
   graphController.createNodes, 
   (req, res) => {
     const data = {
       skills: res.locals.skillName,
-      messages: res.locals.messages,
       nodes: res.locals.nodes,
       links: res.locals.links,
     };
