@@ -4,18 +4,20 @@ const SkillsList = (props) => {
   const [allSkills, setAllSkills] = useState(props.graphData.skills);
   const [classname, setClassName] = useState('skillslist-button');
   const [selectedSkill, setSelectedSkill] = useState('');
+  const email = localStorage.getItem('email');
   const handleClick = async (e) => {
     try{
       if (selectedSkill !== e.target.id) {
         setSelectedSkill(e.target.id);
-        // const resp = await fetch('/api/nodes/' + selectedSkill);
-        // const data = await resp.json();
-        // console.log('data', data);
-        // props.setGraphData(data);
+        console.log('selectedSkill', selectedSkill);
+        const resp = await fetch('/api/nodes/' + selectedSkill + '&' + email);
+        const data = await resp.json();
+        console.log('data', data);
+        props.setGraphData(data);
       }
       else if (selectedSkill === e.target.id) {
         setSelectedSkill('');
-        const resp = await fetch('/api/nodes');
+        const resp = await fetch('/api/nodes/all' + '&' + email);
         const data = await resp.json();
         props.setGraphData(data);
       }

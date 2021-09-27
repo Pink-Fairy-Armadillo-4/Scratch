@@ -10,6 +10,8 @@ const MainPage = (props) => {
   const [selectedUser, setSelectedUser] = useState({});
   const [graphData, setGraphData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const email = localStorage.getItem('email');
+  
 
   const getNodeInfo = (nodeInfo) => {
     setSelectedUser(nodeInfo);
@@ -17,14 +19,14 @@ const MainPage = (props) => {
 
   const dataFetch = async () => {
     try {
-      const resp = await fetch('/api/nodes');
+      const resp = await fetch('/api/nodes/all' + '&' + email);
       const data = await resp.json();
       console.log('data', data);
       setGraphData(data);
       
       //uncomment after request works
-      //props.setRequests(data.messages);
-      //data.messages.forEach(message => {if(message.isRead === false){props.setIsRead(false);}});
+      props.setRequests(data.messages);
+      data.messages.forEach(message => {if(message.isRead === false){props.setIsRead(false);}});
  
     } catch (err) {
       console.log(err);

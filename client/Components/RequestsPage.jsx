@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
+import Request from './Request';
 const RequestsPage = (props) => {
   props.setIsRead(true);
   console.log('requests are', props.requests);
@@ -46,6 +47,11 @@ const RequestsPage = (props) => {
           There is no requests at this time
         </div>
         }
+        {props.requests.length && 
+        props.requests.map(request => 
+          <Request key={request} />
+
+        )}
       </section>
     
     </div>
