@@ -149,14 +149,11 @@ dbController.createMessage = async (req, res, next) => {
 
 dbController.getMessages = async (req, res, next) => {
   try {
-    console.log(req.params.email);
-
     const queryFilter = {
       sourceEmail: req.params.sourceEmail,
     };
 
     const specifiedFields = {};
-
 
     const messages = await models.Message.find(queryFilter, specifiedFields);
 
