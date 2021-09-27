@@ -119,11 +119,11 @@ dbController.createMessage = async (req, res, next) => {
 
     const genMessage = (fromName, toName, skill) => {
       return (
-        'Hi' +
+        'Hi ' +
         toName +
         ', I am ' +
         fromName +
-        ' from the learning group. I saw on the platform that you\'r willing to teach the skill ' +
+        ' from the learning group. I saw on the platform that you are willing to teach the skill ' +
         skill +
         ' and was wondering if I can learn from you. If you are avaliable, please contact me at: ' +
         contactEmail
@@ -152,12 +152,18 @@ dbController.createMessage = async (req, res, next) => {
 dbController.getMessages = async (req, res, next) => {
   try {
     const queryFilter = {
-      sourceEmail: req.params.sourceEmail,
+      targetEmail: req.params.targetEmail,
     };
 
     const specifiedFields = {};
+    
+    const updateFields = { $set: {
+      isRead: true,
+    }
+    };
 
     const messages = await models.Message.find(queryFilter, specifiedFields);
+    await models.Message.updateMany(queryFilter, updateFields);
 
     res.locals.messages = messages;
     
