@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import Request from './Request';
 const RequestsPage = (props) => {
-  props.setIsRead(true);
   console.log('requests are', props.requests);
   return (
     <div className='requestspage'>
@@ -49,7 +48,7 @@ const RequestsPage = (props) => {
         }
         {props.requests.length && 
         props.requests.map(request => 
-          <Request key={request} />
+          <Request key={request._id} requestbody={request.messageBody}/>
 
         )}
       </section>

@@ -10,7 +10,7 @@ const SkillsList = (props) => {
       if (selectedSkill !== e.target.id) {
         setSelectedSkill(e.target.id);
         console.log('selectedSkill', selectedSkill);
-        const resp = await fetch('/api/nodes/' + selectedSkill + '&' + email);
+        const resp = await fetch('/api/nodes/' + e.target.id + '&' + email);
         const data = await resp.json();
         console.log('data', data);
         props.setGraphData(data);

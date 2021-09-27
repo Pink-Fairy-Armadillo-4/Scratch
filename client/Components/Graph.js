@@ -16,6 +16,8 @@ import '../index.scss';
 class Graph extends React.Component {
   constructor(props) {
     super(props);
+    console.log('classprops', this.props);
+
     this.xScale = d3.scaleLinear();
     this.yScale = d3.scaleLinear();
     this.state = {

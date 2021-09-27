@@ -11,7 +11,7 @@ const MainPage = (props) => {
   const [graphData, setGraphData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const email = localStorage.getItem('email');
-  
+  console.log('graphdata', graphData);
 
   const getNodeInfo = (nodeInfo) => {
     setSelectedUser(nodeInfo);
