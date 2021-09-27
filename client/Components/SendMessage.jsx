@@ -12,7 +12,7 @@ const SendMessage = (props) => {
       const sourceName = localStorage.getItem('name');
       const sourceEmail = localStorage.getItem('email');
       const data = {
-        emailToGetContacted: email,
+        contactEmail: email,
         sourceName,
         sourceEmail,
         targetEmail: props.selectedUser.email,
@@ -20,7 +20,7 @@ const SendMessage = (props) => {
         skill: props.graphData.skills[0]
       };
       console.log(data);
-      const sent = await fetch('/api/sendmessage', {
+      const sent = await fetch('/api/sendMessage', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -23,17 +23,39 @@ router.get('/allSkillGroups', dbController.getUserGroups, (req, res) => {
   res.status(200).json(res.locals.skillGroups);
 });
 
-router.get('/nodes', 
+router.get('/nodes/:sourceEmail', 
   dbController.getSkills, 
+  dbController.getMessages,
   graphController.createNodes, 
   (req, res) => {
     const data = {
       skills: res.locals.skillName,
+      messages: res.locals.messages,
       nodes: res.locals.nodes,
       links: res.locals.links,
     };
     res.status(200).json(data);
   }
 );
+
+router.get('/nodes', 
+  dbController.getSkills, 
+  graphController.createNodes, 
+  (req, res) => {
+    const data = {
+      skills: res.locals.skillName,
+      messages: res.locals.messages,
+      nodes: res.locals.nodes,
+      links: res.locals.links,
+    };
+    res.status(200).json(data);
+  }
+);
+
+router.post('/sendMessage', 
+  dbController.createMessage,
+  (req, res) => {
+    res.sendStatus(200);
+  });
 
 module.exports = router;
