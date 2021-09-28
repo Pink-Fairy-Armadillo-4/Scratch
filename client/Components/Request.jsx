@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 
 const Request = (props) => {
   return (
-    <div>
-      {props.requestbody}    
+    <div className='request'>
+      <div className='requests-name'>{props.sourceName}</div>
+      <div className='requests-body'>{props.requestBody}</div>  
     </div>
   );
 };

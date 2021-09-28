@@ -9,8 +9,6 @@ import Settings from './Components/Settings';
 
 const App = (props) => {   
   const [auth, setAuth] = useState(true);
-  const [requests, setRequests] = useState([]);
-  const [isRead, setIsRead] = useState(true);
   const authToken = localStorage.getItem('token');
 
   useEffect(() => {
@@ -59,9 +57,6 @@ const App = (props) => {
           {auth ? <MainPage  
             auth={auth}
             setAuth={setAuth}
-            setRequests={setRequests}
-            isRead={isRead}
-            setIsRead={setIsRead}
           /> : <Redirect to='/' />}
         </Route>
 
@@ -69,8 +64,6 @@ const App = (props) => {
           {auth ? <RequestsPage  
             auth = {auth}
             setAuth = {setAuth}
-            requests={requests}
-            setIsRead={setIsRead}
           /> : <Redirect to='/' />}
         </Route>
 
@@ -78,7 +71,6 @@ const App = (props) => {
           {auth ? <Settings  
             auth = {auth}
             setAuth = {setAuth}
-            isRead={isRead}
           /> : <Redirect to='/' />}
         </Route>
 

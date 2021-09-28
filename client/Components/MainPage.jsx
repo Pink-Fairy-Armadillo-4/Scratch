@@ -20,14 +20,14 @@ const MainPage = (props) => {
 
   const dataFetch = async () => {
     try {
-      const resp = await fetch('/api/nodes/all' + '&' + email);
+      const resp = await fetch('/api/nodes/all');
       const data = await resp.json();
       console.log('data', data);
       setGraphData(data);
       
       //uncomment after request works
-      props.setRequests(data.messages);
-      data.messages.forEach(message => {if(message.isRead === false){props.setIsRead(false);}});
+      //props.setRequests(data.messages);
+      // data.messages.forEach(message => {if(message.isRead === false){props.setIsRead(false);}});
  
     } catch (err) {
       console.log(err);

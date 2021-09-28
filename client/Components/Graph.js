@@ -48,7 +48,7 @@ class Graph extends React.Component {
 
   render() {
     const links = this.state.data.links.map((link) => {
-      return <Link key={link.id} data={link} />;
+      return <Link key={JSON.stringify(link.source) + JSON.stringify(link.target)} data={link} />;
     });
     const nodes = this.state.data.nodes.map((node) => {
       return (

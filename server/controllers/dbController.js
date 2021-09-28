@@ -121,9 +121,7 @@ dbController.createMessage = async (req, res, next) => {
       return (
         'Hi ' +
         toName +
-        ', I am ' +
-        fromName +
-        ' from the learning group. I saw on the platform that you are willing to teach the skill ' +
+        '. I saw on the platform that you are willing to teach ' +
         skill +
         ' and was wondering if I can learn from you. If you are avaliable, please contact me at: ' +
         contactEmail
@@ -151,9 +149,9 @@ dbController.createMessage = async (req, res, next) => {
 
 dbController.getMessages = async (req, res, next) => {
   try {
-    if (res.locals.tokenVerif == false) {
-      return next();
-    }
+    // if (res.locals.tokenVerif == false) {
+    //   return next();
+    // }
     const queryFilter = {
       targetEmail: req.params.targetEmail,
     };

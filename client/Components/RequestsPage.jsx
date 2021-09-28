@@ -1,10 +1,30 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import Request from './Request';
+import { CircularProgress } from '@material-ui/core';
+
+
 const RequestsPage = (props) => {
-  console.log('requests are', props.requests);
-  useEffect(() =>   {props.setIsRead(true);}, []
-  );
+  const [requests, setRequests] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  // useEffect(() =>   {props.setIsRead(true);}, []
+  // );
+  useEffect(() => {
+    getData();
+  },[]);
+
+  const email = localStorage.getItem('email');
+
+  const getData = async() => {
+    try{
+      const resp = await fetch('/api/messages/' + email);
+      const data = await resp.json();
+      setRequests(data);
+    } 
+    finally {setIsLoading(false);}
+  };
+  console.log('requests are', requests);
+
   return (
     <div className='requestspage'>
       <section className="navbar">
@@ -43,18 +63,23 @@ const RequestsPage = (props) => {
         </div>
       </section>
       <section className='requests-main'>
-        {!props.requests.length && 
+        {isLoading && <div className='loading'>
+          <CircularProgress />
+        </div>}
+        {!isLoading && <div>
+          {!requests.length && 
         <div className='norequests'> 
           There is no requests at this time
         </div>
+          }
+          {requests.length && <div className='requests-inner'>
+            {requests.map(request => 
+              <Request key={request._id} sourceName ={request.sourceName} requestBody={request.messageBody}/>
+            )}
+          </div>}
+        </div>
         }
-        {props.requests.length && 
-        props.requests.map(request => 
-          <Request key={request._id} requestbody={request.messageBody}/>
-
-        )}
       </section>
-    
     </div>
   );
 };
