@@ -1,54 +1,66 @@
 import React, { useState } from "react"
 import { useEffect } from "react"
 import ForceGraph from "./Chart/ForceGraph"
+import { CircularProgress } from "@material-ui/core"
+import { Link } from "react-router-dom"
+import SendMessage from "./SendMessage"
+import SkillsList from "./SkillsList"
 
 const MainPage = (props) => {
-  const [requestPop, setRequestPop] = useState(false)
   const [selectedUser, setSelectedUser] = useState({})
+  const [graphData, setGraphData] = useState({})
+  const [isLoading, setIsLoading] = useState(true)
+  const email = localStorage.getItem("email")
+  console.log("graphdata", graphData)
+  console.log("selected", selectedUser)
 
   const getNodeInfo = (nodeInfo) => {
-    console.log("nodeInfo: ", nodeInfo)
     setSelectedUser(nodeInfo)
   }
 
-  console.log("selectUser is", selectedUser)
-
-  const togglePop = () => {
-    requestPop ? setRequestPop(false) : setRequestPop(true)
-  }
-
-  const [graphData, setGraphData] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
-
   const dataFetch = async () => {
     try {
-      const resp = await fetch("/api/nodes")
+      const resp = await fetch("/api/nodes/all")
       const data = await resp.json()
       console.log("data", data)
       setGraphData(data)
+
+      //uncomment after request works
+      //props.setRequests(data.messages);
+      // data.messages.forEach(message => {if(message.isRead === false){props.setIsRead(false);}});
     } catch (err) {
       console.log(err)
     } finally {
       setIsLoading(false)
     }
   }
-  console.log(graphData)
 
   useEffect(() => {
     console.log("called")
     dataFetch()
-  }, [])
+  }, [props.isRead])
+
+  const cancelMessage = () => {
+    setSelectedUser({})
+  }
+
   return (
     <div className="mainpage">
       <div className="navbar">
         <div className="main-navbuttoncontainer1">Logo</div>
         <div className="navbuttoncontainer2">
-          <button className="requestsbutton" onClick={togglePop}>
-            R
-          </button>
+          <Link to="/requests">
+            <button
+              className={props.isRead ? "requestsbutton" : "requestsbutton-a"}
+            >
+              R
+            </button>
+          </Link>
         </div>
         <div className="navbuttoncontainer2">
-          <button className="authbutton">Settings</button>
+          <Link to="/settings">
+            <button className="authbutton">Settings</button>
+          </Link>
         </div>
         <div className="navbuttoncontainer3">
           <button
@@ -57,6 +69,7 @@ const MainPage = (props) => {
               localStorage.removeItem("token")
               localStorage.removeItem("admin")
               localStorage.removeItem("name")
+              localStorage.removeItem("email")
               props.setAuth(false)
             }}
           >
@@ -64,10 +77,32 @@ const MainPage = (props) => {
           </button>
         </div>
       </div>
+      {isLoading && (
+        <div className="loading">
+          <CircularProgress />
+        </div>
+      )}
+      <section>
+        {graphData.nodes !== undefined && (
+          <SkillsList
+            setSelectedUser={setSelectedUser}
+            selectedUser={selectedUser}
+            graphData={graphData}
+            setGraphData={setGraphData}
+          />
+        )}
+      </section>
+
       {graphData.nodes !== undefined && (
         <ForceGraph getNodeInfo={getNodeInfo} graphData={graphData} />
       )}
-      {requestPop && <div className="messenger"> </div>}
+      {selectedUser.id && graphData.skills.length === 1 && (
+        <SendMessage
+          selectedUser={selectedUser}
+          graphData={graphData}
+          cancelMessage={cancelMessage}
+        />
+      )}
     </div>
   )
 }

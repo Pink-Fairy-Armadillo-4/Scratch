@@ -60,15 +60,6 @@ const PopUpReg = (props) => {
       : setData(prevstate => {prevstate.skillsToTeach[e] = skillId[e];
         return prevstate;
       });
-
-    //data.skillsToTeach.includes(e) ? setData(prevstate => {
-
-    // prevstate.skillsToTeach.splice(prevstate.skillsToTeach.indexOf(e),1); 
-
-
-    // return {...prevstate, skillsToTeach:prevstate.skillsToTeach};})
-
-    // : setData(prevstate => ({...prevstate, skillsToTeach: [...prevstate.skillsToTeach, e]}));
   };
 
   const passwordEntered = (e) => {
@@ -119,6 +110,7 @@ const PopUpReg = (props) => {
       }
       else if (resp.hasLogged) {
         const rightCookie = findCookie(document.cookie);
+        localStorage.setItem('email', `${data.email}`);
         if (rightCookie) {
           localStorage.setItem('token', rightCookie);
           localStorage.setItem('name', `${resp.userInfo.firstName} ${resp.userInfo.lastName}`);

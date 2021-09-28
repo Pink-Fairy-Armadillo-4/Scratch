@@ -13,6 +13,7 @@ class Node extends React.Component {
 
   componentDidMount() {
     this.d3Node = d3
+      // eslint-disable-next-line react/no-find-dom-node
       .select(ReactDOM.findDOMNode(this))
       .datum(this.props.data)
       .call(FORCE.enterNode)

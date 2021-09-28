@@ -1,5 +1,6 @@
 const express = require('express');
 const dbController = require('../controllers/dbController');
+const authController = require('../controllers/authController');
 const graphController = require('../controllers/graphController');
 
 const router = express.Router();
@@ -23,7 +24,17 @@ router.get('/allSkillGroups', dbController.getUserGroups, (req, res) => {
   res.status(200).json(res.locals.skillGroups);
 });
 
-router.get('/nodes', 
+router.get('/messages/:targetEmail', 
+  dbController.getMessages,
+  (req, res) => {
+    const data = {
+      messages: res.locals.messages
+    };
+    res.status(200).json(data.messages);
+  }
+);
+
+router.get('/nodes/:skill', 
   dbController.getSkills, 
   graphController.createNodes, 
   (req, res) => {
@@ -35,5 +46,11 @@ router.get('/nodes',
     res.status(200).json(data);
   }
 );
+
+router.post('/sendMessage', 
+  dbController.createMessage,
+  (req, res) => {
+    res.status(200).json(true);
+  });
 
 module.exports = router;
