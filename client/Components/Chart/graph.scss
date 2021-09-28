@@ -1,0 +1,10 @@
+.graph__container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.graph {
+  position: absolute;
+  bottom: 7vh;
+  background-color: #29265f;
+  margin-left: 3.2vw;
+}

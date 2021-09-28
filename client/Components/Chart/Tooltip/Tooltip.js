@@ -1,13 +1,13 @@
 import React from "react"
 
 // Styles
-import "../index.scss"
+import "./tooltip.scss"
 
-const Tooltip = ({ hoveredNode, scales }) => {
+const Tooltip = ({ data, xPosition, yPosition, scales }) => {
   // const { xScale, yScale } = scales
   const styles = {
-    left: "100px", //`${xScale(100) - 30}px`,
-    top: "100px", //`${yScale(100)}px`,
+    left: `${xPosition}px`, //`${xScale(100) - 30}px`,
+    top: `${yPosition}px`, //`${yScale(100)}px`,
   }
 
   return (
@@ -20,8 +20,12 @@ const Tooltip = ({ hoveredNode, scales }) => {
         </thead>
         <tbody>
           <tr>
-            <td colSpan="1">id</td>
-            <td colSpan="1">{hoveredNode.id}</td>
+            <td colSpan="1">name</td>
+            <td colSpan="1">{data.name}</td>
+          </tr>
+          <tr>
+            <td colSpan="1">email</td>
+            <td colSpan="1">{data.email}</td>
           </tr>
         </tbody>
       </table>

@@ -1,49 +1,48 @@
-import React, { useState } from 'react';
-import { CircularProgress } from '@material-ui/core';
-import { useEffect } from 'react';
-import {Link} from 'react-router-dom';
-import Graph from './Graph';
-import SendMessage from './SendMessage';
-import SkillsList from './SkillsList';
+import React, { useState } from "react"
+import { useEffect } from "react"
+import ForceGraph from "./Chart/ForceGraph"
+import { CircularProgress } from "@material-ui/core"
+import { Link } from "react-router-dom"
+import SendMessage from "./SendMessage"
+import SkillsList from "./SkillsList"
 
 const MainPage = (props) => {
-  const [selectedUser, setSelectedUser] = useState({});
-  const [graphData, setGraphData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const email = localStorage.getItem('email');
-  console.log('graphdata', graphData);
-  console.log('selected', selectedUser);
+  const [selectedUser, setSelectedUser] = useState({})
+  const [graphData, setGraphData] = useState({})
+  const [isLoading, setIsLoading] = useState(true)
+  const email = localStorage.getItem("email")
+  console.log("graphdata", graphData)
+  console.log("selected", selectedUser)
 
   const getNodeInfo = (nodeInfo) => {
-    setSelectedUser(nodeInfo);
-  };
+    setSelectedUser(nodeInfo)
+  }
 
   const dataFetch = async () => {
     try {
-      const resp = await fetch('/api/nodes/all');
-      const data = await resp.json();
-      console.log('data', data);
-      setGraphData(data);
-      
+      const resp = await fetch("/api/nodes/all")
+      const data = await resp.json()
+      console.log("data", data)
+      setGraphData(data)
+
       //uncomment after request works
       //props.setRequests(data.messages);
       // data.messages.forEach(message => {if(message.isRead === false){props.setIsRead(false);}});
- 
     } catch (err) {
-      console.log(err);
+      console.log(err)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    console.log('called');
-    dataFetch();
-  }, [props.isRead]);
+    console.log("called")
+    dataFetch()
+  }, [props.isRead])
 
   const cancelMessage = () => {
-    setSelectedUser({});
-  };
+    setSelectedUser({})
+  }
 
   return (
     <div className="mainpage">
@@ -51,8 +50,10 @@ const MainPage = (props) => {
         <div className="main-navbuttoncontainer1">Logo</div>
         <div className="navbuttoncontainer2">
           <Link to="/requests">
-            <button className={props.isRead ? 'requestsbutton' : 'requestsbutton-a'}>
-            R
+            <button
+              className={props.isRead ? "requestsbutton" : "requestsbutton-a"}
+            >
+              R
             </button>
           </Link>
         </div>
@@ -65,38 +66,45 @@ const MainPage = (props) => {
           <button
             className="authbutton"
             onClick={(e) => {
-              localStorage.removeItem('token');
-              localStorage.removeItem('admin');
-              localStorage.removeItem('name');
-              localStorage.removeItem('email');
-              props.setAuth(false);
+              localStorage.removeItem("token")
+              localStorage.removeItem("admin")
+              localStorage.removeItem("name")
+              localStorage.removeItem("email")
+              props.setAuth(false)
             }}
           >
             Logout
           </button>
         </div>
       </div>
-      {isLoading && 
-      <div className='loading'>
-        <CircularProgress />
-      </div>
-      }
+      {isLoading && (
+        <div className="loading">
+          <CircularProgress />
+        </div>
+      )}
       <section>
-        {graphData.nodes !== undefined && 
-        <SkillsList setSelectedUser={setSelectedUser} selectedUser={selectedUser} graphData={graphData} setGraphData={setGraphData}/>
-        }
+        {graphData.nodes !== undefined && (
+          <SkillsList
+            setSelectedUser={setSelectedUser}
+            selectedUser={selectedUser}
+            graphData={graphData}
+            setGraphData={setGraphData}
+          />
+        )}
       </section>
 
       {graphData.nodes !== undefined && (
-        <Graph getNodeInfo={getNodeInfo} graphData={graphData} />
+        <ForceGraph getNodeInfo={getNodeInfo} graphData={graphData} />
       )}
-      {(selectedUser.id && graphData.skills.length === 1) && <SendMessage 
-        selectedUser={selectedUser}
-        graphData={graphData}
-        cancelMessage={cancelMessage}
-      />}
+      {selectedUser.id && graphData.skills.length === 1 && (
+        <SendMessage
+          selectedUser={selectedUser}
+          graphData={graphData}
+          cancelMessage={cancelMessage}
+        />
+      )}
     </div>
-  );
-};
+  )
+}
 
-export default MainPage;
+export default MainPage
