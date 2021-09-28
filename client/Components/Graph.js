@@ -16,6 +16,8 @@ import '../index.scss';
 class Graph extends React.Component {
   constructor(props) {
     super(props);
+    console.log('classprops', this.props);
+
     this.xScale = d3.scaleLinear();
     this.yScale = d3.scaleLinear();
     this.state = {
@@ -46,7 +48,7 @@ class Graph extends React.Component {
 
   render() {
     const links = this.state.data.links.map((link) => {
-      return <Link key={link.id} data={link} />;
+      return <Link key={JSON.stringify(link.source) + JSON.stringify(link.target)} data={link} />;
     });
     const nodes = this.state.data.nodes.map((node) => {
       return (

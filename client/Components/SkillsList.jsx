@@ -7,17 +7,20 @@ const SkillsList = (props) => {
   const email = localStorage.getItem('email');
   const handleClick = async (e) => {
     try{
+    
+      props.setSelectedUser({});
       if (selectedSkill !== e.target.id) {
         setSelectedSkill(e.target.id);
         console.log('selectedSkill', selectedSkill);
-        const resp = await fetch('/api/nodes/' + selectedSkill + '&' + email);
+        const resp = await fetch('/api/nodes/' + e.target.id);
         const data = await resp.json();
         console.log('data', data);
         props.setGraphData(data);
       }
       else if (selectedSkill === e.target.id) {
         setSelectedSkill('');
-        const resp = await fetch('/api/nodes/all' + '&' + email);
+        // props.setSelectedUser({});
+        const resp = await fetch('/api/nodes/all');
         const data = await resp.json();
         props.setGraphData(data);
       }

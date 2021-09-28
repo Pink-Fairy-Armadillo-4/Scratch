@@ -11,7 +11,8 @@ const MainPage = (props) => {
   const [graphData, setGraphData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const email = localStorage.getItem('email');
-  
+  console.log('graphdata', graphData);
+  console.log('selected', selectedUser);
 
   const getNodeInfo = (nodeInfo) => {
     setSelectedUser(nodeInfo);
@@ -19,14 +20,14 @@ const MainPage = (props) => {
 
   const dataFetch = async () => {
     try {
-      const resp = await fetch('/api/nodes/all' + '&' + email);
+      const resp = await fetch('/api/nodes/all');
       const data = await resp.json();
       console.log('data', data);
       setGraphData(data);
       
       //uncomment after request works
-      props.setRequests(data.messages);
-      data.messages.forEach(message => {if(message.isRead === false){props.setIsRead(false);}});
+      //props.setRequests(data.messages);
+      // data.messages.forEach(message => {if(message.isRead === false){props.setIsRead(false);}});
  
     } catch (err) {
       console.log(err);
@@ -38,7 +39,7 @@ const MainPage = (props) => {
   useEffect(() => {
     console.log('called');
     dataFetch();
-  }, []);
+  }, [props.isRead]);
 
   const cancelMessage = () => {
     setSelectedUser({});
@@ -82,14 +83,14 @@ const MainPage = (props) => {
       }
       <section>
         {graphData.nodes !== undefined && 
-        <SkillsList graphData={graphData} setGraphData={setGraphData}/>
+        <SkillsList setSelectedUser={setSelectedUser} selectedUser={selectedUser} graphData={graphData} setGraphData={setGraphData}/>
         }
       </section>
 
       {graphData.nodes !== undefined && (
         <Graph getNodeInfo={getNodeInfo} graphData={graphData} />
       )}
-      {(selectedUser.id) && <SendMessage 
+      {(selectedUser.id && graphData.skills.length === 1) && <SendMessage 
         selectedUser={selectedUser}
         graphData={graphData}
         cancelMessage={cancelMessage}

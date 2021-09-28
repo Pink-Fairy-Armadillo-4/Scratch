@@ -337,7 +337,33 @@ body {
   background: rgba(51, 89, 166, 1);
   height: 25px;
   border-radius: 3px;
-
   color: white;
+}
+
+.loading {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.requests-inner {
+  width: 40vw;
+  margin: 5vh 30vw;
+  overflow: scroll;
+}
+
+.requests-name {
+  margin: 30px 0 10px 0;
+  font-size: 14px;
+}
+
+.requests-body {
+  display: inline-block;
+  box-sizing: content-box;
+  padding: 10px 10px;
+  border-radius: 5px;
+  background:  rgba(125, 161, 231, 0.235);
 }
 

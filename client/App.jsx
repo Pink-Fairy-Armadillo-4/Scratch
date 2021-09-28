@@ -8,14 +8,12 @@ import RequestsPage from './Components/RequestsPage';
 import Settings from './Components/Settings';
 
 const App = (props) => {   
-  const [auth, setAuth] = useState(false);
-  const [requests, setRequests] = useState([]);
-  const [isRead, setIsRead] = useState(true);
+  const [auth, setAuth] = useState(true);
   const authToken = localStorage.getItem('token');
 
   useEffect(() => {
     fetchData();
-  }, []);
+  });
 
   const fetchData = async() => {
     try {
@@ -59,9 +57,6 @@ const App = (props) => {
           {auth ? <MainPage  
             auth={auth}
             setAuth={setAuth}
-            setRequests={setRequests}
-            isRead={isRead}
-            setIsRead={setIsRead}
           /> : <Redirect to='/' />}
         </Route>
 
@@ -69,9 +64,6 @@ const App = (props) => {
           {auth ? <RequestsPage  
             auth = {auth}
             setAuth = {setAuth}
-            requests={requests}
-            isRead={isRead}
-            setIsRead={setIsRead}
           /> : <Redirect to='/' />}
         </Route>
 
@@ -79,7 +71,6 @@ const App = (props) => {
           {auth ? <Settings  
             auth = {auth}
             setAuth = {setAuth}
-            isRead={isRead}
           /> : <Redirect to='/' />}
         </Route>
 
