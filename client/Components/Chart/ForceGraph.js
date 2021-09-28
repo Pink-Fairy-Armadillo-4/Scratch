@@ -50,27 +50,26 @@ class ForceGraph extends React.Component {
   }
 
   componentDidMount() {
-    const data = this.state.data
-    FORCE.initForce(data.nodes, data.links)
-    FORCE.tick(this)
-    FORCE.drag()
+    const data = this.state.data;
+    FORCE.initForce(data.nodes, data.links);
+    FORCE.tick(this);
+    FORCE.drag();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("Previous Props ", prevProps)
-    console.log("This State Data ", this.state.data)
-    if (
-      this.props.nodes !== this.state.data.nodes ||
-      this.props.links !== this.state.data.links
-    ) {
-      this.setState((state) => {
-        state, (state.data = this.props.graphData)
-      })
-      const data = this.props.graphData
-      FORCE.initForce(data.nodes, data.links)
-      FORCE.tick(this)
-      FORCE.drag()
+
+    if (prevProps.graphData !== this.props.graphData) {
+      const newState = {...this.state, data: this.props.graphData};
+      const data = newState.data;
+      FORCE.initForce(data.nodes, data.links);
+      FORCE.tick({...this, state: {...this.state, data: data}});
+      this.setState(newState);
+      console.log('updated state');
+    } else if (prevState.data.skills != this.state.data.skills) {
+      FORCE.drag();
+      console.log('init drag');
     }
+
   }
 
   render() {
