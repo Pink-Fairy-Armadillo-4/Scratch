@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {Link, Redirect} from 'react-router-dom';
+import SettingsAdmin from './SettingsAdmin';
+import SettingsReg from './SettingsReg';
 
 const Settings = (props) => {
+  const isAdmin = localStorage.getItem('admin');
   return (
     <div className='requestspage'>
       <div className="navbar">
@@ -38,7 +41,12 @@ const Settings = (props) => {
           </button>
         </div>
       </div>
-        Here will be settings
+      {isAdmin === 'true' &&
+      <SettingsAdmin />
+      }
+      {isAdmin !== 'true' && 
+      <SettingsReg />
+      }
     </div>
   );
 };

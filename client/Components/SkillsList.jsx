@@ -7,14 +7,12 @@ const SkillsList = (props) => {
   const email = localStorage.getItem('email');
   const handleClick = async (e) => {
     try{
-    
+      if (props.activeStyle === 'text-inactive') {props.setActiveStyle('text-active');}
       props.setSelectedUser({});
       if (selectedSkill !== e.target.id) {
         setSelectedSkill(e.target.id);
-        console.log('selectedSkill', selectedSkill);
         const resp = await fetch('/api/nodes/' + e.target.id);
         const data = await resp.json();
-        console.log('data', data);
         props.setGraphData(data);
       }
       else if (selectedSkill === e.target.id) {
@@ -36,7 +34,7 @@ const SkillsList = (props) => {
 
   return (
     <div className='skills-container'>
-      <div>
+      <div className={props.activeStyle}>
         Please select a skill to find out who can help you learn it
       </div>
       

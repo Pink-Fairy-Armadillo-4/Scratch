@@ -6,13 +6,19 @@ import './index.scss';
 import ErrorPage from './Components/ErrorPage';
 import RequestsPage from './Components/RequestsPage';
 import Settings from './Components/Settings';
+import { CircularProgress } from '@material-ui/core';
 
 const App = (props) => {   
-  const [auth, setAuth] = useState(true);
+  console.log('app.jsx rendered');
+  const [auth, setAuth] = useState(false);
   const authToken = localStorage.getItem('token');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRead, setIsRead] = useState(false);
+
 
   useEffect(() => {
     fetchData();
+    console.log('useeffect called in app.jsx');
   });
 
   const fetchData = async() => {
@@ -27,6 +33,7 @@ const App = (props) => {
         });
         const isTokenVerif = await isToken.json();
         if (isTokenVerif === true) {
+          setIsRead(false);
           setAuth(true);
         } else {
           localStorage.removeItem('token');
@@ -39,12 +46,18 @@ const App = (props) => {
     } catch (err) {
       console.log(err);
     }
+    finally {setIsLoading(false);}
   };
   
   return(
     <div className='maindiv'>
+      {isLoading && 
+      <div className='loading'> 
+        <CircularProgress />
+      </div>
+      }
+      {!isLoading &&
       <Switch >
-
         <Route exact path='/'>
           {auth ? <Redirect to='/main' /> 
             : <LandingPage 
@@ -57,6 +70,7 @@ const App = (props) => {
           {auth ? <MainPage  
             auth={auth}
             setAuth={setAuth}
+            isRead={isRead}
           /> : <Redirect to='/' />}
         </Route>
 
@@ -64,6 +78,8 @@ const App = (props) => {
           {auth ? <RequestsPage  
             auth = {auth}
             setAuth = {setAuth}
+            isRead={isRead}
+            setIsRead={setIsRead}
           /> : <Redirect to='/' />}
         </Route>
 
@@ -71,12 +87,14 @@ const App = (props) => {
           {auth ? <Settings  
             auth = {auth}
             setAuth = {setAuth}
+            isRead={isRead}
           /> : <Redirect to='/' />}
         </Route>
 
         <Route path="/404" component={ErrorPage} />
         <Redirect to="/404" />
       </Switch>
+      }
     </div>
   );
 };

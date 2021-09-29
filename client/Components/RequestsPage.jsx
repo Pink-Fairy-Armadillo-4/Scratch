@@ -5,13 +5,34 @@ import { CircularProgress } from '@material-ui/core';
 
 
 const RequestsPage = (props) => {
+  console.log('requests rendered');
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  
   // useEffect(() =>   {props.setIsRead(true);}, []
   // );
   useEffect(() => {
+    props.setIsRead(true);
     getData();
   },[]);
+
+  const handleClick = async (arg) => {
+    try{
+      console.log(arg);
+      const response = await fetch('/api/deletemessage', {
+        method: 'DELETE', 
+        headers: {
+          'Content-type': 'application/json' 
+        },
+        body: JSON.stringify({'deleted': arg})
+      });
+      const newReq = response.json();
+      setRequests(newReq);
+    }
+    catch (err) {console.log(err);}
+  };
+
+
 
   const email = localStorage.getItem('email');
 
@@ -73,8 +94,9 @@ const RequestsPage = (props) => {
         </div>
           }
           {requests.length && <div className='requests-inner'>
-            {requests.map(request => 
-              <Request key={request._id} sourceName ={request.sourceName} requestBody={request.messageBody}/>
+            {requests.map(request => {
+              console.log(request);
+              return <Request isRead={request.isRead} handleClick={handleClick} id={request._id} key={request._id} sourceName ={request.sourceName} requestBody={request.messageBody}/>;}
             )}
           </div>}
         </div>

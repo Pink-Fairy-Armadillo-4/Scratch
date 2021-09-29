@@ -43,7 +43,7 @@ const SendMessage = (props) => {
         </span>
         {!statusReceived && 
         <div>
-          <p>Hi <span className="recepientname">{props.selectedUser.id}</span>, I am looking forward to learning {props.graphData.skills[0]} from you </p>
+          <p>Hi <span className="recepientname">{props.selectedUser.name}</span>, I am looking forward to learning {props.graphData.skills[0]} from you </p>
           <p>Here is my contact info: </p>
           <div className='form-wrapperdiv'>
             <form>
