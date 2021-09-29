@@ -164,22 +164,22 @@ authController.verifyToken = async (req, res, next) => {
       console.log('isToken is', isToken);
       res.locals.tokenVerif = true;
 
-      const queryFilter = {
-        targetEmail: isToken.id,
-      };
+      // const queryFilter = {
+      //   targetEmail: isToken.id,
+      // };
   
-      const specifiedFields = {};
+      // const specifiedFields = {};
   
-      const updateFields = {
-        $set: {
-          isRead: true,
-        },
-      };
+      // const updateFields = {
+      //   $set: {
+      //     isRead: true,
+      //   },
+      // };
   
-      const messages = await models.Message.find(queryFilter, specifiedFields);
-      await models.Message.updateMany(queryFilter, updateFields);
+      // const messages = await models.Message.find(queryFilter, specifiedFields);
+      // await models.Message.updateMany(queryFilter, updateFields);
   
-      res.locals.messages = messages;
+      // res.locals.messages = messages;
     }
     else res.locals.tokenVerif = false;
     return next();

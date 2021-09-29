@@ -17,13 +17,13 @@ const Request = (props) => {
     !props.isRead ? setStyle('requests-body-new') : null;
   }, []);
 
-  useEffect(() => { 
-    if (style === 'requests-body-new') {
-      setTimeout(() => {
-        setStyle('requests-body');
-      }, 5000);}
-  }
-  , [style]);
+  // useEffect(() => { 
+  //   if (style === 'requests-body-new') {
+  //     setTimeout(() => {
+  //       setStyle('requests-body');
+  //     }, 5000);}
+  // }
+  // , [style]);
 
   
 

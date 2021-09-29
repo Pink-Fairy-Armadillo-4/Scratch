@@ -38,7 +38,7 @@ router.post(
 
 router.post('/verify', authController.verifyToken,  (req, res) => {
   res.locals.tokenVerif === true
-    ? res.status(200).json({verified: true, messages: res.locals.messages})
+    ? res.status(200).json({verified: true})
     : res.status(401).json({verified: false});
 });
 

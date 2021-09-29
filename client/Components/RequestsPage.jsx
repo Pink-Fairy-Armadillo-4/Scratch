@@ -13,14 +13,13 @@ const RequestsPage = (props) => {
   // useEffect(() =>   {props.setIsRead(true);}, []
   // );
   useEffect(() => {
-    props.setIsRead(true);
     getData();
   },[]);
+
   const email = localStorage.getItem('email');
 
   const handleClick = async (arg) => {
     try{
-      console.log('body on click', {'messageID': arg, targetEmail: email});
       const response = await fetch('/api/delMessage', {
         method: 'DELETE', 
         headers: {
@@ -29,7 +28,6 @@ const RequestsPage = (props) => {
         body: JSON.stringify({'messageID': arg, targetEmail: email})
       });
       const newReq = await response.json();
-      console.log('newReq',newReq);
       setRequests(newReq);
     }
     catch (err) {console.log(err);}
@@ -89,15 +87,14 @@ const RequestsPage = (props) => {
         {!isLoading && <div>
           {!requests.length && 
         <div className='norequests'> 
-          There is no requests at this time
+          There are no requests at this time
         </div>
           }
-          {requests.length && <div className='requests-inner'>
+          <div className='requests-inner'>
             {requests.map(request => {
-              console.log(request);
               return <Request isRead={request.isRead} handleClick={handleClick} id={request._id} key={request._id} sourceName ={request.sourceName} requestBody={request.messageBody}/>;}
             )}
-          </div>}
+          </div>
         </div>
         }
       </section>

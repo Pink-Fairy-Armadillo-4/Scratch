@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useEffect } from 'react';
 
 const SendMessage = (props) => {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ const SendMessage = (props) => {
         sourceName,
         sourceEmail,
         targetEmail: props.selectedUser.email,
-        targetName: props.selectedUser.id,
+        targetName: props.selectedUser.name,
         skill: props.graphData.skills[0]
       };
       console.log(data);
@@ -34,6 +35,14 @@ const SendMessage = (props) => {
       console.log(err);
     }
   };
+
+  useEffect(() => { 
+    if (statusReceived === true) {
+      setTimeout(() => {
+        setStatusReceived(false);
+      }, 1500);}
+  }
+  , [statusReceived]);
 
   return (
     <div className="messenger">
@@ -55,7 +64,7 @@ const SendMessage = (props) => {
         }
         {statusReceived && 
         <div>
-          <p><span className="recepientname">{props.selectedUser.id}</span> has received your message and should reply shortly </p>
+          <p><span className="recepientname">{props.selectedUser.name}</span> has received your message and should reply shortly </p>
         </div>
         }
       </div>
