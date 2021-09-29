@@ -366,3 +366,12 @@ body {
     border:1px solid white;
     }
 }
+
+.norequests {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2vw;
+  color:rgb(62, 52, 52)
+}

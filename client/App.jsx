@@ -13,13 +13,20 @@ const App = (props) => {
   const [auth, setAuth] = useState(false);
   const authToken = localStorage.getItem('token');
   const [isLoading, setIsLoading] = useState(true);
-  const [isRead, setIsRead] = useState(false);
+
+  //we will use useRef for storing isRead
+  //we will pass it to landing page and update it there if 
 
 
   useEffect(() => {
     fetchData();
     console.log('useeffect called in app.jsx');
-  });
+  },[auth]);
+
+  useEffect(() => {
+    //if auth true - we will send a request for  
+    //reading us
+  }, []);
 
   const fetchData = async() => {
     try {
@@ -33,7 +40,6 @@ const App = (props) => {
         });
         const data = await res.json();
         if (data.verified === true) {
-          setIsRead(false);
           setAuth(true);
           console.log(data);
         } else {
@@ -71,7 +77,7 @@ const App = (props) => {
           {auth ? <MainPage  
             auth={auth}
             setAuth={setAuth}
-            isRead={isRead}
+            // isRead={isRead}
           /> : <Redirect to='/' />}
         </Route>
 
@@ -79,8 +85,6 @@ const App = (props) => {
           {auth ? <RequestsPage  
             auth = {auth}
             setAuth = {setAuth}
-            isRead={isRead}
-            setIsRead={setIsRead}
           /> : <Redirect to='/' />}
         </Route>
 
@@ -88,7 +92,7 @@ const App = (props) => {
           {auth ? <Settings  
             auth = {auth}
             setAuth = {setAuth}
-            isRead={isRead}
+            // isRead={isRead}
           /> : <Redirect to='/' />}
         </Route>
 

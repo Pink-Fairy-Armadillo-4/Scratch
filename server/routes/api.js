@@ -46,8 +46,8 @@ router.post('/sendMessage', dbController.createMessage, (req, res) => {
   res.status(200).json(true);
 });
 
-router.delete('/delMessage', dbController.delMessages, (req, res) => {
-  res.status(200).json(res.locals.deleted);
+router.delete('/delMessage', dbController.delMessages, dbController.getMessages, (req, res) => {
+  res.status(200).json(res.locals.messages);
 });
 
 module.exports = router;

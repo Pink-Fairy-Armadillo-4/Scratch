@@ -9,6 +9,7 @@ const Request = (props) => {
   console.log(props.id);
 
   const deleteMessage = (e) => {
+    console.log('what should be passed', e.target.id);
     props.handleClick(e.target.id);
   };
 
@@ -16,13 +17,13 @@ const Request = (props) => {
     !props.isRead ? setStyle('requests-body-new') : null;
   }, []);
 
-  useEffect(() => { 
-    if (style === 'requests-body-new') {
-      setTimeout(() => {
-        setStyle('requests-body');
-      }, 5000);}
-  }
-  , [style]);
+  // useEffect(() => { 
+  //   if (style === 'requests-body-new') {
+  //     setTimeout(() => {
+  //       setStyle('requests-body');
+  //     }, 5000);}
+  // }
+  // , [style]);
 
   
 
@@ -31,7 +32,7 @@ const Request = (props) => {
       <div className='requests-name'>{props.sourceName}</div>
       <div className={style}>{props.requestBody}</div>  
       <button type='button' id={props.id} onClick={deleteMessage} className='delete-request'>
-        <FontAwesomeIcon className="navIcons" icon={faTrashAlt}/>
+       D
       </button>
     </div>
   );

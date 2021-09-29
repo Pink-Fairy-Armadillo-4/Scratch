@@ -8,33 +8,30 @@ const RequestsPage = (props) => {
   console.log('requests rendered');
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  console.log('requests', requests);
   
   // useEffect(() =>   {props.setIsRead(true);}, []
   // );
   useEffect(() => {
-    props.setIsRead(true);
     getData();
   },[]);
 
+  const email = localStorage.getItem('email');
+
   const handleClick = async (arg) => {
     try{
-      console.log(arg);
-      const response = await fetch('/api/deletemessage', {
+      const response = await fetch('/api/delMessage', {
         method: 'DELETE', 
         headers: {
           'Content-type': 'application/json' 
         },
-        body: JSON.stringify({'deleted': arg})
+        body: JSON.stringify({'messageID': arg, targetEmail: email})
       });
-      const newReq = response.json();
+      const newReq = await response.json();
       setRequests(newReq);
     }
     catch (err) {console.log(err);}
   };
-
-
-
-  const email = localStorage.getItem('email');
 
   const getData = async() => {
     try{
@@ -90,15 +87,14 @@ const RequestsPage = (props) => {
         {!isLoading && <div>
           {!requests.length && 
         <div className='norequests'> 
-          There is no requests at this time
+          There are no requests at this time
         </div>
           }
-          {requests.length && <div className='requests-inner'>
+          <div className='requests-inner'>
             {requests.map(request => {
-              console.log(request);
               return <Request isRead={request.isRead} handleClick={handleClick} id={request._id} key={request._id} sourceName ={request.sourceName} requestBody={request.messageBody}/>;}
             )}
-          </div>}
+          </div>
         </div>
         }
       </section>
