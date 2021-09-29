@@ -13,13 +13,13 @@ const App = (props) => {
   const [auth, setAuth] = useState(false);
   const authToken = localStorage.getItem('token');
   const [isLoading, setIsLoading] = useState(true);
-  const [isRead, setIsRead] = useState(false);
+  const [isRead, setIsRead] = useState(true);
 
 
   useEffect(() => {
     fetchData();
     console.log('useeffect called in app.jsx');
-  });
+  }, []);
 
   const fetchData = async() => {
     try {

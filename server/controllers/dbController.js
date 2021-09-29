@@ -153,9 +153,16 @@ dbController.getMessages = async (req, res, next) => {
     // if (res.locals.tokenVerif == false) {
     //   return next();
     // }
+    let targetEmail;
+
+    if (req.params.targetEmail) {
+      targetEmail = req.params.targetEmail;}
+    else {
+      targetEmail = req.body.targetEmail;
+    }
 
     const queryFilter = {
-      targetEmail: req.params.targetEmail,
+      targetEmail
     };
 
     const specifiedFields = {};

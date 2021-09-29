@@ -8,6 +8,7 @@ const RequestsPage = (props) => {
   console.log('requests rendered');
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  console.log('requests', requests);
   
   // useEffect(() =>   {props.setIsRead(true);}, []
   // );
@@ -15,26 +16,24 @@ const RequestsPage = (props) => {
     props.setIsRead(true);
     getData();
   },[]);
+  const email = localStorage.getItem('email');
 
   const handleClick = async (arg) => {
     try{
-      console.log(arg);
-      const response = await fetch('/api/deletemessage', {
+      console.log('body on click', {'messageID': arg, targetEmail: email});
+      const response = await fetch('/api/delMessage', {
         method: 'DELETE', 
         headers: {
           'Content-type': 'application/json' 
         },
-        body: JSON.stringify({'deleted': arg})
+        body: JSON.stringify({'messageID': arg, targetEmail: email})
       });
-      const newReq = response.json();
+      const newReq = await response.json();
+      console.log('newReq',newReq);
       setRequests(newReq);
     }
     catch (err) {console.log(err);}
   };
-
-
-
-  const email = localStorage.getItem('email');
 
   const getData = async() => {
     try{
