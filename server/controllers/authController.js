@@ -163,6 +163,23 @@ authController.verifyToken = async (req, res, next) => {
     if (isToken.id) {
       console.log('isToken is', isToken);
       res.locals.tokenVerif = true;
+
+      const queryFilter = {
+        targetEmail: isToken.id,
+      };
+  
+      const specifiedFields = {};
+  
+      const updateFields = {
+        $set: {
+          isRead: true,
+        },
+      };
+  
+      const messages = await models.Message.find(queryFilter, specifiedFields);
+      await models.Message.updateMany(queryFilter, updateFields);
+  
+      res.locals.messages = messages;
     }
     else res.locals.tokenVerif = false;
     return next();
@@ -175,23 +192,5 @@ authController.verifyToken = async (req, res, next) => {
   }
 };
 
-authController.verifyEmail = async (req, res, next) => {
-  try{
-    const token = req.body.token;
-    const isToken = await jwt.verify(token, process.env.ID_SALT);
-    if (isToken.id == req.params.targetEmail) {
-      console.log('isToken is', isToken);
-      res.locals.tokenVerif = true;
-    }
-    else res.locals.tokenVerif = false;
-    return next();
-  }
-  catch (err) {
-    return next({
-      log: 'Express error handler caught an error at authController.verifyToken',
-      message: {err},
-    });
-  }
-};
 
 module.exports = authController;

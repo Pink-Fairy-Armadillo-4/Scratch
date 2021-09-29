@@ -24,17 +24,18 @@ const App = (props) => {
   const fetchData = async() => {
     try {
       if (authToken) {
-        const isToken = await fetch('auth/verify', {
+        const res = await fetch('auth/verify', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({'token': authToken})
         });
-        const isTokenVerif = await isToken.json();
-        if (isTokenVerif === true) {
+        const data = await res.json();
+        if (data.verified === true) {
           setIsRead(false);
           setAuth(true);
+          console.log(data);
         } else {
           localStorage.removeItem('token');
           setAuth(false);
