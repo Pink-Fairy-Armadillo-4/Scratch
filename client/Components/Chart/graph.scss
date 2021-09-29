@@ -4,7 +4,8 @@
 }
 .graph {
   position: absolute;
-  bottom: 7vh;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: #29265f;
-  margin-left: 3.2vw;
 }

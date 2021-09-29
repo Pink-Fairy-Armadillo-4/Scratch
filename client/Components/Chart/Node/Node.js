@@ -1,14 +1,13 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import * as d3 from "d3"
+import React from 'react';
+import ReactDOM from 'react-dom';
+import * as d3 from 'd3';
 
 // Util
-import FORCE from "../ForceGraphGenerator"
+import FORCE from '../ForceGraphGenerator';
 
 class Node extends React.Component {
   constructor(props) {
-    super(props)
-    console.log("Node data", props.data)
+    super(props);
   }
 
   componentDidMount() {
@@ -16,21 +15,22 @@ class Node extends React.Component {
       // eslint-disable-next-line react/no-find-dom-node
       .select(ReactDOM.findDOMNode(this))
       .datum(this.props.data)
-      .call(FORCE.enterNode)
+      .call(FORCE.enterNode);
   }
 
   componentDidUpdate() {
-    this.d3Node.datum(this.props.data).call(FORCE.updateNode)
+    this.d3Node.datum(this.props.data).call(FORCE.updateNode);
   }
 
   render() {
     const handleClick = () => {
-      const data = this.props.data
-      console.log(data)
-      data.group === "user" ? this.props.getNodeInfo(data) : console.log(null)
-    }
+      const data = this.props.data;
+      this.props.skills.length > 1 ?
+        this.props.setActiveStyle('text-inactive') : this.props.setActiveStyle('text-active');
+      data.group === 'user' ? this.props.getNodeInfo(data) : console.log(null);
+    };
 
-    const handlMouseOut = () => {}
+    const handlMouseOut = () => {};
 
     return (
       <g className="node">
@@ -44,8 +44,8 @@ class Node extends React.Component {
           }
         />
       </g>
-    )
+    );
   }
 }
 
-export default Node
+export default Node;
