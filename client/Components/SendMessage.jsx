@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import { useEffect } from 'react';
 
 const SendMessage = (props) => {
-  const [email, setEmail] = useState('');
+  const sourceEmail = localStorage.getItem('email');
+  const [email, setEmail] = useState(sourceEmail);
   const [statusReceived, setStatusReceived] = useState(false);
   const emailEntered = (e) => {
     setEmail(e.target.value);
@@ -11,7 +12,6 @@ const SendMessage = (props) => {
   const sendMessage = async () => {
     try{
       const sourceName = localStorage.getItem('name');
-      const sourceEmail = localStorage.getItem('email');
       const data = {
         contactEmail: email,
         sourceName,

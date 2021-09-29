@@ -236,32 +236,48 @@ body {
     text-align: center;
     margin: 2vh 50px;
   }
-  .sendmessage {
-    height: 33px;
-    width: 50px;
-    margin: 5px 0 5px 20px;
-    border: 1px solid rgba(51, 89, 166, 1);
-    background: rgba(51, 89, 166, 1);
-    color: white;
-    border-radius: 5px;
-  }
-  .close {
-    color: Black;
-    float: right;
-    &:hover {
-      color: rgb(101, 101, 101);
-      cursor: pointer;
-    }
-  }
-  .form-control-messenger {
-    height: 30px;
-    width: 360px;
-    margin: 5px 0 5px 0;
-    border-radius: 5px;
-    border: 1px solid rgba(51, 89, 166, 1);
-    background: rgba(59, 96, 171, 0.119);
+}
+
+.sendmessage {
+  height: 33px;
+  width: 50px;
+  margin: 5px 0 5px 20px;
+  border: 3px solid rgba(51, 89, 166, 1);
+  background: rgba(51, 89, 166, 1);
+  color: white;
+  border-radius: 5px;
+  &:hover {
+    border: 1px solid white;
   }
 }
+
+.close {
+  color: Black;
+  float: right;
+  &:hover {
+    color: rgb(101, 101, 101);
+    cursor: pointer;
+  }
+}
+
+.form-control-messenger {
+  height: 30px;
+  width: 360px;
+  margin: 5px 0 5px 0;
+  border-radius: 5px;
+  border: 1px solid rgba(51, 89, 166, 1);
+  background: rgba(59, 96, 171, 0.119);
+}
+
+.form-control-admin {
+  margin: 15px 0 15px 15px;
+  height: 30px;
+  width: calc(100% - 110px);
+  border-radius: 5px;
+  border: 1px solid rgba(51, 89, 166, 1);
+  background: rgba(59, 96, 171, 0.119);
+}
+
 
 .form-wrapperdiv {
   display: block;
@@ -372,6 +388,74 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 2vw;
+  font-size: 3vh;
   color:rgb(62, 52, 52)
+}
+
+.admin-settings-internal {
+    width: 26vw;
+    height: calc(90vh - 60px);
+    margin: 5vh 37vw;
+}
+
+.admin-settings-addskill {
+  height: 200px;
+  box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  background-color: white;
+}
+
+.admin-settings-skills {
+  height: calc(100% - 200px);
+  margin-bottom: 2vh;
+  box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  background-color: white;
+}
+
+.listofskills {
+  overflow: scroll;
+  height: calc(100% - 100px);
+}
+
+.skill-add-error {
+text-align: center;
+color: red;
+}
+
+.skill-admin{
+  display: flex;
+  height: 40px;
+  align-items: center;
+  border: 1px solid #3359a6;
+  border-radius: 5px;
+  margin: 10px;
+}
+
+.skill-name-container {
+  margin-left: 5%;
+  flex: 1;
+  font-size: 18px;
+}
+
+.skill-admin-delete {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  margin: 5%;
+  background: rgb(18, 72, 159);
+  border: 3px solid rgb(18, 72, 159);
+  color: white;
+  &:hover {
+    border:1px solid white;
+    }
+}
+
+.form-title{
+  text-align: center;
+  margin: 20px 10px 30px 10px;
+  font-size: 18px;
+
 }

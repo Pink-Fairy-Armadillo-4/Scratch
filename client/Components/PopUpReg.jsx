@@ -32,7 +32,7 @@ const PopUpReg = (props) => {
   }, []);
   const fetchData = async() => {
     try{
-      const res = await fetch('/api/allSkills');
+      const res = await fetch('/api/allSkills/all');
       const response = await res.json();
       const skillNames = [];
       for (let i = 0; i < response.length; i++) {

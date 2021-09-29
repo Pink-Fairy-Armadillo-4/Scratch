@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 const models = require('../models/pfaModels');
 const mongoose = require('mongoose');
 
@@ -109,7 +110,7 @@ dbController.getSkillGroups = async (req, res, next) => {
 
 dbController.createMessage = async (req, res, next) => {
   try {
-    const {
+    let {
       contactEmail,
       sourceName,
       sourceEmail,
@@ -117,6 +118,8 @@ dbController.createMessage = async (req, res, next) => {
       targetName,
       skill,
     } = req.body;
+
+    if (!contactEmail) {contactEmail = sourceEmail;}
 
     const genMessage = (fromName, toName, skill) => {
       return (
