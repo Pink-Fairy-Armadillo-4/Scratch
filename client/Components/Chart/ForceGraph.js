@@ -1,52 +1,51 @@
-import React from "react"
-import * as d3 from "d3"
+import React from 'react';
+import * as d3 from 'd3';
 
 // Components
-import Link from "./Link/Link"
-import Node from "./Node/Node"
-import Tooltip from "./Tooltip/Tooltip"
+import Link from './Link/Link';
+import Node from './Node/Node';
+import Tooltip from './Tooltip/Tooltip';
 
 // Util
-import FORCE from "./ForceGraphGenerator"
+import FORCE from './ForceGraphGenerator';
 // import data from '../utils/data';
 
 // Styles
-import "./graph.scss"
+import './graph.scss';
 
 class ForceGraph extends React.Component {
   constructor(props) {
-    super(props)
-    this.xScale = d3.scaleLinear()
-    this.yScale = d3.scaleLinear()
+    super(props);
+    this.xScale = d3.scaleLinear();
+    this.yScale = d3.scaleLinear();
     this.state = {
       data: this.props.graphData,
       hoveredNode: null,
-      hoveredNodeData: { name: "", email: "", x: 0, y: 0 },
-    }
+      hoveredNodeData: { name: '', email: '', x: 0, y: 0 },
+    };
 
-    this.handleOnMouseOver = this.handleOnMouseOver.bind(this)
-    this.handleOnMouseOut = this.handleOnMouseOut.bind(this)
+    this.handleOnMouseOver = this.handleOnMouseOver.bind(this);
+    this.handleOnMouseOut = this.handleOnMouseOut.bind(this);
   }
 
   handleOnMouseOver(data) {
     this.setState((state, props) => {
-      state.hoveredNode = true
+      state.hoveredNode = true;
       state.hoveredNodeData = {
         name: data.name,
         email: data.email,
         x: data.x,
         y: data.y,
-      }
-      console.log("Node data from hover ", data)
-      return state
-    })
+      };
+      return state;
+    });
   }
 
   handleOnMouseOut() {
     this.setState((state) => {
-      state.hoveredNode = null
-      return state
-    })
+      state.hoveredNode = null;
+      return state;
+    });
   }
 
   componentDidMount() {
@@ -64,10 +63,8 @@ class ForceGraph extends React.Component {
       FORCE.initForce(data.nodes, data.links);
       FORCE.tick({...this, state: {...this.state, data: data}});
       this.setState(newState);
-      console.log('updated state');
     } else if (prevState.data.skills != this.state.data.skills) {
       FORCE.drag();
-      console.log('init drag');
     }
 
   }
@@ -79,8 +76,8 @@ class ForceGraph extends React.Component {
           key={JSON.stringify(link.source) + JSON.stringify(link.target)}
           data={link}
         />
-      )
-    })
+      );
+    });
     const nodes = this.state.data.nodes.map((node) => {
       return (
         <Node
@@ -89,11 +86,14 @@ class ForceGraph extends React.Component {
           key={node.id}
           hoveredNodeData={node}
           getNodeInfo={this.props.getNodeInfo}
+          skills={this.props.graphData.skills}
+          activeStyle={this.props.activeStyle} 
+          setActiveStyle={this.props.setActiveStyle}
           onMouseOverCallback={this.handleOnMouseOver}
           onMouseOutCallback={this.handleOnMouseOut}
         />
-      )
-    })
+      );
+    });
     return (
       <div className="graph__container">
         <svg className="graph" width={FORCE.width} height={FORCE.height}>
@@ -109,8 +109,8 @@ class ForceGraph extends React.Component {
           />
         ) : null}
       </div>
-    )
+    );
   }
 }
 
-export default ForceGraph
+export default ForceGraph;

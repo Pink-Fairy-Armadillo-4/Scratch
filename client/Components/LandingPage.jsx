@@ -5,7 +5,7 @@ import PopUpReg from './PopUpReg';
 import logo from '../images/logo.png' ;
 
 const LandingPage = (props) => {
-
+  console.log('landing page rendered');
   const [seen, setSeen] = useState(false);
   const [seenLog, setSeenLog] = useState(false);
   const [seenSignUp, setSeenSignUp] = useState(false);
