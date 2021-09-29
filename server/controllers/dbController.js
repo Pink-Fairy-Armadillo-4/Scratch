@@ -1,4 +1,5 @@
 const models = require('../models/pfaModels');
+const mongoose = require('mongoose');
 
 const dbController = {};
 
@@ -58,7 +59,7 @@ dbController.getSkills = async (req, res, next) => {
   try {
     // object specifying the filters on query
     const queryFilter = {};
-    if (req.params.skill != 'all'){
+    if (req.params.skill != 'all') {
       queryFilter.name = [req.params.skill];
     }
     // object specifying the fields to be requested from db
@@ -152,28 +153,57 @@ dbController.getMessages = async (req, res, next) => {
     // if (res.locals.tokenVerif == false) {
     //   return next();
     // }
+
     const queryFilter = {
       targetEmail: req.params.targetEmail,
     };
 
     const specifiedFields = {};
-    
-    const updateFields = { $set: {
-      isRead: true,
-    }
+
+    const updateFields = {
+      $set: {
+        isRead: true,
+      },
     };
 
     const messages = await models.Message.find(queryFilter, specifiedFields);
     await models.Message.updateMany(queryFilter, updateFields);
 
     res.locals.messages = messages;
-    
+
     return next();
   } catch (err) {
+    console.log('Error at dbController.getMessages');
     console.log(err);
     return next();
   }
 };
 
+dbController.delMessages = async (req, res, next) => {
+  try {
+    res.locals.deleted = false;
+
+    if (!req.body.messageID) {
+      return next();
+    }
+
+    const queryFilter = {
+      _id: mongoose.Types.ObjectId(req.body.messageID),
+    };
+
+    const message = await models.Message.findOneAndDelete(queryFilter);
+
+    if (message) {
+      res.locals.deleted = true;
+    }
+
+    return next();
+  } catch (err) {
+    console.log('Error at dbController.delMessages');
+    console.log(err);
+    res.locals.deleted = false;
+    return next();
+  }
+};
 
 module.exports = dbController;

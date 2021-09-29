@@ -5,12 +5,9 @@ const graphController = require('../controllers/graphController');
 
 const router = express.Router();
 
-router.get('/allUsers', 
-  dbController.getUsers, 
-  (req, res) => {
-    res.status(200).json(res.locals.users);
-  }
-);
+router.get('/allUsers', dbController.getUsers, (req, res) => {
+  res.status(200).json(res.locals.users);
+});
 
 router.get('/allUserGroups', dbController.getUserGroups, (req, res) => {
   res.status(200).json(res.locals.userGroups);
@@ -24,19 +21,17 @@ router.get('/allSkillGroups', dbController.getUserGroups, (req, res) => {
   res.status(200).json(res.locals.skillGroups);
 });
 
-router.get('/messages/:targetEmail', 
-  dbController.getMessages,
-  (req, res) => {
-    const data = {
-      messages: res.locals.messages
-    };
-    res.status(200).json(data.messages);
-  }
-);
+router.get('/messages/:targetEmail', dbController.getMessages, (req, res) => {
+  const data = {
+    messages: res.locals.messages,
+  };
+  res.status(200).json(data.messages);
+});
 
-router.get('/nodes/:skill', 
-  dbController.getSkills, 
-  graphController.createNodes, 
+router.get(
+  '/nodes/:skill',
+  dbController.getSkills,
+  graphController.createNodes,
   (req, res) => {
     const data = {
       skills: res.locals.skillName,
@@ -47,10 +42,12 @@ router.get('/nodes/:skill',
   }
 );
 
-router.post('/sendMessage', 
-  dbController.createMessage,
-  (req, res) => {
-    res.status(200).json(true);
-  });
+router.post('/sendMessage', dbController.createMessage, (req, res) => {
+  res.status(200).json(true);
+});
+
+router.delete('/delMessage', dbController.delMessages, (req, res) => {
+  res.status(200).json(res.locals.deleted);
+});
 
 module.exports = router;

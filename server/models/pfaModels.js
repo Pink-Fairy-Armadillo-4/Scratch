@@ -31,14 +31,13 @@ const userSchema = new Schema({
 });
 
 //set up preprocess for encrypting password
-userSchema.pre('save', async function save (next){
-  try{
+userSchema.pre('save', async function save(next) {
+  try {
     const SALT_WORK_FACTOR = 10;
     const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
     this.password = await bcrypt.hash(this.password, salt);
     return next();
-  }
-  catch(err){
+  } catch (err) {
     return next(err);
   }
 });
@@ -48,7 +47,6 @@ userSchema.methods.verify = async function (password) {
   const check = bcrypt.compare(password, this.password);
   return check;
 };
-
 
 const User = mongoose.model('user', userSchema);
 
@@ -69,7 +67,7 @@ const skillSchema = new Schema({
       firstName: String,
       lastName: String,
       email: String,
-      userGroup: {type: String, default: 'user'},
+      userGroup: { type: String, default: 'user' },
       _id: {
         type: Schema.Types.ObjectId,
         ref: 'user',
@@ -90,17 +88,18 @@ const SkillGroup = mongoose.model('skillGroup', skillGroupSchema);
 
 const messageSchema = new Schema({
   // info stored on login
-  sourceName : { type: String, required: true},
-  sourceEmail : { type: String, required: true},
-  contactEmail : { type: String, required: true },
+  sourceName: { type: String, required: true },
+  sourceEmail: { type: String, required: true },
+  contactEmail: { type: String, required: true },
   // info stored on node
-  targetName : { type: String, required: true},
-  targetEmail : { type: String, required: true},
+  targetName: { type: String, required: true },
+  targetEmail: { type: String, required: true },
   // message generate on click node and send message functionality
-  messageBody : { type: String, required: true},
+  messageBody: { type: String, required: true },
   skill: { type: String },
-  isRead : { type: Boolean, default: false},
-});
+  isRead: { type: Boolean, default: false },
+
+}, {timestamps: true});
 
 const Message = mongoose.model('message', messageSchema);
 
