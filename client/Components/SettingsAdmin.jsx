@@ -39,6 +39,8 @@ const SettingsAdmin = (props) => {
         body: JSON.stringify({'skillName': arg})
       });
       const newReq = await response.json();
+      newReq.sort((a, b) => (a.name > b.name) ? 1 : -1);
+
       setAllSkills(newReq);
     }
     catch (err) {console.log(err);}
@@ -49,6 +51,7 @@ const SettingsAdmin = (props) => {
       const res = await fetch('/api/allSkills/all');
       const response = await res.json();
       console.log('skillsinsettings', response);
+      response.sort((a, b) => (a.name > b.name) ? 1 : -1);
       setAllSkills(response);
     }
     catch(err) {
@@ -81,6 +84,7 @@ const SettingsAdmin = (props) => {
       });
 
       const data = res.json();
+      data.sort((a, b) => (a.name > b.name) ? 1 : -1);
       setAllSkills(data);
     }
     catch (err) {

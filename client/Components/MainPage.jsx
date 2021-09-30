@@ -11,6 +11,8 @@ const MainPage = (props) => {
   const [graphData, setGraphData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [activeStyle, setActiveStyle] = useState('text-active');
+  const isRead = localStorage.getItem('isRead');
+  console.log('isRead is', isRead);
 
 
   const getNodeInfo = (nodeInfo) => {
@@ -56,7 +58,7 @@ const MainPage = (props) => {
         <div className="navbuttoncontainer2">
           <Link to="/requests">
             <button
-              className={props.isRead ? 'requestsbutton' : 'requestsbutton-a'}
+              className={isRead === null ? 'requestsbutton' : 'requestsbutton-a'}
             >
               R
             </button>
@@ -71,10 +73,7 @@ const MainPage = (props) => {
           <button
             className="authbutton"
             onClick={(e) => {
-              localStorage.removeItem('token');
-              localStorage.removeItem('admin');
-              localStorage.removeItem('name');
-              localStorage.removeItem('email');
+              localStorage.clear();
               props.setAuth(false);
             }}
           >

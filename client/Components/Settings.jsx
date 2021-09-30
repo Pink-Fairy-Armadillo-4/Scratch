@@ -5,6 +5,8 @@ import SettingsReg from './SettingsReg';
 
 const Settings = (props) => {
   const isAdmin = localStorage.getItem('admin');
+  const isRead = localStorage.getItem('isRead');
+
   return (
     <div className='requestspage'>
       <div className="navbar">
@@ -18,7 +20,7 @@ const Settings = (props) => {
         </div>
         <div className="navbuttoncontainer2">
           <Link to='/requests'>
-            <button className={props.isRead ? 'requestsbutton' : 'requestsbutton-a'} >
+            <button className={isRead === null ? 'requestsbutton' : 'requestsbutton-a'} >
             R
             </button>
           </Link>
@@ -30,10 +32,7 @@ const Settings = (props) => {
           <button
             className="authbutton"
             onClick={(e) => {
-              localStorage.removeItem('token');
-              localStorage.removeItem('admin');
-              localStorage.removeItem('name');
-              localStorage.removeItem('email');
+              localStorage.clear();
               props.setAuth(false);
             }}
           >

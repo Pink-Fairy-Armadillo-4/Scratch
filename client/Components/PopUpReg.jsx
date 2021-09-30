@@ -24,8 +24,6 @@ const PopUpReg = (props) => {
 
   const [errorOnSignup, setErrorOnSignup] = useState(false);
   
-  console.log('skill are', skills);
-  console.log('data', data);
   //getting skills on mount from backend
   useEffect(() => {
     fetchData();
