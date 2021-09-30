@@ -75,15 +75,16 @@ const SettingsAdmin = (props) => {
           return;
         }
       }
-      const res = await fetch('api/addskill', {
+      const res = await fetch('api/addSkill', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({'skill': newSkill})
+        body: JSON.stringify({'skillName': newSkill})
       });
 
-      const data = res.json();
+      const data = await res.json();
+      console.log(data);
       data.sort((a, b) => (a.name > b.name) ? 1 : -1);
       setAllSkills(data);
     }

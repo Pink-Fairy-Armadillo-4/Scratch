@@ -47,4 +47,16 @@ router.delete('/delMessage', dbController.delMessages, dbController.getMessages,
   res.status(200).json(res.locals.messages);
 });
 
+
+router.post('/addSkill', dbController.addSkill, dbController.getSkills, (req, res) => {
+  res.status(200).json(res.locals.skills);
+});
+
+
+router.delete('/delSkill', dbController.delSkill, dbController.getSkills, (req, res) => {
+  res.status(200).json(res.locals.skills);
+});
+
+
+
 module.exports = router;
