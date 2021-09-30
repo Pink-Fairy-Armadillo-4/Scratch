@@ -43,7 +43,7 @@ const App = (props) => {
           setAuth(true);
           console.log(data);
         } else {
-          localStorage.removeItem('token');
+          localStorage.clear();
           setAuth(false);
         }
       }

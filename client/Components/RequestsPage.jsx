@@ -6,6 +6,7 @@ import { CircularProgress } from '@material-ui/core';
 
 const RequestsPage = (props) => {
   console.log('requests rendered');
+  localStorage.removeItem('isRead');
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   console.log('requests', requests);
@@ -69,10 +70,7 @@ const RequestsPage = (props) => {
           <button
             className="authbutton"
             onClick={(e) => {
-              localStorage.removeItem('token');
-              localStorage.removeItem('admin');
-              localStorage.removeItem('name');
-              localStorage.removeItem('email');
+              localStorage.clear();
               props.setAuth(false);
             }}
           >

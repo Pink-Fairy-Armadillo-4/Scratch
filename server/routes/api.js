@@ -13,7 +13,7 @@ router.get('/allUserGroups', dbController.getUserGroups, (req, res) => {
   res.status(200).json(res.locals.userGroups);
 });
 
-router.get('/allSkills', dbController.getSkills, (req, res) => {
+router.get('/allSkills/:skill', dbController.getSkills, (req, res) => {
   res.status(200).json(res.locals.skills);
 });
 
