@@ -12,6 +12,8 @@ const MainPage = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [activeStyle, setActiveStyle] = useState('text-active');
   const isRead = localStorage.getItem('isRead');
+  const isAdmin = localStorage.getItem('admin');
+
   console.log('isRead is', isRead);
 
 
@@ -54,7 +56,9 @@ const MainPage = (props) => {
   return (
     <div className="mainpage">
       <div className="navbar">
-        <div className="main-navbuttoncontainer1">Logo</div>
+        <div className="main-navbuttoncontainer1">Logo
+          {isAdmin === 'true' && <span className='isadmin-main'>ADMIN</span>}
+        </div>
         <div className="navbuttoncontainer2">
           <Link to="/requests">
             <button
@@ -63,6 +67,7 @@ const MainPage = (props) => {
               R
             </button>
           </Link>
+
         </div>
         <div className="navbuttoncontainer2">
           <Link to="/settings">

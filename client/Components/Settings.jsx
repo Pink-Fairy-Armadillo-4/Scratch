@@ -17,6 +17,8 @@ const Settings = (props) => {
             Main
             </button>
           </Link>
+          {isAdmin === 'true' && <span className='isadmin'>ADMIN</span>}
+
         </div>
         <div className="navbuttoncontainer2">
           <Link to='/requests'>
