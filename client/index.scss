@@ -392,6 +392,15 @@ body {
   color:rgb(62, 52, 52)
 }
 
+.noskills {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2vh;
+  color:rgb(62, 52, 52)
+}
+
 .admin-settings-internal {
     width: 26vw;
     height: calc(90vh - 60px);
@@ -415,14 +424,37 @@ body {
   background-color: white;
 }
 
+.updateEmail {
+  height: 150px;
+  margin-bottom: 15px;
+  box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  background-color: white;
+
+}
+
+.user-settings-newskills {
+  height: calc((100% - 180px)/2);
+  margin-bottom: 15px;
+  box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  background-color: white;
+}
+
 .listofskills {
   overflow: scroll;
-  height: calc(100% - 100px);
+  height: calc(100% - 70px);
 }
 
 .skill-add-error {
 text-align: center;
 color: red;
+}
+
+.password-form{
+  margin-top: 30px;
 }
 
 .skill-admin{
@@ -445,17 +477,33 @@ color: red;
   height: 30px;
   border-radius: 30px;
   margin: 5%;
-  background: rgb(18, 72, 159);
-  border: 3px solid rgb(18, 72, 159);
+  background: rgb(194, 24, 36);
+  border: 3px solid rgb(194, 24, 36);
   color: white;
   &:hover {
     border:1px solid white;
     }
 }
 
+.skill-admin-add {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  margin: 5%;
+  background: rgb(23, 164, 34);
+  border: 3px solid rgb(23, 164, 34);
+  color: white;
+  &:hover {
+    border:1px solid white;
+  }
+}
+
 .form-title{
   text-align: center;
-  margin: 20px 10px 30px 10px;
+  background: rgb(198, 218, 249);
+  height: 25px;
+  padding: 10px 0px 10px 0px;
+  margin-bottom: 10px;
   font-size: 18px;
 
 }
