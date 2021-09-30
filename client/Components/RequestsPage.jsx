@@ -5,11 +5,9 @@ import { CircularProgress } from '@material-ui/core';
 
 
 const RequestsPage = (props) => {
-  console.log('requests rendered');
   localStorage.removeItem('isRead');
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  console.log('requests', requests);
   
   // useEffect(() =>   {props.setIsRead(true);}, []
   // );

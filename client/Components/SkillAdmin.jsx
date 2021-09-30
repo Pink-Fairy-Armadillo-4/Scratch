@@ -9,7 +9,7 @@ const SkillAdmin = (props) => {
   return (
     <div className='skill-admin'>
       <div className='skill-name-container'> {props.name} </div>
-      <button type='button' className='skill-admin-delete' id={props.name} onClick={buttonClicked}> D</button>
+      <button type='button' className={props.functionality === '-' ? 'skill-admin-delete' : 'skill-admin-add'} id={props.name} onClick={buttonClicked}> {props.functionality}</button>
     </div>
   );
 };
