@@ -58,7 +58,7 @@ const RequestsPage = (props) => {
         </div>
         <div className="navbuttoncontainer2">
           <Link to='/requests'>
-            <button className="requestsbutton" >
+            <button className="requestsbutton-r" >
             R
             </button>
           </Link>
