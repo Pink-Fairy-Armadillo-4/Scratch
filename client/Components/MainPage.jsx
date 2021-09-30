@@ -1,41 +1,22 @@
 import React, { useState } from "react"
 import { useEffect } from "react"
-import ForceGraph from "./Chart/ForceGraph"
+import { ForceGraph } from "./Chart/ForceGraph"
 import { CircularProgress } from "@material-ui/core"
 import { Link } from "react-router-dom"
 import SendMessage from "./SendMessage"
 import SkillsList from "./SkillsList"
-import ForceTreeChart from "./Chart/ForceTreeChart"
+// import ForceTreeChart from "./Chart/ForceTreeChart"
 
 const MainPage = (props) => {
-  console.log("main.jsx rendered")
+  // console.log("main.jsx rendered")
   const [selectedUser, setSelectedUser] = useState({})
   const [graphData, setGraphData] = useState({})
   const [isLoading, setIsLoading] = useState(true)
   const [activeStyle, setActiveStyle] = useState("text-active")
 
-  const fakeData = {
-    name: "😐",
-    children: [
-      {
-        name: "🙂",
-        children: [
-          {
-            name: "😀",
-          },
-          {
-            name: "😁",
-          },
-          {
-            name: "🤣",
-          },
-        ],
-      },
-      {
-        name: "😔",
-      },
-    ],
-  }
+  const nodeHoverTooltip = React.useCallback((node) => {
+    return `<div>${node.name}</div>`
+  }, [])
 
   const getNodeInfo = (nodeInfo) => {
     setSelectedUser(nodeInfo)
@@ -45,6 +26,7 @@ const MainPage = (props) => {
     try {
       const resp = await fetch("/api/nodes/all")
       const data = await resp.json()
+      console.log("Fetch ", data)
       setGraphData(data)
 
       //uncomment after request works
@@ -64,7 +46,7 @@ const MainPage = (props) => {
   }, [activeStyle])
 
   useEffect(() => {
-    console.log("called")
+    // console.log("called")
     dataFetch()
   }, [])
 
@@ -72,6 +54,7 @@ const MainPage = (props) => {
     setSelectedUser({})
   }
 
+  console.log("Graph data", graphData)
   return (
     <div className="mainpage">
       <div className="navbar">
@@ -113,20 +96,35 @@ const MainPage = (props) => {
       {!isLoading && (
         <section>
           {graphData.nodes !== undefined && (
-            <SkillsList
-              setSelectedUser={setSelectedUser}
-              selectedUser={selectedUser}
-              graphData={graphData}
-              setGraphData={setGraphData}
-              activeStyle={activeStyle}
-              setActiveStyle={setActiveStyle}
-            />
+            <>
+              <SkillsList
+                setSelectedUser={setSelectedUser}
+                selectedUser={selectedUser}
+                graphData={graphData}
+                setGraphData={setGraphData}
+                activeStyle={activeStyle}
+                setActiveStyle={setActiveStyle}
+              />
+              <ForceGraph
+                linksData={graphData.links}
+                nodesData={graphData.nodes}
+                nodeHoverTooltip={nodeHoverTooltip}
+              />
+            </>
           )}
         </section>
       )}
-      {graphData.nodes !== undefined && <ForceTreeChart data={fakeData} />}
+      {/* <section className="Main">
+        {graphData.nodes !== undefined && (
+        )}
+      </section> */}
       {/* {graphData.nodes !== undefined && (
-        <ForceGraph getNodeInfo={getNodeInfo} setActiveStyle={setActiveStyle} activeStyle={activeStyle} graphData={graphData} />
+        <ForceGraph
+          getNodeInfo={getNodeInfo}
+          setActiveStyle={setActiveStyle}
+          activeStyle={activeStyle}
+          graphData={graphData}
+        />
       )} */}
       {selectedUser.id && graphData.skills.length === 1 && (
         <SendMessage

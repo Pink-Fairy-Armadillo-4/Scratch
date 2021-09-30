@@ -273,13 +273,13 @@ body {
 }
 
 .skills-container {
-  position: absolute;
+  // position: absolute;
   display: flex;
   align-items: center;
   flex-direction: column;
   top: 150px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  // transform: translate(-50%, -50%);
 }
 
 .skills-inner {
@@ -347,7 +347,7 @@ body {
   background: rgba(125, 161, 231, 0.235);
 }
 
-.text-inactive{
+.text-inactive {
   color: red;
 }
 
@@ -362,7 +362,7 @@ body {
   border-radius: 40px;
   color: white;
   border: none;
-    &:hover {
-    border:1px solid white;
-    }
+  &:hover {
+    border: 1px solid white;
+  }
 }

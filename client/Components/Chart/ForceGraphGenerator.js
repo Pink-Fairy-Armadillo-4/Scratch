@@ -1,134 +1,159 @@
-import ReactDOM from 'react-dom';
-import * as d3 from 'd3';
+import * as d3 from "d3"
+import styles from "./forceGraph.module.css"
 
-const FORCE = (function (nsp) {
-  const chartWidth = 900,
-    chartHeight = 520,
-    nodeRadius = 20;
+export function runForceGraph(
+  container,
+  linksData,
+  nodesData,
+  nodeHoverTooltip
+) {
+  console.log("links", linksData)
+  console.log("nodes", nodesData)
+  const links = linksData.map((d) => Object.assign({}, d))
+  const nodes = nodesData.map((d) => Object.assign({}, d))
 
-  // Force simulation
-  const initForce = (nodes, links) => {
-    nsp.force = d3
-      .forceSimulation(nodes)
-      .force(
-        'charge',
-        d3
-          .forceManyBody()
-          .strength(-nodeRadius - 10)
-          .distanceMax(100)
-      )
-      .force(
-        'link',
-        d3
-          .forceLink(links)
-          .distance(nodeRadius * 2)
-          .id((d) => d.id)
-      )
-      .force(
-        'center',
-        d3
-          .forceCenter()
-          .x(nsp.width / 2)
-          .y(nsp.height / 2)
-      )
-      .force('collision', d3.forceCollide().radius(nodeRadius + 20));
-  };
+  const containerRect = container.getBoundingClientRect()
+  const height = containerRect.height
+  const width = containerRect.width
 
-  // Nodes
-  const enterNode = (selection) => {
-    const circle = selection
-      .select('circle')
-      .attr('r', nodeRadius)
-      .style('fill', (d) => {
-        return d.group === 'user' ? '#a58afc' : '#5b93f0';
+  const drag = (simulation) => {
+    const dragstarted = (d) => {
+      if (!d3.event.active) simulation.alphaTarget(0.3).restart()
+      d.fx = d.x
+      d.fy = d.y
+    }
+
+    const dragged = (d) => {
+      d.fx = d3.event.x
+      d.fy = d3.event.y
+    }
+
+    const dragended = (d) => {
+      if (!d3.event.active) simulation.alphaTarget(0)
+      d.fx = null
+      d.fy = null
+    }
+
+    return d3
+      .drag()
+      .on("start", dragstarted)
+      .on("drag", dragged)
+      .on("end", dragended)
+  }
+
+  // Add the tooltip element to the graph
+  const tooltip = document.querySelector("#graph-tooltip")
+  if (!tooltip) {
+    const tooltipDiv = document.createElement("div")
+    tooltipDiv.classList.add(styles.tooltip)
+    tooltipDiv.style.opacity = "0"
+    tooltipDiv.id = "graph-tooltip"
+    document.body.appendChild(tooltipDiv)
+  }
+  const div = d3.select("#graph-tooltip")
+
+  const addTooltip = (hoverTooltip, d, x, y) => {
+    div.transition().duration(200).style("opacity", 0.9)
+    div
+      .html(hoverTooltip(d))
+      .style("left", `${x}px`)
+      .style("top", `${y - 28}px`)
+  }
+
+  const removeTooltip = () => {
+    div.transition().duration(200).style("opacity", 0)
+  }
+
+  // All of the d3 code to create the graph
+  const simulation = d3
+    .forceSimulation(nodes)
+    .force(
+      "link",
+      d3.forceLink(links).id((d) => d.id)
+    )
+    .force("charge", d3.forceManyBody().strength(-150))
+    .force("x", d3.forceX())
+    .force("y", d3.forceY())
+
+  const svg = d3
+    .select(container)
+    .append("svg")
+    .attr("viewBox", [-width / 2, -height / 2, width, height])
+    .call(
+      d3.zoom().on("zoom", function () {
+        svg.attr("transform", d3.event.transform)
       })
-      .style('stroke', 'white')
-      .style('stroke-width', '1px');
-  };
+    )
 
-  const updateNode = (selection) => {
-    selection
-      .attr('transform', (d) => `translate(${d.x},${d.y})`)
-      .attr('cx', function (d) {
-        return (d.x = Math.max(30, Math.min(chartWidth - 30, d.x)));
-      })
-      .attr('cy', function (d) {
-        return (d.y = Math.max(30, Math.min(chartHeight - 30, d.y)));
-      });
-  };
+  const link = svg
+    .append("g")
+    .attr("stroke", "#999")
+    .attr("stroke-opacity", 0.6)
+    .selectAll("line")
+    .data(links)
+    .join("line")
+    .attr("stroke-width", (d) => Math.sqrt(d.value))
 
-  // Links
-  const enterLink = (selection) => {
-    selection.attr('stroke', '#999').attr('stroke-width', 2);
-  };
+  const node = svg
+    .append("g")
+    .attr("stroke", "#fff")
+    .attr("stroke-width", 2)
+    .selectAll("circle")
+    .data(nodes)
+    .join("circle")
+    .attr("r", 12)
+    .attr("fill", (d) => {
+      return d.group === "user" ? "#a58afc" : "#5b93f0"
+    })
+    .call(drag(simulation))
 
-  const updateLink = (selection) => {
-    selection
-      .attr('x1', (d) => d.source.x)
-      .attr('y1', (d) => d.source.y)
-      .attr('x2', (d) => d.target.x)
-      .attr('y2', (d) => d.target.y);
-  };
+  // const label = svg
+  //   .append("g")
+  //   .attr("class", "labels")
+  //   .selectAll("text")
+  //   .data(nodes)
+  //   .enter()
+  //   .append("text")
+  //   .attr("text-anchor", "middle")
+  //   .attr("dominant-baseline", "central")
+  //   .text((d) => d.group)
+  //   .call(drag(simulation))
 
-  // Overall graph
-  const updateGraph = (selection) => {
-    selection.selectAll('.node').call(updateNode);
-    selection.selectAll('.link').call(updateLink);
-  };
+  node
+    .on("mouseover", (d) => {
+      addTooltip(nodeHoverTooltip, d, d3.event.pageX, d3.event.pageY)
+    })
+    .on("mouseout", () => {
+      removeTooltip()
+    })
 
-  // Drag handlers
-  const dragStarted = (event, d) => {
-    if (!event.active) nsp.force.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
-  };
+  simulation.on("tick", () => {
+    //update link positions
+    link
+      .attr("x1", (d) => d.source.x)
+      .attr("y1", (d) => d.source.y)
+      .attr("x2", (d) => d.target.x)
+      .attr("y2", (d) => d.target.y)
 
-  const dragging = (event, d) => {
-    d.fx = event.x;
-    d.fy = event.y;
-  };
+    // update node positions
+    node.attr("cx", (d) => d.x).attr("cy", (d) => d.y)
 
-  const dragEnded = (event, d) => {
-    if (!event.active) nsp.force.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
-  };
+    // update label positions
+    // label
+    //   .attr("x", (d) => {
+    //     return d.x
+    //   })
+    //   .attr("y", (d) => {
+    //     return d.y
+    //   })
+  })
 
-  const drag = () =>
-    d3
-      .selectAll('g.node')
-      .call(
-        d3
-          .drag()
-          .on('start', dragStarted)
-          .on('drag', dragging)
-          .on('end', dragEnded)
-      );
-
-  // Tick
-  const tick = (that) => {
-    // eslint-disable-next-line react/no-find-dom-node
-    that.d3Graph = d3.select(ReactDOM.findDOMNode(that));
-    nsp.force.on('tick', () => {
-      that.d3Graph.call(updateGraph);
-    });
-  };
-
-  nsp.width = chartWidth;
-  nsp.height = chartHeight;
-  nsp.enterNode = enterNode;
-  nsp.updateNode = updateNode;
-  nsp.enterLink = enterLink;
-  nsp.updateLink = updateLink;
-  nsp.updateGraph = updateGraph;
-  nsp.initForce = initForce;
-  nsp.dragStarted = dragStarted;
-  nsp.dragging = dragging;
-  nsp.dragEnded = dragEnded;
-  nsp.drag = drag;
-  nsp.tick = tick;
-
-  return nsp;
-})(FORCE || {});
-
-export default FORCE;
+  return {
+    destroy: () => {
+      simulation.stop()
+    },
+    nodes: () => {
+      return svg.node()
+    },
+  }
+}
