@@ -119,7 +119,9 @@ dbController.createMessage = async (req, res, next) => {
       skill,
     } = req.body;
 
-    if (!contactEmail) {contactEmail = sourceEmail;}
+    if (!contactEmail) {
+      contactEmail = sourceEmail;
+    }
 
     const genMessage = (fromName, toName, skill) => {
       return (
@@ -159,13 +161,13 @@ dbController.getMessages = async (req, res, next) => {
     let targetEmail;
 
     if (req.params.targetEmail) {
-      targetEmail = req.params.targetEmail;}
-    else {
+      targetEmail = req.params.targetEmail;
+    } else {
       targetEmail = req.body.targetEmail;
     }
 
     const queryFilter = {
-      targetEmail
+      targetEmail,
     };
 
     const specifiedFields = {};
@@ -176,7 +178,10 @@ dbController.getMessages = async (req, res, next) => {
       },
     };
 
-    const messages = await models.Message.find(queryFilter, specifiedFields);
+    const messages = await models.Message.find(
+      queryFilter,
+      specifiedFields
+    ).sort({ createdAt: -1 });
     await models.Message.updateMany(queryFilter, updateFields);
 
     res.locals.messages = messages;
