@@ -24,15 +24,13 @@ const PopUpReg = (props) => {
 
   const [errorOnSignup, setErrorOnSignup] = useState(false)
 
-  // console.log('skill are', skills);
-  // console.log('data', data);
   //getting skills on mount from backend
   useEffect(() => {
     fetchData()
   }, [])
   const fetchData = async () => {
     try {
-      const res = await fetch("/api/allSkills")
+      const res = await fetch("/api/allSkills/all")
       const response = await res.json()
       const skillNames = []
       for (let i = 0; i < response.length; i++) {

@@ -27,7 +27,7 @@ router.post(
   authController.createSession,
   (req, res) => {
     // testing purpose
-    // console.log(res.locals.verification);
+    console.log(res.locals.verification)
     let statusCode = 200
     if (res.locals.verification.hasLogged == false) {
       statusCode = 401
@@ -38,8 +38,8 @@ router.post(
 
 router.post("/verify", authController.verifyToken, (req, res) => {
   res.locals.tokenVerif === true
-    ? res.status(200).json(true)
-    : res.status(401).json(false)
+    ? res.status(200).json({ verified: true })
+    : res.status(401).json({ verified: false })
 })
 
 module.exports = router

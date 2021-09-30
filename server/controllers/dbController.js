@@ -1,4 +1,6 @@
+/* eslint-disable prefer-const */
 const models = require('../models/pfaModels');
+const mongoose = require('mongoose');
 
 const dbController = {};
 
@@ -58,7 +60,7 @@ dbController.getSkills = async (req, res, next) => {
   try {
     // object specifying the filters on query
     const queryFilter = {};
-    if (req.params.skill != 'all'){
+    if (res.locals.getSkills == undefined && req.params.skill != 'all') {
       queryFilter.name = [req.params.skill];
     }
     // object specifying the fields to be requested from db
@@ -108,7 +110,7 @@ dbController.getSkillGroups = async (req, res, next) => {
 
 dbController.createMessage = async (req, res, next) => {
   try {
-    const {
+    let {
       contactEmail,
       sourceName,
       sourceEmail,
@@ -116,6 +118,10 @@ dbController.createMessage = async (req, res, next) => {
       targetName,
       skill,
     } = req.body;
+
+    if (!contactEmail) {
+      contactEmail = sourceEmail;
+    }
 
     const genMessage = (fromName, toName, skill) => {
       return (
@@ -152,25 +158,116 @@ dbController.getMessages = async (req, res, next) => {
     // if (res.locals.tokenVerif == false) {
     //   return next();
     // }
+    let targetEmail;
+
+    if (req.params.targetEmail) {
+      targetEmail = req.params.targetEmail;
+    } else {
+      targetEmail = req.body.targetEmail;
+    }
+
     const queryFilter = {
-      targetEmail: req.params.targetEmail,
+      targetEmail,
     };
 
     const specifiedFields = {};
-    
-    const updateFields = { $set: {
-      isRead: true,
-    }
+
+    const updateFields = {
+      $set: {
+        isRead: true,
+      },
     };
 
-    const messages = await models.Message.find(queryFilter, specifiedFields);
+    const messages = await models.Message.find(
+      queryFilter,
+      specifiedFields
+    ).sort({ createdAt: -1 });
     await models.Message.updateMany(queryFilter, updateFields);
 
     res.locals.messages = messages;
-    
+
     return next();
   } catch (err) {
+    console.log('Error at dbController.getMessages');
     console.log(err);
+    return next();
+  }
+};
+
+dbController.delMessages = async (req, res, next) => {
+  try {
+    res.locals.deleted = false;
+
+    if (!req.body.messageID) {
+      return next();
+    }
+
+    const queryFilter = {
+      _id: mongoose.Types.ObjectId(req.body.messageID),
+    };
+
+    const message = await models.Message.findOneAndDelete(queryFilter);
+
+    if (message) {
+      res.locals.deleted = true;
+    }
+
+    return next();
+  } catch (err) {
+    console.log('Error at dbController.delMessages');
+    console.log(err);
+    res.locals.deleted = false;
+    return next();
+  }
+};
+
+dbController.addSkill = async (req, res, next) => {
+  try {
+    const skillDoc = {
+      name: req.body.skillName,
+    };
+
+    await models.Skill.create(skillDoc);
+
+    res.locals.getSkills = true;
+    return next();
+  } catch (err) {
+    console.log('Error at dbController.addSkill');
+    console.log(err);
+    res.locals.deleted = false;
+    return next();
+  }
+};
+
+dbController.delSkill = async (req, res, next) => {
+  try {
+    if (!req.body.skillName) {
+      return next();
+    }
+
+    const queryFilter = {
+      name: req.body.skillName,
+    };
+
+    const skill = await models.Skill.findOneAndDelete(queryFilter);
+
+
+    const teachers = skill.teachers;
+
+    const userIDs = [];
+    for (const teacher of teachers) {
+      userIDs.push(mongoose.Types.ObjectId(teacher._id));
+    }
+
+    
+    await models.User.updateMany({_id: {$in: userIDs}}, {$pull: {teach: {name: skill.name}}});
+
+    res.locals.getSkills = true;
+    return next();
+  } catch (err) {
+    console.log('Error at dbController.delSkill');
+    console.log(err);
+    res.locals.deleted = false;
     return next();
   }
 };

@@ -1,7 +1,9 @@
 import React, { useState } from "react"
+import { useEffect } from "react"
 
 const SendMessage = (props) => {
-  const [email, setEmail] = useState("")
+  const sourceEmail = localStorage.getItem("email")
+  const [email, setEmail] = useState(sourceEmail)
   const [statusReceived, setStatusReceived] = useState(false)
   const emailEntered = (e) => {
     setEmail(e.target.value)
@@ -10,16 +12,15 @@ const SendMessage = (props) => {
   const sendMessage = async () => {
     try {
       const sourceName = localStorage.getItem("name")
-      const sourceEmail = localStorage.getItem("email")
       const data = {
         contactEmail: email,
         sourceName,
         sourceEmail,
         targetEmail: props.selectedUser.email,
-        targetName: props.selectedUser.id,
+        targetName: props.selectedUser.name,
         skill: props.graphData.skills[0],
       }
-      // console.log(data);
+      console.log(data)
       const sent = await fetch("/api/sendMessage", {
         method: "POST",
         headers: {
@@ -33,6 +34,14 @@ const SendMessage = (props) => {
       console.log(err)
     }
   }
+
+  useEffect(() => {
+    if (statusReceived === true) {
+      setTimeout(() => {
+        setStatusReceived(false)
+      }, 1500)
+    }
+  }, [statusReceived])
 
   return (
     <div className="messenger">
@@ -73,6 +82,14 @@ const SendMessage = (props) => {
             <p>
               <span className="recepientname">{props.selectedUser.id}</span> has
               received your message and should reply shortly{" "}
+            </p>
+          </div>
+        )}
+        {statusReceived && (
+          <div>
+            <p>
+              <span className="recepientname">{props.selectedUser.name}</span>{" "}
+              has received your message and should reply shortly{" "}
             </p>
           </div>
         )}

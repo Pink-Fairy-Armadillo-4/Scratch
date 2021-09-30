@@ -9,33 +9,40 @@ import Settings from "./Components/Settings"
 import { CircularProgress } from "@material-ui/core"
 
 const App = (props) => {
-  // console.log('app.jsx rendered');
+  console.log("app.jsx rendered")
   const [auth, setAuth] = useState(false)
   const authToken = localStorage.getItem("token")
   const [isLoading, setIsLoading] = useState(true)
-  const [isRead, setIsRead] = useState(false)
+
+  //we will use useRef for storing isRead
+  //we will pass it to landing page and update it there if
 
   useEffect(() => {
     fetchData()
-    // console.log('useeffect called in app.jsx');
-  })
+    console.log("useeffect called in app.jsx")
+  }, [auth])
+
+  useEffect(() => {
+    //if auth true - we will send a request for
+    //reading us
+  }, [])
 
   const fetchData = async () => {
     try {
       if (authToken) {
-        const isToken = await fetch("auth/verify", {
+        const res = await fetch("auth/verify", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ token: authToken }),
         })
-        const isTokenVerif = await isToken.json()
-        if (isTokenVerif === true) {
-          setIsRead(false)
+        const data = await res.json()
+        if (data.verified === true) {
           setAuth(true)
+          console.log(data)
         } else {
-          localStorage.removeItem("token")
+          localStorage.clear()
           setAuth(false)
         }
       } else {
@@ -67,7 +74,11 @@ const App = (props) => {
 
           <Route exact path="/main">
             {auth ? (
-              <MainPage auth={auth} setAuth={setAuth} isRead={isRead} />
+              <MainPage
+                auth={auth}
+                setAuth={setAuth}
+                // isRead={isRead}
+              />
             ) : (
               <Redirect to="/" />
             )}
@@ -75,12 +86,7 @@ const App = (props) => {
 
           <Route exact path="/requests">
             {auth ? (
-              <RequestsPage
-                auth={auth}
-                setAuth={setAuth}
-                isRead={isRead}
-                setIsRead={setIsRead}
-              />
+              <RequestsPage auth={auth} setAuth={setAuth} />
             ) : (
               <Redirect to="/" />
             )}
@@ -88,7 +94,11 @@ const App = (props) => {
 
           <Route exact path="/settings">
             {auth ? (
-              <Settings auth={auth} setAuth={setAuth} isRead={isRead} />
+              <Settings
+                auth={auth}
+                setAuth={setAuth}
+                // isRead={isRead}
+              />
             ) : (
               <Redirect to="/" />
             )}
