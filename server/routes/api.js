@@ -22,10 +22,7 @@ router.get('/allSkillGroups', dbController.getUserGroups, (req, res) => {
 });
 
 router.get('/messages/:targetEmail', dbController.getMessages, (req, res) => {
-  const data = {
-    messages: res.locals.messages,
-  };
-  res.status(200).json(data.messages);
+  res.status(200).json(res.locals.messages);
 });
 
 router.get(
