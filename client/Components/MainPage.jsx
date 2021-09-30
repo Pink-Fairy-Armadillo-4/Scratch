@@ -1,11 +1,10 @@
 import React, { useState } from "react"
 import { useEffect } from "react"
-import { ForceGraph } from "./Chart/ForceGraph"
+import { ForceGraph } from "./ForceGraph/ForceGraph"
 import { CircularProgress } from "@material-ui/core"
 import { Link } from "react-router-dom"
 import SendMessage from "./SendMessage"
 import SkillsList from "./SkillsList"
-// import ForceTreeChart from "./Chart/ForceTreeChart"
 
 const MainPage = (props) => {
   // console.log("main.jsx rendered")
