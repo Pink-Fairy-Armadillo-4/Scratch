@@ -57,6 +57,8 @@ router.delete('/delSkill', dbController.delSkill, dbController.getSkills, (req, 
   res.status(200).json(res.locals.skills);
 });
 
-
+router.post('/adduserskill', dbController.addUserSkill, dbController.getSkills, (req, res) => {
+  res.status(200).json(res.locals.skills);
+});
 
 module.exports = router;

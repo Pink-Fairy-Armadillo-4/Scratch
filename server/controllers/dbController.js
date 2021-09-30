@@ -267,10 +267,43 @@ dbController.delSkill = async (req, res, next) => {
   } catch (err) {
     console.log('Error at dbController.delSkill');
     console.log(err);
-    res.locals.deleted = false;
     return next();
   }
 };
 
+
+dbController.addUserSkill = async (req, res, next) => {
+  try {
+    const { skillName, email } = req.body;
+    console.log('req body: ', req.body);
+
+    const userInfo = await models.User.findOne({email}, {});
+    // console.log(userInfo);
+
+    const newTeacher = {
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+      email,
+      _id: userInfo._id
+    };
+
+    const skillInfo = await models.Skill.findOneAndUpdate({name: skillName}, { $push: {teachers: newTeacher}});
+
+    console.log('skill: ', skillInfo);
+    const newSkill = {
+      name : skillInfo.name,
+      _id : skillInfo._id,
+    };
+
+    await models.User.updateOne({email}, { $push: {teach: newSkill}});
+
+    res.locals.getSkills = true;
+    return next();
+  } catch (err) {
+    console.log('Error at dbController.addUserSkill');
+    console.log(err);
+    return next();
+  }
+};
 
 module.exports = dbController;
