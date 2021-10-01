@@ -7,8 +7,6 @@ export function runForceGraph(
   nodesData,
   nodeHoverTooltip
 ) {
-  console.log("links", linksData)
-  console.log("nodes", nodesData)
   const links = linksData.map((d) => Object.assign({}, d))
   const nodes = nodesData.map((d) => Object.assign({}, d))
 
@@ -87,25 +85,31 @@ export function runForceGraph(
 
   const link = svg
     .append("g")
+    .selectAll("line")
+    .append("line")
+    .data(links, (d) => d)
+    .join("line")
     .attr("stroke", "#999")
     .attr("stroke-opacity", 0.6)
-    .selectAll("line")
-    .data(links)
-    .join("line")
     .attr("stroke-width", (d) => Math.sqrt(d.value))
+
+  console.log("Links in func ", link)
 
   const node = svg
     .append("g")
+    .selectAll("circle")
+    .append("circle")
+    .data(nodes, (d) => d)
+    .join("circle")
     .attr("stroke", "#fff")
     .attr("stroke-width", 2)
-    .selectAll("circle")
-    .data(nodes)
-    .join("circle")
     .attr("r", 12)
     .attr("fill", (d) => {
       return d.group === "user" ? "#a58afc" : "#5b93f0"
     })
     .call(drag(simulation))
+
+  console.log("Nodes in func ", node)
 
   // const label = svg
   //   .append("g")
@@ -148,6 +152,9 @@ export function runForceGraph(
     //   })
   })
 
+  svg.node().remove()
+
+  console.log("SVG nodes ", svg.node())
   return {
     destroy: () => {
       simulation.stop()
