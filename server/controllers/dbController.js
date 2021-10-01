@@ -275,10 +275,10 @@ dbController.delSkill = async (req, res, next) => {
 dbController.addUserSkill = async (req, res, next) => {
   try {
     const { skillName, email } = req.body;
-    console.log('req body: ', req.body);
+    // console.log('req body: ', req.body);
 
     const userInfo = await models.User.findOne({email}, {});
-    // console.log(userInfo);
+
 
     const newTeacher = {
       firstName: userInfo.firstName,
@@ -289,7 +289,6 @@ dbController.addUserSkill = async (req, res, next) => {
 
     const skillInfo = await models.Skill.findOneAndUpdate({name: skillName}, { $push: {teachers: newTeacher}});
 
-    console.log('skill: ', skillInfo);
     const newSkill = {
       name : skillInfo.name,
       _id : skillInfo._id,
@@ -305,5 +304,61 @@ dbController.addUserSkill = async (req, res, next) => {
     return next();
   }
 };
+
+dbController.delUserSkill = async (req, res, next) => {
+  try {
+    const { skillName, email } = req.body;
+
+    const userInfo = await models.User.findOneAndUpdate({email}, {$pull: {teach: {name: skillName}}});
+
+    const skillInfo = await models.Skill.findOneAndUpdate({name: skillName}, { $pull: {teachers: {email: email}}});
+
+    res.locals.getSkills = true;
+    return next();
+  } catch (err) {
+    console.log('Error at dbController.delUserSkill');
+    console.log(err);
+    return next();
+  }
+};
+
+dbController.updateemail = async (req, res, next) => {
+  try {
+    const { newEmail, currentEmail } = req.body;
+    console.log(req.body);
+    const conflict = await models.User.findOne({email: newEmail});
+    console.log('conflict: ', conflict);
+
+    if (conflict != null) {
+      res.locals.update = false;
+      return next();
+    }
+
+    const skillFilter = {'teachers.email': currentEmail};
+    const skillUpdate = {$set: {'teachers.$.email' : newEmail}};
+    await models.Skill.updateMany(skillFilter, skillUpdate);
+
+    const targetEmailFilter = {targetEmail: currentEmail};
+    const targetEmailUpdate = {$set: {targetEmail: newEmail}};
+    await models.Message.updateMany(targetEmailFilter, targetEmailUpdate);
+
+    const sourceEmailFilter = {sourceEmail: currentEmail};
+    const sourceEmailUpdate = {$set: {sourceEmail: newEmail}};
+    await models.Message.updateMany(sourceEmailFilter, sourceEmailUpdate);
+
+    const userFilter = {email: currentEmail};
+    const userUpdate = {$set: {email: newEmail}};
+    await models.User.updateOne(userFilter, userUpdate);
+
+    res.locals.update = true;
+    return next();
+  } catch (err) {
+    console.log('Error at dbController.delUserSkill');
+    console.log(err);
+    res.locals.update = false;
+    return next();
+  }
+};
+
 
 module.exports = dbController;

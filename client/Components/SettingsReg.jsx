@@ -102,7 +102,7 @@ const SettingsReg = (props) => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({'email': email})
+        body: JSON.stringify({'newEmail': email, 'currentEmail': emailLS})
       });
       const data = await res.json();
       if (data === true) {
