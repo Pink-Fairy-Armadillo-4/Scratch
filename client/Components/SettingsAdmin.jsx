@@ -115,7 +115,7 @@ const SettingsAdmin = (props) => {
           <div className='skill-add-error'>
               This skill already exists in the system
           </div>}
-            <input type="password" className="form-control-admin" placeholder="Enter skill" onChange={skillTyped} />
+            <input type="text" className="form-control-admin" placeholder="Enter skill" onChange={skillTyped} />
             <button type='button' className="skill-admin-add" onClick={addSkill}>+</button>
           </form>      
         </div>

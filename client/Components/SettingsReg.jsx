@@ -10,6 +10,7 @@ const SettingsReg = (props) => {
   const [wrongEmail, setWrongEmail] = useState(false);
   const emailLS = localStorage.getItem('email');
   const [email, setNewEmail] = useState(emailLS);
+  const [emailChange, setEmailChange] = useState(false);
 
   console.log('email:', email);
 
@@ -30,6 +31,14 @@ const SettingsReg = (props) => {
       }, 1500);}
   }
   , [error]);
+
+  useEffect(() => { 
+    if (emailChange === true) {
+      setTimeout(() => {
+        setEmailChange(false);
+      }, 1500);}
+  }
+  , [emailChange]);
 
   useEffect(() => { 
     if (errorExist === true) {
@@ -86,7 +95,13 @@ const SettingsReg = (props) => {
   };
 
   const emailTyped = (e) => {
-    setNewEmail(e.target.value);
+    if (e.target.value === '') {
+      setNewEmail(emailLS);
+
+    }
+    else {
+      setNewEmail(e.target.value);
+    }
   };
 
   const updateEmail = async() => {
@@ -109,7 +124,9 @@ const SettingsReg = (props) => {
         console.log('update local and state email');
         localStorage.removeItem('email');
         localStorage.setItem('email', email);
+        setEmailChange(true);
         setNewEmail(email);
+        document.getElementsByClassName('change-email-form')[0].reset();
       }
       else {
         setErrorEmail(true);
@@ -197,6 +214,12 @@ const SettingsReg = (props) => {
       <div className='updateEmail'>
         <div className='form-title'>UPDATE EMAIL
         </div>
+        {emailChange && 
+                  <div className='email-changed'> 
+                  Email successfully updated
+                  </div>
+
+        }
         {errorEmail && 
           <div className='skill-add-error'>
            Technical error occured. Please contact Support 
@@ -205,8 +228,8 @@ const SettingsReg = (props) => {
           <div className='skill-add-error'>
               Please enter correct email
           </div>}
-        <form>
-          <input type="password" className="form-control-admin" placeholder={`current email: ${email}`} onChange={emailTyped} />
+        <form className='change-email-form'>
+          <input type="text" className="form-control-admin" placeholder={`current email: ${email}`} onChange={emailTyped} />
           <button type='button' className="sendmessage" onClick={updateEmail}>Upd</button>
         </form>   
       </div>
