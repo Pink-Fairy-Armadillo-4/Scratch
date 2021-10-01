@@ -325,9 +325,8 @@ dbController.delUserSkill = async (req, res, next) => {
 dbController.updateemail = async (req, res, next) => {
   try {
     const { newEmail, currentEmail } = req.body;
-    console.log(req.body);
+
     const conflict = await models.User.findOne({email: newEmail});
-    console.log('conflict: ', conflict);
 
     if (conflict != null) {
       res.locals.update = false;

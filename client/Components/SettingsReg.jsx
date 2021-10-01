@@ -9,8 +9,9 @@ const SettingsReg = (props) => {
   const [errorEmail, setErrorEmail] = useState(false);
   const [wrongEmail, setWrongEmail] = useState(false);
   const emailLS = localStorage.getItem('email');
-  const [email, setNewEmail] = useState('');
+  const [email, setNewEmail] = useState(emailLS);
 
+  console.log('email:', email);
 
   function validateEmail(str) {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -19,9 +20,7 @@ const SettingsReg = (props) => {
 
 
   useEffect(() => {
-    setNewEmail(emailLS);
     fetchData();
-
   }, []);
 
   useEffect(() => { 
@@ -66,7 +65,7 @@ const SettingsReg = (props) => {
       const thisSkills = [];
       for (let i = 0; i < response.length; i++ ) {
         for (let j = 0; j < response[i].teachers.length; j++) {
-          if (response[i].teachers[j].email === emailLS) {
+          if (response[i].teachers[j].email === email) {
             thisSkills.push(response[i]); 
             break;
           }
@@ -105,7 +104,9 @@ const SettingsReg = (props) => {
         body: JSON.stringify({'newEmail': email, 'currentEmail': emailLS})
       });
       const data = await res.json();
+      console.log('data:', data);
       if (data === true) {
+        console.log('update local and state email');
         localStorage.removeItem('email');
         localStorage.setItem('email', email);
         setNewEmail(email);
@@ -134,7 +135,7 @@ const SettingsReg = (props) => {
       const thisSkills = [];
       for (let i = 0; i < response.length; i++ ) {
         for (let j = 0; j < response[i].teachers.length; j++) {
-          if (response[i].teachers[j].email === emailLS) {
+          if (response[i].teachers[j].email === email) {
             thisSkills.push(response[i]); 
             break;
           }
@@ -170,7 +171,7 @@ const SettingsReg = (props) => {
       const thisSkills = [];
       for (let i = 0; i < response.length; i++ ) {
         for (let j = 0; j < response[i].teachers.length; j++) {
-          if (response[i].teachers[j].email === emailLS) {
+          if (response[i].teachers[j].email === email) {
             thisSkills.push(response[i]); 
             break;
           }
