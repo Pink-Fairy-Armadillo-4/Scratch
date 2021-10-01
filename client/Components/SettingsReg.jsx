@@ -4,9 +4,6 @@ import SkillAdmin from './SkillAdmin';
 const SettingsReg = (props) => {
   const [newSkills, setNewSkills] = useState([]);
   const [userSkills, setUserSkills] = useState([]);
-
-
-  const [newSkill, setNewSkill] = useState('');
   const [error, setError] = useState(false);
   const [errorExist, setErrorExist] = useState(false);
   const [errorEmail, setErrorEmail] = useState(false);
@@ -59,23 +56,6 @@ const SettingsReg = (props) => {
   }
   , [wrongEmail]);
 
-  const handleClick = async (arg) => {
-    try{
-      console.log('arg', arg);
-      const response = await fetch('/api/delSkill', {
-        method: 'DELETE', 
-        headers: {
-          'Content-type': 'application/json' 
-        },
-        body: JSON.stringify({'skillName': arg})
-      });
-      const newReq = await response.json();
-      newReq.sort((a, b) => (a.name > b.name) ? 1 : -1);
-
-      //setAllSkills(newReq);
-    }
-    catch (err) {console.log(err);}
-  };
 
   const fetchData = async() => {
     try{
@@ -140,12 +120,13 @@ const SettingsReg = (props) => {
 
   const addNewSkill = async (arg) => {
     try {
+      console.log({'skillName': arg, email: email});
       const res = await fetch('api/adduserskill', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({'skillName': newSkill, email: email})
+        body: JSON.stringify({'skillName': arg, email: email})
       });  
       const response = await res.json();
       response.sort((a, b) => (a.name > b.name) ? 1 : -1);
@@ -175,12 +156,13 @@ const SettingsReg = (props) => {
 
   const deleteUserSkill = async (arg) => {
     try {
+      console.log({'skillName': arg, email: email});
       const res = await fetch('api/deleteuserskill', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({'skillName': newSkill, email: email})
+        body: JSON.stringify({'skillName': arg, email: email})
       });  
       const response = await res.json();
       response.sort((a, b) => (a.name > b.name) ? 1 : -1);

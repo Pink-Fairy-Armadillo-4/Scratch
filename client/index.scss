@@ -77,6 +77,20 @@ body {
     }
   }
 
+  .authbutton-s {
+    background: transparent;
+    color: white;
+    height: 30px;
+    width: 70px;
+    margin: 1vh 1vw;
+    border: 2.2px solid white;
+    border-radius: 3px;
+    &:hover {
+      border: 2px solid white;
+      font-weight: 600;
+    }
+  }
+
   .requestsbutton {
     background: transparent;
     color: white;
@@ -90,6 +104,22 @@ body {
       font-weight: 600;
     }
   }
+
+  .requestsbutton-r{
+    background: transparent;
+    color: rgb(224, 240, 255);
+    height: 30px;
+    width: 30px;
+    margin: 1vh 1vw;
+    font-size: 15px;
+    border: 2.2px solid white;
+    border-radius: 50%;
+    &:hover {
+      border: 2px solid white;
+      font-weight: 600;
+    }
+  }
+
   .requestsbutton-a {
     background: transparent;
     color: rgb(38, 228, 38);
@@ -338,11 +368,17 @@ body {
 .requests-inner {
   width: 40vw;
   margin: 5vh 30vw;
+  height: calc(95vh - 110px);
+}
+
+.requests-container {
+  padding-top: 5px;
+  height: calc(95vh - 175px);
   overflow: scroll;
 }
 
 .requests-name {
-  margin: 30px 0 10px 0;
+  margin: 0 0 10px 0;
   font-size: 14px;
 }
 
@@ -361,6 +397,10 @@ body {
   border-radius: 5px;
   border: 2px solid rgba(51, 89, 166, 1);
   background: rgba(125, 161, 231, 0.235);
+}
+
+.request {
+  margin-bottom: 40px;
 }
 
 .text-inactive{
@@ -405,6 +445,7 @@ body {
     width: 26vw;
     height: calc(90vh - 60px);
     margin: 5vh 37vw;
+    border-radius: 5px;
 }
 
 .admin-settings-addskill {
@@ -413,6 +454,7 @@ body {
   border: 1px solid #dfdfdf;
   border-radius: 3px;
   background-color: white;
+  border-radius: 5px;
 }
 
 .admin-settings-skills {
@@ -422,6 +464,8 @@ body {
   border: 1px solid #dfdfdf;
   border-radius: 3px;
   background-color: white;
+  border-radius: 5px;
+
 }
 
 .updateEmail {
@@ -477,8 +521,8 @@ color: red;
   height: 30px;
   border-radius: 30px;
   margin: 5%;
-  background: rgb(194, 24, 36);
-  border: 3px solid rgb(194, 24, 36);
+  background: rgb(18, 72, 159);
+  border: 3px solid rgb(18, 72, 159);
   color: white;
   &:hover {
     border:1px solid white;
@@ -490,20 +534,60 @@ color: red;
   height: 30px;
   border-radius: 30px;
   margin: 5%;
-  background: rgb(23, 164, 34);
-  border: 3px solid rgb(23, 164, 34);
+  background: rgb(18, 72, 159);
+  border: 3px solid rgb(18, 72, 159);
   color: white;
   &:hover {
     border:1px solid white;
-  }
+    }
+}
+
+.page-title{
+  text-align: center;
+  background: rgb(105, 146, 216);
+  height: 25px;
+  padding: 10px 0px 10px 0px;
+  margin-bottom: 40px;
+  font-size: 18px;
+  color: white;
+  border-radius: 5px;
 }
 
 .form-title{
   text-align: center;
-  background: rgb(198, 218, 249);
+  background: rgb(230, 238, 252);
   height: 25px;
   padding: 10px 0px 10px 0px;
   margin-bottom: 10px;
   font-size: 18px;
+  background: rgb(105, 146, 216);
+  color: white;
+  border-radius: 5px;
 
+
+
+}
+
+.time {
+  float: right;
+  color: grey;
+  font-size: 12px;
+}
+
+.username {
+  background: rgb(237, 237, 237);
+  padding: 3px;
+  border-radius: 9px;
+  color: #282828;
+}
+
+.isadmin {
+  color: rgb(27, 232, 27);
+  float: right;
+  padding-top: 15px;
+}
+
+.isadmin-main {
+  color: rgb(27, 232, 27);
+  float: right;
 }
