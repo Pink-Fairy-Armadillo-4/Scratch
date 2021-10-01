@@ -56,7 +56,7 @@ const SendMessage = (props) => {
           <p>Here is my contact info: </p>
           <div className='form-wrapperdiv'>
             <form>
-              <input type="password" className="form-control-messenger" placeholder="Enter email" onChange={emailEntered} />
+              <input type="text" className="form-control-messenger" placeholder="Enter email" onChange={emailEntered} />
               <button type='button' className="sendmessage" onClick={sendMessage}>Send</button>
             </form>
           </div>
