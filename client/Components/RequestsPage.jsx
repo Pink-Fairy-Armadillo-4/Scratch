@@ -9,9 +9,7 @@ const RequestsPage = (props) => {
   const isAdmin = localStorage.getItem('admin');
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  
-  // useEffect(() =>   {props.setIsRead(true);}, []
-  // );
+
   useEffect(() => {
     getData();
   },[]);
