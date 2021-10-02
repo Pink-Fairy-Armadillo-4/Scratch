@@ -22,10 +22,10 @@ const Settings = (props) => {
           <Link to="/requests">
             <button
               className={
-                isRead === null ? "requestsbutton" : "requestsbutton-a"
+                isRead === null ? "btn requestsbutton" : "btn requestsbutton-a"
               }
             >
-              R
+              Requests
             </button>
           </Link>
         </div>

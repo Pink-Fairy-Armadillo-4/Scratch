@@ -70,7 +70,7 @@ const MainPage = (props) => {
                 isRead === null ? "requestsbutton" : "requestsbutton-a"
               }
             >
-              R
+              Requests
             </button>
           </Link>
         </div>

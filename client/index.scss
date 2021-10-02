@@ -200,12 +200,12 @@ body {
 
   .requestsbutton {
     background: transparent;
-    color: #667085;
-    height: 30px;
-    width: 30px;
-    margin: 1vh 1vw;
-    border: 1.2px solid white;
-    border-radius: 50%;
+    color: $base-text-color-light-bg;
+    // height: 30px;
+    // width: 30px;
+    // margin: 1vh 1vw;
+    // border: 1.2px solid white;
+    // border-radius: 50%;
     &:hover {
       border: 2px solid white;
       font-weight: 600;
