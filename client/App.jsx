@@ -1,59 +1,59 @@
-import React, { useState, useEffect } from "react"
-import { Switch, Route, Redirect } from "react-router-dom"
-import LandingPage from "./Components/LandingPage"
-import MainPage from "./Components/MainPage"
-import "./index.scss"
-import ErrorPage from "./Components/ErrorPage"
-import RequestsPage from "./Components/RequestsPage"
-import Settings from "./Components/Settings"
-import { CircularProgress } from "@material-ui/core"
+import React, { useState, useEffect } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import LandingPage from './Components/LandingPage';
+import MainPage from './Components/MainPage';
+import './index.scss';
+import ErrorPage from './Components/ErrorPage';
+import RequestsPage from './Components/RequestsPage';
+import Settings from './Components/Settings';
+import { CircularProgress } from '@material-ui/core';
 
 const App = (props) => {
-  console.log("app.jsx rendered")
-  const [auth, setAuth] = useState(false)
-  const authToken = localStorage.getItem("token")
-  const [isLoading, setIsLoading] = useState(true)
+  console.log('app.jsx rendered');
+  const [auth, setAuth] = useState(false);
+  const authToken = localStorage.getItem('token');
+  const [isLoading, setIsLoading] = useState(true);
 
   //we will use useRef for storing isRead
   //we will pass it to landing page and update it there if
 
   useEffect(() => {
-    fetchData()
-    console.log("useeffect called in app.jsx")
-  }, [auth])
+    fetchData();
+    console.log('useeffect called in app.jsx');
+  }, [auth]);
 
   useEffect(() => {
     //if auth true - we will send a request for
     //reading us
-  }, [])
+  }, []);
 
   const fetchData = async () => {
     try {
       if (authToken) {
-        const res = await fetch("auth/verify", {
-          method: "POST",
+        const res = await fetch('auth/verify', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ token: authToken }),
-        })
-        const data = await res.json()
+        });
+        const data = await res.json();
         if (data.verified === true) {
-          setAuth(true)
-          console.log(data)
+          setAuth(true);
+          console.log(data);
         } else {
-          localStorage.clear()
-          setAuth(false)
+          localStorage.clear();
+          setAuth(false);
         }
       } else {
-        setAuth(false)
+        setAuth(false);
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="maindiv">
@@ -109,7 +109,7 @@ const App = (props) => {
         </Switch>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

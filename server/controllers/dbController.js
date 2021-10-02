@@ -145,6 +145,7 @@ dbController.createMessage = async (req, res, next) => {
     };
 
     const message = await models.Message.create(messageDoc);
+    await models.User.updateOne({email: targetEmail}, {$set: {newMessage: true}});
 
     return next();
   } catch (err) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { runForceGraph } from "./forceGraphGenerator"
+import { runForceGraph } from "./ForceGraphGenerator"
 import styles from "./forceGraph.module.css"
 import * as d3 from "d3"
 
