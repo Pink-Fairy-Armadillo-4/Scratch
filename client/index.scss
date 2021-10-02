@@ -200,12 +200,12 @@ body {
 
   .requestsbutton {
     background: transparent;
-    color: #667085;
-    height: 30px;
-    width: 30px;
-    margin: 1vh 1vw;
-    border: 1.2px solid white;
-    border-radius: 50%;
+    color: $base-text-color-light-bg;
+    // height: 30px;
+    // width: 30px;
+    // margin: 1vh 1vw;
+    // border: 1.2px solid white;
+    // border-radius: 50%;
     &:hover {
       border: 2px solid white;
       font-weight: 600;
@@ -626,7 +626,7 @@ body {
 }
 
 .updateEmail {
-  height: 150px;
+  // height: 150px;
   margin-bottom: 15px;
   box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
   border: 1px solid #dfdfdf;
@@ -635,7 +635,7 @@ body {
 }
 
 .user-settings-newskills {
-  height: calc((100% - 180px) / 2);
+  // height: calc((100% - 180px) / 2);
   margin-bottom: 15px;
   box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
   border: 1px solid #dfdfdf;
@@ -645,7 +645,7 @@ body {
 
 .listofskills {
   overflow: scroll;
-  height: calc(100% - 70px);
+  // height: calc(100% - 70px);
 }
 
 .skill-add-error {
