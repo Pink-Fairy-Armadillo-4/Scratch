@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react"
-import { Link, Redirect } from "react-router-dom"
-import SettingsAdmin from "./SettingsAdmin"
-import SettingsReg from "./SettingsReg"
-import scratchLogo from "../images/logo-graph.png"
+import React, { useState, useEffect } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import SettingsAdmin from './SettingsAdmin';
+import SettingsReg from './SettingsReg';
+import scratchLogo from '../images/logo-graph.png';
 
 const Settings = (props) => {
-  const isAdmin = localStorage.getItem("admin")
-  const isRead = localStorage.getItem("isRead")
+  const isAdmin = localStorage.getItem('admin');
+  const isRead = localStorage.getItem('isRead');
 
   return (
     <div className="requestspage">
@@ -16,13 +16,13 @@ const Settings = (props) => {
           <Link to="/">
             <img src={scratchLogo} alt="scratchLogo" />
           </Link>
-          {isAdmin === "true" && <span className="isadmin">ADMIN</span>}
+          {isAdmin === 'true' && <span className="isadmin">ADMIN</span>}
         </div>
         <div className="navbuttoncontainer2">
           <Link to="/requests">
             <button
               className={
-                isRead === null ? "btn requestsbutton" : "btn requestsbutton-a"
+                isRead === null ? 'btn requestsbutton' : 'btn requestsbutton-a'
               }
             >
               Requests
@@ -36,18 +36,18 @@ const Settings = (props) => {
           <button
             className="btn accent"
             onClick={(e) => {
-              localStorage.clear()
-              props.setAuth(false)
+              localStorage.clear();
+              props.setAuth(false);
             }}
           >
             Logout
           </button>
         </div>
       </div>
-      {isAdmin === "true" && <SettingsAdmin />}
-      {isAdmin !== "true" && <SettingsReg />}
+      {isAdmin === 'true' && <SettingsAdmin />}
+      {isAdmin !== 'true' && <SettingsReg />}
     </div>
-  )
-}
+  );
+};
 
-export default Settings
+export default Settings;
