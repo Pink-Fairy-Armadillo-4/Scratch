@@ -1,55 +1,53 @@
-import React, {useState, useEffect} from 'react';
-import {Link, Redirect} from 'react-router-dom';
-import SettingsAdmin from './SettingsAdmin';
-import SettingsReg from './SettingsReg';
+import React, { useState, useEffect } from "react"
+import { Link, Redirect } from "react-router-dom"
+import SettingsAdmin from "./SettingsAdmin"
+import SettingsReg from "./SettingsReg"
+import scratchLogo from "../images/logo-graph.png"
 
 const Settings = (props) => {
-  const isAdmin = localStorage.getItem('admin');
-  const isRead = localStorage.getItem('isRead');
+  const isAdmin = localStorage.getItem("admin")
+  const isRead = localStorage.getItem("isRead")
 
   return (
-    <div className='requestspage'>
+    <div className="requestspage">
       <div className="navbar">
         <div className="main-navbuttoncontainer2">Logo</div>
         <div className="navbuttoncontainer22">
-          <Link to='/'>
-            <button className="authbutton" >
-            Main
-            </button>
+          <Link to="/">
+            <img src={scratchLogo} alt="scratchLogo" />
           </Link>
-          {isAdmin === 'true' && <span className='isadmin'>ADMIN</span>}
-
+          {isAdmin === "true" && <span className="isadmin">ADMIN</span>}
         </div>
         <div className="navbuttoncontainer2">
-          <Link to='/requests'>
-            <button className={isRead === null ? 'requestsbutton' : 'requestsbutton-a'} >
-            R
+          <Link to="/requests">
+            <button
+              className={
+                isRead === null ? "requestsbutton" : "requestsbutton-a"
+              }
+            >
+              R
             </button>
           </Link>
         </div>
         <div className="navbuttoncontainer2">
-          <button className="authbutton-s">Settings</button>
+          <button className="btn btn-text">Settings</button>
         </div>
         <div className="navbuttoncontainer3">
           <button
-            className="authbutton"
+            className="btn accent"
             onClick={(e) => {
-              localStorage.clear();
-              props.setAuth(false);
+              localStorage.clear()
+              props.setAuth(false)
             }}
           >
             Logout
           </button>
         </div>
       </div>
-      {isAdmin === 'true' &&
-      <SettingsAdmin />
-      }
-      {isAdmin !== 'true' && 
-      <SettingsReg />
-      }
+      {isAdmin === "true" && <SettingsAdmin />}
+      {isAdmin !== "true" && <SettingsReg />}
     </div>
-  );
-};
+  )
+}
 
-export default Settings;
+export default Settings
