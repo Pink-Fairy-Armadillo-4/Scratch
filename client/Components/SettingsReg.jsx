@@ -221,12 +221,12 @@ const SettingsReg = (props) => {
         <form className="change-email-form">
           <input
             type="text"
-            className="form-control-admin"
+            className="update-email-input"
             placeholder={`current email: ${email}`}
             onChange={emailTyped}
           />
-          <button type="button" className="sendmessage" onClick={updateEmail}>
-            Upd
+          <button type="button" className="update-email" onClick={updateEmail}>
+            Update
           </button>
         </form>
       </div>

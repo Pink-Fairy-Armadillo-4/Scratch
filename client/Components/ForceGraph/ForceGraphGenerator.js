@@ -116,7 +116,9 @@ export function runForceGraph(
     .join("circle")
     .attr("stroke", "#fff")
     .attr("stroke-width", 2)
-    .attr("r", 12)
+    .attr("r", (d) => {
+      return d.radius;
+    })
     .attr("fill", (d) => {
       return d.group === "user" ? "#a58afc" : "#5b93f0"
     })

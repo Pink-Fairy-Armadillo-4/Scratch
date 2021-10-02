@@ -1,46 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Request from './Request';
-import { CircularProgress } from '@material-ui/core';
+import React, { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
+import Request from "./Request"
+import { CircularProgress } from "@material-ui/core"
+import scratchLogo from "../images/logo-graph.png"
 
 const RequestsPage = (props) => {
-  localStorage.removeItem('newMessage');
-  const isAdmin = localStorage.getItem('admin');
-  const [requests, setRequests] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  localStorage.removeItem("newMessage")
+  const isAdmin = localStorage.getItem("admin")
+  const [requests, setRequests] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    getData();
-  }, []);
+    getData()
+  }, [])
 
-  const email = localStorage.getItem('email');
+  const email = localStorage.getItem("email")
 
   const handleClick = async (arg) => {
     try {
-      const response = await fetch('/api/delMessage', {
-        method: 'DELETE',
+      const response = await fetch("/api/delMessage", {
+        method: "DELETE",
         headers: {
-          'Content-type': 'application/json',
+          "Content-type": "application/json",
         },
         body: JSON.stringify({ messageID: arg, targetEmail: email }),
-      });
-      const newReq = await response.json();
-      setRequests(newReq);
+      })
+      const newReq = await response.json()
+      setRequests(newReq)
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
 
   const getData = async () => {
     try {
-      const resp = await fetch('/api/messages/' + email);
-      const data = await resp.json();
-      setRequests(data);
+      const resp = await fetch("/api/messages/" + email)
+      const data = await resp.json()
+      setRequests(data)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
-  console.log('requests are', requests);
+  }
+  console.log("requests are", requests)
 
   return (
     <div className="requestspage">
@@ -48,26 +49,26 @@ const RequestsPage = (props) => {
         <div className="main-navbuttoncontainer2">Logo</div>
         <div className="navbuttoncontainer22">
           <Link to="/">
-            <button className="authbutton">Main</button>
+            <img src={scratchLogo} alt="scratchLogo" />
           </Link>
-          {isAdmin === 'true' && <span className="isadmin">ADMIN</span>}
+          {isAdmin === "true" && <span className="isadmin">ADMIN</span>}
         </div>
         <div className="navbuttoncontainer2">
           <Link to="/requests">
-            <button className="requestsbutton-r">R</button>
+            <button className="requestsbutton">Requests</button>
           </Link>
         </div>
         <div className="navbuttoncontainer2">
           <Link to="/settings">
-            <button className="authbutton">Settings</button>
-          </Link>{' '}
+            <button className="btn">Settings</button>
+          </Link>{" "}
         </div>
         <div className="navbuttoncontainer3">
           <button
-            className="authbutton"
+            className="btn accent"
             onClick={(e) => {
-              localStorage.clear();
-              props.setAuth(false);
+              localStorage.clear()
+              props.setAuth(false)
             }}
           >
             Logout
@@ -101,7 +102,7 @@ const RequestsPage = (props) => {
                       sourceName={request.sourceName}
                       requestBody={request.messageBody}
                     />
-                  );
+                  )
                 })}
               </div>
             </div>
@@ -109,7 +110,7 @@ const RequestsPage = (props) => {
         )}
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default RequestsPage;
+export default RequestsPage

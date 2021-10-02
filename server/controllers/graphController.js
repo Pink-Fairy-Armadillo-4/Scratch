@@ -14,8 +14,9 @@ graphController.createNodes = (req, res, next) => {
   for (const skill of res.locals.skills) {
     const skillNode = {
       id: skill.name,
+      name: skill.name,
       group: skill.skillGroup,
-      radius: process.env.SKILL_R ? process.env.SKILL_R : 2,
+      radius: process.env.SKILL_R ? process.env.SKILL_R : 8,
     };
 
     skillName.push(skillNode.id);
@@ -27,7 +28,7 @@ graphController.createNodes = (req, res, next) => {
         name: user.firstName + ' ' + user.lastName,
         email: user.email,
         group: user.userGroup,
-        radius: process.env.USER_R ? process.env.USER_R : 2,
+        radius: process.env.USER_R ? process.env.USER_R : 12,
       };
 
       const link = {

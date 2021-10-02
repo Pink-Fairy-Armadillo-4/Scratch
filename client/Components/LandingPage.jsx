@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import PopUp from "./PopUp"
 import PopUpLog from "./PopUpLog"
 import PopUpReg from "./PopUpReg"
-import logo from "../images/logo.png"
+import logo from "../images/landing-page.jpg"
 
 const LandingPage = (props) => {
   // console.log('landing page rendered');
@@ -27,7 +27,7 @@ const LandingPage = (props) => {
   }
 
   return (
-    <div className="landingpage">
+    <div className="parent">
       {seen && <PopUp toggle={togglePop} />}
       {seenLog && (
         <PopUpLog
@@ -43,25 +43,18 @@ const LandingPage = (props) => {
           setAuth={props.setAuth}
         />
       )}
-      <div className="navbar">
-        <div className="navbuttoncontainer1">
-          <button className="aboutbutton" onClick={togglePop}>
-            About
-          </button>
-        </div>
-        <div className="navbuttoncontainer2">
-          <button className="authbutton" onClick={togglePopLog}>
+      <div className="children">
+        <main className="display-xl">
+          Connect with your cohort. They have a lot to teach.
+        </main>
+        <div className="btn-group">
+          <button className="btn" onClick={togglePopLog}>
             Login
           </button>
-        </div>
-        <div className="navbuttoncontainer3">
-          <button className="authbutton" onClick={togglePopReg}>
+          <button className="btn" onClick={togglePopReg}>
             Signup
           </button>
         </div>
-      </div>
-      <div className="logocontainer">
-        <img alt="intro" className="logoImg" src={logo} />
       </div>
     </div>
   )
