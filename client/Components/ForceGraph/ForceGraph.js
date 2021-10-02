@@ -3,7 +3,15 @@ import { runForceGraph } from "./forceGraphGenerator"
 import styles from "./forceGraph.module.css"
 import * as d3 from "d3"
 
-export function ForceGraph({ linksData, nodesData, nodeHoverTooltip }) {
+export function ForceGraph({
+  skillsData,
+  linksData,
+  nodesData,
+  nodeHoverTooltip,
+  getNodeInfo,
+  setActiveStyle,
+  activeStyle,
+}) {
   const containerRef = React.useRef(null)
 
   useEffect(() => {
@@ -16,7 +24,11 @@ export function ForceGraph({ linksData, nodesData, nodeHoverTooltip }) {
         containerRef.current,
         linksData,
         nodesData,
-        nodeHoverTooltip
+        skillsData,
+        nodeHoverTooltip,
+        getNodeInfo,
+        setActiveStyle,
+        activeStyle
       )
       destroyFn = destroy
     }

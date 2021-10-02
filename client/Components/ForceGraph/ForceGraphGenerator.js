@@ -5,7 +5,11 @@ export function runForceGraph(
   container,
   linksData,
   nodesData,
-  nodeHoverTooltip
+  skillsData,
+  nodeHoverTooltip,
+  getNodeInfo,
+  setActiveStyle,
+  activeStyle
 ) {
   const links = linksData.map((d) => Object.assign({}, d))
   const nodes = nodesData.map((d) => Object.assign({}, d))
@@ -58,6 +62,17 @@ export function runForceGraph(
       .style("top", `${y - 28}px`)
   }
 
+  const showMessageContainer = (getNodeInfo, d) => {
+    if (skillsData.length > 1) {
+      setActiveStyle("text-inactive")
+    } else {
+      setActiveStyle("text-active")
+    }
+    if (d.group === "user") {
+      getNodeInfo(d)
+    }
+  }
+
   const removeTooltip = () => {
     div.transition().duration(200).style("opacity", 0)
   }
@@ -93,8 +108,6 @@ export function runForceGraph(
     .attr("stroke-opacity", 0.6)
     .attr("stroke-width", (d) => Math.sqrt(d.value))
 
-  console.log("Links in func ", link)
-
   const node = svg
     .append("g")
     .selectAll("circle")
@@ -108,8 +121,6 @@ export function runForceGraph(
       return d.group === "user" ? "#a58afc" : "#5b93f0"
     })
     .call(drag(simulation))
-
-  console.log("Nodes in func ", node)
 
   // const label = svg
   //   .append("g")
@@ -129,6 +140,9 @@ export function runForceGraph(
     })
     .on("mouseout", () => {
       removeTooltip()
+    })
+    .on("click", (d) => {
+      showMessageContainer(getNodeInfo, d)
     })
 
   simulation.on("tick", () => {
@@ -151,10 +165,6 @@ export function runForceGraph(
     //     return d.y
     //   })
   })
-
-  svg.node().remove()
-
-  console.log("SVG nodes ", svg.node())
   return {
     destroy: () => {
       simulation.stop()

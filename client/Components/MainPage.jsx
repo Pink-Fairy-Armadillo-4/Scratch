@@ -13,14 +13,13 @@ const MainPage = (props) => {
   const [isLoading, setIsLoading] = useState(true)
   const [activeStyle, setActiveStyle] = useState("text-active")
   const isRead = localStorage.getItem("isRead")
-  console.log("isRead is", isRead)
 
   const nodeHoverTooltip = React.useCallback((node) => {
     return `<div>${node.name}</div>`
   }, [])
 
-  const getNodeInfo = (nodeInfo) => {
-    setSelectedUser(nodeInfo)
+  function getNodeInfo(nodeInfo) {
+    return setSelectedUser(nodeInfo)
   }
 
   const dataFetch = async () => {
@@ -106,9 +105,13 @@ const MainPage = (props) => {
                 setActiveStyle={setActiveStyle}
               />
               <ForceGraph
+                skillsData={graphData.skills}
                 linksData={graphData.links}
                 nodesData={graphData.nodes}
                 nodeHoverTooltip={nodeHoverTooltip}
+                getNodeInfo={getNodeInfo}
+                setActiveStyle={setActiveStyle}
+                activeStyle={activeStyle}
               />
             </>
           )}
