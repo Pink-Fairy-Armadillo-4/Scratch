@@ -105,7 +105,7 @@ body {
     }
   }
 
-  .requestsbutton-r{
+  .requestsbutton-r {
     background: transparent;
     color: rgb(224, 240, 255);
     height: 30px;
@@ -308,7 +308,6 @@ body {
   background: rgba(59, 96, 171, 0.119);
 }
 
-
 .form-wrapperdiv {
   display: block;
   text-align: center;
@@ -319,13 +318,13 @@ body {
 }
 
 .skills-container {
-  position: absolute;
+  // position: absolute;
   display: flex;
   align-items: center;
   flex-direction: column;
   top: 150px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  // transform: translate(-50%, -50%);
 }
 
 .skills-inner {
@@ -403,7 +402,7 @@ body {
   margin-bottom: 40px;
 }
 
-.text-inactive{
+.text-inactive {
   color: red;
 }
 
@@ -418,9 +417,9 @@ body {
   border-radius: 40px;
   color: white;
   border: none;
-    &:hover {
-    border:1px solid white;
-    }
+  &:hover {
+    border: 1px solid white;
+  }
 }
 
 .norequests {
@@ -429,23 +428,20 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 3vh;
-  color:rgb(62, 52, 52)
+  color: rgb(62, 52, 52);
 }
 
 .noskills {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  text-align: center;
   font-size: 2vh;
-  color:rgb(62, 52, 52)
+  color: rgb(62, 52, 52);
 }
 
 .admin-settings-internal {
-    width: 26vw;
-    height: calc(90vh - 60px);
-    margin: 5vh 37vw;
-    border-radius: 5px;
+  width: 26vw;
+  height: calc(90vh - 60px);
+  margin: 5vh 37vw;
+  border-radius: 5px;
 }
 
 .admin-settings-addskill {
@@ -465,7 +461,6 @@ body {
   border-radius: 3px;
   background-color: white;
   border-radius: 5px;
-
 }
 
 .updateEmail {
@@ -475,11 +470,10 @@ body {
   border: 1px solid #dfdfdf;
   border-radius: 3px;
   background-color: white;
-
 }
 
 .user-settings-newskills {
-  height: calc((100% - 180px)/2);
+  height: calc((100% - 180px) / 2);
   margin-bottom: 15px;
   box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
   border: 1px solid #dfdfdf;
@@ -502,11 +496,11 @@ body {
   color: green;
 }
 
-.password-form{
+.password-form {
   margin-top: 30px;
 }
 
-.skill-admin{
+.skill-admin {
   display: flex;
   height: 40px;
   align-items: center;
@@ -530,8 +524,8 @@ body {
   border: 3px solid rgb(18, 72, 159);
   color: white;
   &:hover {
-    border:1px solid white;
-    }
+    border: 1px solid white;
+  }
 }
 
 .skill-admin-add {
@@ -543,11 +537,11 @@ body {
   border: 3px solid rgb(18, 72, 159);
   color: white;
   &:hover {
-    border:1px solid white;
-    }
+    border: 1px solid white;
+  }
 }
 
-.page-title{
+.page-title {
   text-align: center;
   background: rgb(105, 146, 216);
   height: 25px;
@@ -558,7 +552,7 @@ body {
   border-radius: 5px;
 }
 
-.form-title{
+.form-title {
   text-align: center;
   background: rgb(230, 238, 252);
   height: 25px;
@@ -568,9 +562,6 @@ body {
   background: rgb(105, 146, 216);
   color: white;
   border-radius: 5px;
-
-
-
 }
 
 .time {
