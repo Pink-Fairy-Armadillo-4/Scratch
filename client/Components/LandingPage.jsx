@@ -27,7 +27,7 @@ const LandingPage = (props) => {
   }
 
   return (
-    <div className="parent">
+    <div className="parent landing-page-bg">
       {seen && <PopUp toggle={togglePop} />}
       {seenLog && (
         <PopUpLog
