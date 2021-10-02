@@ -17,6 +17,8 @@ const Settings = (props) => {
             Main
             </button>
           </Link>
+          {isAdmin === 'true' && <span className='isadmin'>ADMIN</span>}
+
         </div>
         <div className="navbuttoncontainer2">
           <Link to='/requests'>
@@ -26,7 +28,7 @@ const Settings = (props) => {
           </Link>
         </div>
         <div className="navbuttoncontainer2">
-          <button className="authbutton">Settings</button>
+          <button className="authbutton-s">Settings</button>
         </div>
         <div className="navbuttoncontainer3">
           <button

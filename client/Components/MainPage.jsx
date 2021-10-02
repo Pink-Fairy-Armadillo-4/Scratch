@@ -7,12 +7,12 @@ import SendMessage from "./SendMessage"
 import SkillsList from "./SkillsList"
 
 const MainPage = (props) => {
-  console.log("main.jsx rendered")
   const [selectedUser, setSelectedUser] = useState({})
   const [graphData, setGraphData] = useState({})
   const [isLoading, setIsLoading] = useState(true)
   const [activeStyle, setActiveStyle] = useState("text-active")
   const isRead = localStorage.getItem("isRead")
+  const isAdmin = localStorage.getItem("admin")
 
   const nodeHoverTooltip = React.useCallback((node) => {
     return `<div>${node.name}</div>`
@@ -58,7 +58,10 @@ const MainPage = (props) => {
   return (
     <div className="mainpage">
       <div className="navbar">
-        <div className="main-navbuttoncontainer1">Logo</div>
+        <div className="main-navbuttoncontainer1">
+          Logo
+          {isAdmin === "true" && <span className="isadmin-main">ADMIN</span>}
+        </div>
         <div className="navbuttoncontainer2">
           <Link to="/requests">
             <button

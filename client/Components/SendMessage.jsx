@@ -61,7 +61,7 @@ const SendMessage = (props) => {
             <div className="form-wrapperdiv">
               <form>
                 <input
-                  type="password"
+                  type="text"
                   className="form-control-messenger"
                   placeholder="Enter email"
                   onChange={emailEntered}
@@ -75,14 +75,6 @@ const SendMessage = (props) => {
                 </button>
               </form>
             </div>
-          </div>
-        )}
-        {statusReceived && (
-          <div>
-            <p>
-              <span className="recepientname">{props.selectedUser.id}</span> has
-              received your message and should reply shortly{" "}
-            </p>
           </div>
         )}
         {statusReceived && (

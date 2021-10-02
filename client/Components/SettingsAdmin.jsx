@@ -99,24 +99,24 @@ const SettingsAdmin = (props) => {
         <div className='form-title'>LIST OF SKILLS</div>
         <div className='listofskills'> 
           {allSkills.map(skill => {
-            return <SkillAdmin key={skill._id} handleClick={handleClick} name={skill.name} />;
+            return <SkillAdmin key={skill._id} functionality='-' handleClick={handleClick} name={skill.name} />;
           })}
         </div>
       </div>
       <div className='admin-settings-addskill'>
         <div className='admin-settings-addcontainer'>
           <div className='form-title'>ADD NEW SKILL</div>
-          {error && 
+          <form className='password-form'> 
+            {error && 
           <div className='skill-add-error'>
               Please enter skill to add to the system
           </div>}
-          {errorExist && 
+            {errorExist && 
           <div className='skill-add-error'>
               This skill already exists in the system
           </div>}
-          <form>
-            <input type="password" className="form-control-admin" placeholder="Enter skill" onChange={skillTyped} />
-            <button type='button' className="sendmessage" onClick={addSkill}>Add</button>
+            <input type="text" className="form-control-admin" placeholder="Enter skill" onChange={skillTyped} />
+            <button type='button' className="skill-admin-add" onClick={addSkill}>+</button>
           </form>      
         </div>
       </div>

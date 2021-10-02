@@ -4,14 +4,11 @@ import Request from "./Request"
 import { CircularProgress } from "@material-ui/core"
 
 const RequestsPage = (props) => {
-  console.log("requests rendered")
   localStorage.removeItem("isRead")
+  const isAdmin = localStorage.getItem("admin")
   const [requests, setRequests] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  console.log("requests", requests)
 
-  // useEffect(() =>   {props.setIsRead(true);}, []
-  // );
   useEffect(() => {
     getData()
   }, [])
@@ -53,10 +50,11 @@ const RequestsPage = (props) => {
           <Link to="/">
             <button className="authbutton">Main</button>
           </Link>
+          {isAdmin === "true" && <span className="isadmin">ADMIN</span>}
         </div>
         <div className="navbuttoncontainer2">
           <Link to="/requests">
-            <button className="requestsbutton">R</button>
+            <button className="requestsbutton-r">R</button>
           </Link>
         </div>
         <div className="navbuttoncontainer2">
@@ -90,18 +88,22 @@ const RequestsPage = (props) => {
               </div>
             )}
             <div className="requests-inner">
-              {requests.map((request) => {
-                return (
-                  <Request
-                    isRead={request.isRead}
-                    handleClick={handleClick}
-                    id={request._id}
-                    key={request._id}
-                    sourceName={request.sourceName}
-                    requestBody={request.messageBody}
-                  />
-                )
-              })}
+              <div className="page-title">REQUESTS</div>
+              <div className="requests-container">
+                {requests.map((request) => {
+                  return (
+                    <Request
+                      isRead={request.isRead}
+                      handleClick={handleClick}
+                      id={request._id}
+                      key={request._id}
+                      time={request.createdAt}
+                      sourceName={request.sourceName}
+                      requestBody={request.messageBody}
+                    />
+                  )
+                })}
+              </div>
             </div>
           </div>
         )}
