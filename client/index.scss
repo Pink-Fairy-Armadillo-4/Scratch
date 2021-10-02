@@ -201,11 +201,10 @@ body {
   .requestsbutton {
     background: transparent;
     color: $base-text-color-light-bg;
-    // height: 30px;
-    // width: 30px;
-    // margin: 1vh 1vw;
-    // border: 1.2px solid white;
-    // border-radius: 50%;
+    border: none;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
     &:hover {
       border: 2px solid white;
       font-weight: 600;
@@ -229,15 +228,17 @@ body {
 
   .requestsbutton-a {
     background: transparent;
-    color: rgb(38, 228, 38);
-    height: 30px;
-    width: 30px;
-    margin: 1vh 1vw;
-    border: 1.2px solid rgb(38, 228, 38);
-    border-radius: 50%;
+    color: $primary-color;
+    border: none;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
     &:hover {
-      border: 2px solid rgb(38, 228, 38);
-      font-weight: 600;
+      border: 1px solid $primary-color;
+      font-weight: 900;
+      border: none;
+      font-size: 16px;
+      line-height: 24px;
     }
   }
 }
