@@ -77,6 +77,36 @@ body {
   border-radius: 0px 64px;
 }
 
+.change-email-form {
+  display: flex;
+  align-items: center;
+  /* justify-content: stretch; */
+  flex: 1;
+  padding: 0 20px 0 20px;
+}
+
+.update-email-input {
+  flex-grow: 1;
+  margin: 15px 0 15px 15px;
+  border-radius: 8px;
+  border: 1px solid $primary-color;
+  padding: 8px;
+  background: $skill-fill-selected;
+}
+
+.update-email {
+  width: 10%;
+  padding: 8px;
+  margin: 5px 0 5px 20px;
+  border: 3px solid $primary-color;
+  background: $primary-color;
+  color: $base-text-color-dark-bg;
+  border-radius: 8px;
+  &:hover {
+    border: 1px solid white;
+  }
+}
+
 // **********
 // Component level styles
 // **********
@@ -222,6 +252,15 @@ body {
   align-items: center;
   padding: 10px 18px;
   margin: 8px 8px 8px 0;
+
+  background: #ffffff;
+  box-sizing: border-box;
+  border: none;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: $base-text-color-light-bg;
 }
 
 .btn-text {
