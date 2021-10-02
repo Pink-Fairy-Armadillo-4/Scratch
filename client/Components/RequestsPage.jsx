@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Request from './Request';
-import { CircularProgress } from '@material-ui/core';
+import React, { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
+import Request from "./Request"
+import { CircularProgress } from "@material-ui/core"
+import scratchLogo from "../images/logo-graph.png"
 
 const RequestsPage = (props) => {
   localStorage.removeItem('newMessage');
@@ -48,7 +49,7 @@ const RequestsPage = (props) => {
         <div className="main-navbuttoncontainer2">Logo</div>
         <div className="navbuttoncontainer22">
           <Link to="/">
-            <button className="authbutton">Main</button>
+            <img src={scratchLogo} alt="scratchLogo" />
           </Link>
           {isAdmin === 'true' && <span className="isadmin">ADMIN</span>}
         </div>
@@ -59,12 +60,12 @@ const RequestsPage = (props) => {
         </div>
         <div className="navbuttoncontainer2">
           <Link to="/settings">
-            <button className="authbutton">Settings</button>
-          </Link>{' '}
+            <button className="btn">Settings</button>
+          </Link>{" "}
         </div>
         <div className="navbuttoncontainer3">
           <button
-            className="authbutton"
+            className="btn accent"
             onClick={(e) => {
               localStorage.clear();
               props.setAuth(false);

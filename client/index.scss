@@ -1,4 +1,5 @@
 $primary-color: #7f56d9;
+$skill-fill-selected: #ede6ff;
 $background-color-modal: #cfcfcf3c;
 $base-text-color-light-bg: #667085;
 $base-text-color-dark-bg: #ffffff;
@@ -74,6 +75,36 @@ body {
   background-image: url("./images/landing-page.jpg");
   background-color: #cccccc;
   border-radius: 0px 64px;
+}
+
+.change-email-form {
+  display: flex;
+  align-items: center;
+  /* justify-content: stretch; */
+  flex: 1;
+  padding: 0 20px 0 20px;
+}
+
+.update-email-input {
+  flex-grow: 1;
+  margin: 15px 0 15px 15px;
+  border-radius: 8px;
+  border: 1px solid $primary-color;
+  padding: 8px;
+  background: $skill-fill-selected;
+}
+
+.update-email {
+  width: 10%;
+  padding: 8px;
+  margin: 5px 0 5px 20px;
+  border: 3px solid $primary-color;
+  background: $primary-color;
+  color: $base-text-color-dark-bg;
+  border-radius: 8px;
+  &:hover {
+    border: 1px solid white;
+  }
 }
 
 // **********
@@ -221,6 +252,15 @@ body {
   align-items: center;
   padding: 10px 18px;
   margin: 8px 8px 8px 0;
+
+  background: #ffffff;
+  box-sizing: border-box;
+  border: none;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: $base-text-color-light-bg;
 }
 
 .btn-text {
@@ -326,7 +366,7 @@ body {
 }
 
 .activeskillbutton {
-  background: rgb(230, 239, 255);
+  background: $skill-fill-selected;
   border: 1px solid $primary-color;
   color: $primary-color;
   border-radius: 3px;
@@ -417,7 +457,8 @@ body {
   margin: 5px 0 5px 0;
   border-radius: 5px;
   border: 1px solid $primary-color;
-  background: rgba(59, 96, 171, 0.119);
+  padding: 8px;
+  background: $skill-fill-selected;
 }
 
 .form-control-admin {
@@ -426,7 +467,8 @@ body {
   width: calc(100% - 110px);
   border-radius: 5px;
   border: 1px solid $primary-color;
-  background: rgba(59, 96, 171, 0.119);
+  padding: 8px;
+  background: $skill-fill-selected;
 }
 
 .form-wrapperdiv {
@@ -443,8 +485,7 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
-  top: 150px;
-  left: 50%;
+  padding: 20px 0 20px 0;
   // transform: translate(-50%, -50%);
 }
 
@@ -492,7 +533,7 @@ body {
 }
 
 .requests-container {
-  padding-top: 5px;
+  padding-top: 20px;
   height: calc(95vh - 175px);
   overflow: scroll;
 }
@@ -507,7 +548,7 @@ body {
   box-sizing: content-box;
   padding: 20px 15px;
   border-radius: 5px;
-  background: rgba(125, 161, 231, 0.235);
+  background: #e4edff3c;
 }
 
 .requests-body-new {
@@ -516,7 +557,7 @@ body {
   padding: 20px 15px;
   border-radius: 5px;
   border: 2px solid $primary-color;
-  background: rgba(125, 161, 231, 0.235);
+  background: #e4edff3c;
 }
 
 .request {
@@ -528,8 +569,8 @@ body {
 }
 
 .delete-request {
-  background: rgb(18, 72, 159);
-  border: 3px solid rgb(18, 72, 159);
+  background: $primary-color;
+  border: 3px solid $primary-color;
   position: relative;
   bottom: 20px;
   float: right;
@@ -641,8 +682,8 @@ body {
   height: 30px;
   border-radius: 30px;
   margin: 5%;
-  background: rgb(18, 72, 159);
-  border: 3px solid rgb(18, 72, 159);
+  background: $primary-color;
+  border: 3px solid $primary-color;
   color: white;
   &:hover {
     border: 1px solid white;
@@ -654,8 +695,8 @@ body {
   height: 30px;
   border-radius: 30px;
   margin: 5%;
-  background: rgb(18, 72, 159);
-  border: 3px solid rgb(18, 72, 159);
+  background: $primary-color;
+  border: 3px solid $primary-color;
   color: white;
   &:hover {
     border: 1px solid white;
@@ -677,24 +718,22 @@ body {
 }
 .page-title {
   text-align: center;
-  background: rgb(105, 146, 216);
+  // background: rgb(105, 146, 216);
   height: 25px;
   padding: 10px 0px 10px 0px;
   margin-bottom: 40px;
   font-size: 18px;
-  color: white;
+  color: $base-text-color-light-bg;
   border-radius: 5px;
 }
 
 .form-title {
   text-align: center;
-  background: rgb(230, 238, 252);
   height: 25px;
   padding: 10px 0px 10px 0px;
-  margin-bottom: 10px;
+  margin-bottom: 40px;
   font-size: 18px;
-  background: rgb(105, 146, 216);
-  color: white;
+  color: #667085;
   border-radius: 5px;
 }
 
@@ -705,9 +744,8 @@ body {
 }
 
 .username {
-  background: rgb(237, 237, 237);
-  padding: 3px;
-  border-radius: 9px;
+  padding: 8px;
+  border-radius: 4px;
   color: #282828;
 }
 
