@@ -1,72 +1,72 @@
-import React, { useState } from "react"
-import { useEffect } from "react"
-import { ForceGraph } from "./ForceGraph/ForceGraph"
-import { CircularProgress } from "@material-ui/core"
-import { Link } from "react-router-dom"
-import SendMessage from "./SendMessage"
-import SkillsList from "./SkillsList"
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { ForceGraph } from './ForceGraph/ForceGraph';
+import { CircularProgress } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import SendMessage from './SendMessage';
+import SkillsList from './SkillsList';
 
 const MainPage = (props) => {
-  const [selectedUser, setSelectedUser] = useState({})
-  const [graphData, setGraphData] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
-  const [activeStyle, setActiveStyle] = useState("text-active")
-  const isRead = localStorage.getItem("isRead")
-  const isAdmin = localStorage.getItem("admin")
+  const [selectedUser, setSelectedUser] = useState({});
+  const [graphData, setGraphData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeStyle, setActiveStyle] = useState('text-active');
+  const newMessage = localStorage.getItem('newMessage');
+  const isAdmin = localStorage.getItem('admin');
 
   const nodeHoverTooltip = React.useCallback((node) => {
-    return `<div>${node.name}</div>`
-  }, [])
+    return `<div>${node.name}</div>`;
+  }, []);
 
   function getNodeInfo(nodeInfo) {
-    return setSelectedUser(nodeInfo)
+    return setSelectedUser(nodeInfo);
   }
 
   const dataFetch = async () => {
     try {
-      const resp = await fetch("/api/nodes/all")
-      const data = await resp.json()
-      console.log("Fetch ", data)
-      setGraphData(data)
+      const resp = await fetch('/api/nodes/all');
+      const data = await resp.json();
+      console.log('Fetch ', data);
+      setGraphData(data);
 
       //uncomment after request works
       //props.setRequests(data.messages);
       // data.messages.forEach(message => {if(message.isRead === false){props.setIsRead(false);}});
     } catch (err) {
-      console.log(err)
+      console.log(err);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     setTimeout(() => {
-      if (activeStyle === "text-inactive") setActiveStyle("text-active")
-    }, 2000)
-  }, [activeStyle])
+      if (activeStyle === 'text-inactive') setActiveStyle('text-active');
+    }, 2000);
+  }, [activeStyle]);
 
   useEffect(() => {
     // console.log("called")
-    dataFetch()
-  }, [])
+    dataFetch();
+  }, []);
 
   const cancelMessage = () => {
-    setSelectedUser({})
-  }
+    setSelectedUser({});
+  };
 
-  console.log("Graph data", graphData)
+  console.log('Graph data', graphData);
   return (
     <div className="mainpage">
       <div className="navbar">
         <div className="main-navbuttoncontainer1">
           Logo
-          {isAdmin === "true" && <span className="isadmin-main">ADMIN</span>}
+          {isAdmin === 'true' && <span className="isadmin-main">ADMIN</span>}
         </div>
         <div className="navbuttoncontainer2">
           <Link to="/requests">
             <button
               className={
-                isRead === null ? "requestsbutton" : "requestsbutton-a"
+                newMessage === null ? 'requestsbutton' : 'requestsbutton-a'
               }
             >
               R
@@ -82,8 +82,8 @@ const MainPage = (props) => {
           <button
             className="authbutton"
             onClick={(e) => {
-              localStorage.clear()
-              props.setAuth(false)
+              localStorage.clear();
+              props.setAuth(false);
             }}
           >
             Logout
@@ -140,7 +140,7 @@ const MainPage = (props) => {
         />
       )}
     </div>
-  )
-}
+  );
+};
 
-export default MainPage
+export default MainPage;

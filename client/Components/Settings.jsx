@@ -5,7 +5,7 @@ import SettingsReg from './SettingsReg';
 
 const Settings = (props) => {
   const isAdmin = localStorage.getItem('admin');
-  const isRead = localStorage.getItem('isRead');
+  const newMessage = localStorage.getItem('newMessage');
 
   return (
     <div className='requestspage'>
@@ -22,7 +22,7 @@ const Settings = (props) => {
         </div>
         <div className="navbuttoncontainer2">
           <Link to='/requests'>
-            <button className={isRead === null ? 'requestsbutton' : 'requestsbutton-a'} >
+            <button className={newMessage === null ? 'requestsbutton' : 'requestsbutton-a'} >
             R
             </button>
           </Link>

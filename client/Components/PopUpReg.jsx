@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react"
-import { CircularProgress } from "@material-ui/core"
-import SkillButton from "./SkillButton"
+import React, { useState, useEffect } from 'react';
+import { CircularProgress } from '@material-ui/core';
+import SkillButton from './SkillButton';
 /*
 signup pop up component
  */
@@ -12,132 +12,135 @@ const PopUpReg = (props) => {
     email: null,
     password: null,
     skillsToTeach: {},
-  }
+  };
   //state to submit info for authorization
-  const [data, setData] = useState(info)
+  const [data, setData] = useState(info);
   //state to handle skills available in database
-  const [skills, setSkills] = useState([])
+  const [skills, setSkills] = useState([]);
 
-  const [skillId, setSkillId] = useState({})
+  const [skillId, setSkillId] = useState({});
   //loading component while awaiting data
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [errorOnSignup, setErrorOnSignup] = useState(false)
+  const [errorOnSignup, setErrorOnSignup] = useState(false);
 
   //getting skills on mount from backend
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
   const fetchData = async () => {
     try {
-      const res = await fetch("/api/allSkills/all")
-      const response = await res.json()
-      const skillNames = []
+      const res = await fetch('/api/allSkills/all');
+      const response = await res.json();
+      const skillNames = [];
       for (let i = 0; i < response.length; i++) {
-        skillNames.push(response[i].name)
+        skillNames.push(response[i].name);
         setSkillId((prevstate) => {
-          prevstate[response[i].name] = response[i]._id
-          return prevstate
-        })
+          prevstate[response[i].name] = response[i]._id;
+          return prevstate;
+        });
       }
-      setSkills(skillNames)
+      setSkills(skillNames);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
   //function to close popup window
   const handleClick = () => {
-    props.toggleReg()
-  }
+    props.toggleReg();
+  };
   //if skills to teach weren't added to array - add, otherwise remove from array
   const skillButtonClick = (e) => {
     data.skillsToTeach[e]
       ? setData((prevstate) => {
-          delete prevstate.skillsToTeach[e]
-          return prevstate
-        })
+        delete prevstate.skillsToTeach[e];
+        return prevstate;
+      })
       : setData((prevstate) => {
-          prevstate.skillsToTeach[e] = skillId[e]
-          return prevstate
-        })
-  }
+        prevstate.skillsToTeach[e] = skillId[e];
+        return prevstate;
+      });
+  };
 
   const passwordEntered = (e) => {
-    setData((data) => ({ ...data, password: e.target.value }))
-  }
+    setData((data) => ({ ...data, password: e.target.value }));
+  };
 
   const emailEntered = (e) => {
-    setData((data) => ({ ...data, email: e.target.value }))
-  }
+    setData((data) => ({ ...data, email: e.target.value }));
+  };
 
   const firstNameEntered = (e) => {
-    setData((data) => ({ ...data, firstName: e.target.value }))
-  }
+    setData((data) => ({ ...data, firstName: e.target.value }));
+  };
 
   const lastNameEntered = (e) => {
-    setData((data) => ({ ...data, lastName: e.target.value }))
-  }
+    setData((data) => ({ ...data, lastName: e.target.value }));
+  };
 
   const findCookie = (cookies) => {
-    let res = cookies.split("; ")
-    let rightCookie = ""
+    let res = cookies.split('; ');
+    let rightCookie = '';
     for (let i = 0; i < res.length; i++) {
-      if (res[i].includes("ssid=")) {
-        rightCookie = res[i].trim()
+      if (res[i].includes('ssid=')) {
+        rightCookie = res[i].trim();
       }
     }
-    res = rightCookie.split("=")[1]
-    return res
-  }
+    res = rightCookie.split('=')[1];
+    return res;
+  };
 
   const submitInfo = async () => {
     try {
-      const res = await fetch("/auth/signup", {
-        method: "POST",
+      const res = await fetch('/auth/signup', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-      })
-      const resp = await res.json()
+      });
+      const resp = await res.json();
       // console.log('resp', resp);
       if (!resp.hasLogged) {
-        setErrorOnSignup(true)
-      } else if (resp.hasLogged === "format") {
-        setErrorOnSignup("format")
-      } else if (resp.hasLogged === "empty") {
-        setErrorOnSignup("empty")
+        setErrorOnSignup(true);
+      } else if (resp.hasLogged === 'format') {
+        setErrorOnSignup('format');
+      } else if (resp.hasLogged === 'empty') {
+        setErrorOnSignup('empty');
       } else if (resp.hasLogged) {
-        const rightCookie = findCookie(document.cookie)
-        localStorage.setItem("email", `${data.email}`)
+        const rightCookie = findCookie(document.cookie);
+        localStorage.setItem('email', `${data.email}`);
         if (rightCookie) {
-          localStorage.setItem("token", rightCookie)
+          localStorage.setItem('token', rightCookie);
           localStorage.setItem(
-            "name",
+            'name',
             `${resp.userInfo.firstName} ${resp.userInfo.lastName}`
-          )
+          );
         }
         if (resp.userInfo.isAdmin) {
-          localStorage.setItem("admin", "true")
+          localStorage.setItem('admin', 'true');
         }
-        props.setAuth(true)
+        if (resp.userInfo.newMessage === true) {
+          localStorage.setItem('newMessage', 'true');
+        }
+        props.setAuth(true);
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 
   useEffect(() => {
     if (
       errorOnSignup === true ||
-      errorOnSignup === "format" ||
-      errorOnSignup === "empty"
+      errorOnSignup === 'format' ||
+      errorOnSignup === 'empty'
     ) {
       setTimeout(() => {
-        setErrorOnSignup(false)
-      }, 3000)
+        setErrorOnSignup(false);
+      }, 3000);
     }
-  }, [errorOnSignup])
+  }, [errorOnSignup]);
 
   return (
     <div className="modal">
@@ -159,12 +162,12 @@ const PopUpReg = (props) => {
                   This email is registered in our system. Please try to login.
                 </div>
               )}
-              {errorOnSignup === "empty" && (
+              {errorOnSignup === 'empty' && (
                 <div className="loginerror-message">
                   All fields are required.
                 </div>
               )}
-              {errorOnSignup === "format" && (
+              {errorOnSignup === 'format' && (
                 <div className="errordiv">
                   <div className="loginerror-message">
                     Incorrect email format. Please enter valid email.
@@ -230,7 +233,7 @@ const PopUpReg = (props) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PopUpReg
+export default PopUpReg;
