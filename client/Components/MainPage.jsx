@@ -5,6 +5,7 @@ import { CircularProgress } from "@material-ui/core"
 import { Link } from "react-router-dom"
 import SendMessage from "./SendMessage"
 import SkillsList from "./SkillsList"
+import scratchLogo from "../images/logo-graph.png"
 
 const MainPage = (props) => {
   const [selectedUser, setSelectedUser] = useState({})
@@ -59,7 +60,7 @@ const MainPage = (props) => {
     <div className="mainpage">
       <div className="navbar">
         <div className="main-navbuttoncontainer1">
-          Logo
+          <img src={scratchLogo} alt="scratchLogo" />
           {isAdmin === "true" && <span className="isadmin-main">ADMIN</span>}
         </div>
         <div className="navbuttoncontainer2">
@@ -73,22 +74,18 @@ const MainPage = (props) => {
             </button>
           </Link>
         </div>
-        <div className="navbuttoncontainer2">
-          <Link to="/settings">
-            <button className="authbutton">Settings</button>
-          </Link>
-        </div>
-        <div className="navbuttoncontainer3">
-          <button
-            className="authbutton"
-            onClick={(e) => {
-              localStorage.clear()
-              props.setAuth(false)
-            }}
-          >
-            Logout
-          </button>
-        </div>
+        <Link to="/settings">
+          <button className="btn btn-text">Settings</button>
+        </Link>
+        <button
+          className="btn accent"
+          onClick={(e) => {
+            localStorage.clear()
+            props.setAuth(false)
+          }}
+        >
+          Logout
+        </button>
       </div>
       {isLoading && (
         <div className="loading">

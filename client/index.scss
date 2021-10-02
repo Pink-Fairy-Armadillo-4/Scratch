@@ -1,3 +1,38 @@
+$primary-color: #7f56d9;
+$background-color-modal: #cfcfcf3c;
+$base-text-color-light-bg: #667085;
+$base-text-color-dark-bg: #ffffff;
+$base-font-family: Inter;
+
+/*
+# CSS Preset
+## version 1.0.0
+A simple CSS preset to enable box-sizing, set some text rendering options to decrease the differences between browsers, and set a couple of nice defaults.
+## Usage
+    <link href=preset.css rel=stylesheet>
+## Info
+- author: Tommy Hodgins
+- license: MIT
+- website: https://github.com/tomhodgins/preset
+*/
+
+* {
+  box-sizing: border-box;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-kerning: auto;
+}
+
+html {
+  font-family: $base-font-family;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
 body {
   background-color: white;
   margin: 0;
@@ -17,19 +52,51 @@ body {
   }
 }
 
+// **********
+// Containers
+// **********
+.parent {
+  display: flex;
+  min-height: 100vh;
+}
+
+.children {
+  margin: auto;
+  max-width: 20%;
+}
+
+.split-6 {
+  display: flex;
+  flex-direction: row;
+}
+
+.landingpage-image {
+  background-image: url("./images/landing-page.jpg");
+  background-color: #cccccc;
+  border-radius: 0px 64px;
+}
+
+// **********
+// Component level styles
+// **********
 .navbar {
-  background: rgb(18, 72, 159);
-  background: linear-gradient(
-    180deg,
-    rgba(18, 72, 159, 1) 9%,
-    rgba(51, 89, 166, 1) 52%,
-    rgba(75, 111, 180, 1) 91%
-  );
-  box-shadow: 2px 0px 11px rgb(80, 124, 201);
+  background: white;
+  // background: linear-gradient(
+  //   180deg,
+  //   rgba(18, 72, 159, 1) 9%,
+  //   $primary-color 52%,
+  //   rgba(75, 111, 180, 1) 91%
+  // );
+  // box-shadow: 2px 0px 11px rgb(80, 124, 201);
   width: 100%;
-  height: 60px;
+  height: 80px;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid #f5f6f9;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 32px;
 
   .navbuttoncontainer1 {
     width: 83.6vw;
@@ -53,7 +120,7 @@ body {
 
   .aboutbutton {
     background: transparent;
-    color: white;
+    color: #667085;
     height: 3.5vh;
     border: none;
     font-size: 1em;
@@ -63,9 +130,18 @@ body {
     }
   }
 
+  // **********
+  // Buttons
+  // **********
+
   .authbutton {
+    font-family: $base-font-family;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
     background: transparent;
-    color: white;
+    color: #ffffff;
     height: 30px;
     width: 70px;
     margin: 1vh 1vw;
@@ -93,7 +169,7 @@ body {
 
   .requestsbutton {
     background: transparent;
-    color: white;
+    color: #667085;
     height: 30px;
     width: 30px;
     margin: 1vh 1vw;
@@ -134,13 +210,60 @@ body {
     }
   }
 }
+
+.btn-group {
+  display: felx;
+  flex-direction: row;
+}
+.btn {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 18px;
+  margin: 8px 8px 8px 0;
+}
+
+.btn-text {
+  font-family: $base-font-family;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+
+  /* Gray/500 */
+  color: #667085;
+}
+
+.accent {
+  background: #7f56d9;
+  /* Primary/600 */
+
+  border: 1px solid #7f56d9;
+  box-sizing: border-box;
+  /* Shadow/xs */
+
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+
+  font-family: $base-font-family;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+
+  /* White */
+  color: #ffffff;
+}
+
+// **********
+// Modals
+// **********
 .modal {
   position: fixed;
   z-index: 1;
-  top: 6vh;
   width: 100%;
   height: 100%;
-  background-color: rgba(125, 161, 231, 0.235);
+  background-color: #cfcfcf3c;
 
   .modal_content {
     background-color: white;
@@ -150,7 +273,6 @@ body {
     width: 40%;
     padding: 20px;
     border-radius: 8px;
-    height: 35vh;
     border-radius: 5px;
     border: 1px solid rgb(230, 230, 230);
     box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.2);
@@ -165,7 +287,6 @@ body {
     width: 25%;
     padding: 20px;
     border-radius: 8px;
-    height: 25vh;
     min-height: 200px;
     border-radius: 5px;
     border: 1px solid rgb(230, 230, 230);
@@ -197,8 +318,8 @@ body {
 
 .inactiveskillbutton {
   background: white;
-  border: 1px solid rgba(51, 89, 166, 1);
-  color: rgba(51, 89, 166, 1);
+  border: 1px solid $primary-color;
+  color: $primary-color;
   border-radius: 3px;
   height: 25px;
   margin: 0.2vh 0.2vw;
@@ -206,8 +327,8 @@ body {
 
 .activeskillbutton {
   background: rgb(230, 239, 255);
-  border: 1px solid rgba(51, 89, 166, 1);
-  color: rgba(51, 89, 166, 1);
+  border: 1px solid $primary-color;
+  color: $primary-color;
   border-radius: 3px;
   height: 25px;
   font-weight: 600;
@@ -219,18 +340,18 @@ body {
   width: 95%;
   margin: 0.5vh 0.2vw;
   border-radius: 5px;
-  border: 1px solid rgba(51, 89, 166, 1);
-  background: rgba(59, 96, 171, 0.119);
+  border: 1px solid $primary-color;
+  padding: 8px;
 }
 
 .loginbutton,
 .signupbutton {
-  background: rgba(51, 89, 166, 1);
+  background: $primary-color;
   color: white;
   height: 35px;
   width: 70px;
   margin: 2vh 0.2vw;
-  border: 1.2px solid rgba(51, 89, 166, 1);
+  border: 1.2px solid $primary-color;
   border-radius: 3px;
 }
 
@@ -272,8 +393,8 @@ body {
   height: 33px;
   width: 50px;
   margin: 5px 0 5px 20px;
-  border: 3px solid rgba(51, 89, 166, 1);
-  background: rgba(51, 89, 166, 1);
+  border: 3px solid $primary-color;
+  background: $primary-color;
   color: white;
   border-radius: 5px;
   &:hover {
@@ -295,7 +416,7 @@ body {
   width: 360px;
   margin: 5px 0 5px 0;
   border-radius: 5px;
-  border: 1px solid rgba(51, 89, 166, 1);
+  border: 1px solid $primary-color;
   background: rgba(59, 96, 171, 0.119);
 }
 
@@ -304,7 +425,7 @@ body {
   height: 30px;
   width: calc(100% - 110px);
   border-radius: 5px;
-  border: 1px solid rgba(51, 89, 166, 1);
+  border: 1px solid $primary-color;
   background: rgba(59, 96, 171, 0.119);
 }
 
@@ -336,21 +457,21 @@ body {
 
 .skillslist-button {
   background: white;
-  border: 1px solid rgba(51, 89, 166, 1);
-  color: rgba(51, 89, 166, 1);
+  border: 1px solid $primary-color;
+  color: $primary-color;
   border-radius: 3px;
   height: 25px;
   margin: 0.2vh 0.2vw;
   &:hover {
-    border: 2px solid rgba(51, 89, 166, 1);
-    // background: rgba(51, 89, 166, 1);
+    border: 2px solid $primary-color;
+    // background: $primary-color;
     // color: white;
   }
 }
 
 .skillslist-button-a {
-  border: 1px solid rgba(51, 89, 166, 1);
-  background: rgba(51, 89, 166, 1);
+  border: 1px solid $primary-color;
+  background: $primary-color;
   height: 25px;
   border-radius: 3px;
   color: white;
@@ -394,7 +515,7 @@ body {
   box-sizing: content-box;
   padding: 20px 15px;
   border-radius: 5px;
-  border: 2px solid rgba(51, 89, 166, 1);
+  border: 2px solid $primary-color;
   background: rgba(125, 161, 231, 0.235);
 }
 
@@ -504,7 +625,7 @@ body {
   display: flex;
   height: 40px;
   align-items: center;
-  border: 1px solid #3359a6;
+  border: 1px solid $primary-color;
   border-radius: 5px;
   margin: 10px;
 }
@@ -541,6 +662,19 @@ body {
   }
 }
 
+// **********
+// Text
+// **********
+.display-xl {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 60px;
+  line-height: 72px;
+  /* or 120% */
+
+  letter-spacing: -0.02em;
+}
 .page-title {
   text-align: center;
   background: rgb(105, 146, 216);
