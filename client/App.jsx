@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import LandingPage from './Components/LandingPage';
-import MainPage from './Components/MainPage';
 import './index.scss';
-import ErrorPage from './Components/ErrorPage';
-import RequestsPage from './Components/RequestsPage';
-import Settings from './Components/Settings';
 import { CircularProgress } from '@material-ui/core';
+
+
+const LandingPage = lazy(() => import( './Components/LandingPage'));
+const MainPage = lazy(() => import ('./Components/MainPage'));
+const ErrorPage = lazy(() => import ('./Components/ErrorPage'));
+const RequestsPage = lazy(() => import ('./Components/RequestsPage'));
+const Settings = lazy(() => import ('./Components/Settings'));
 
 const App = (props) => {
   console.log('app.jsx rendered');
@@ -63,50 +65,54 @@ const App = (props) => {
         </div>
       )}
       {!isLoading && (
-        <Switch>
-          <Route exact path="/">
-            {auth ? (
-              <Redirect to="/main" />
-            ) : (
-              <LandingPage auth={auth} setAuth={setAuth} />
-            )}
-          </Route>
+        <Suspense fallback = { <div className="loading">
+          <CircularProgress />
+        </div>} >
+          <Switch>
+            <Route exact path="/">
+              {auth ? (
+                <Redirect to="/main" />
+              ) : (
+                <LandingPage auth={auth} setAuth={setAuth} />
+              )}
+            </Route>
 
-          <Route exact path="/main">
-            {auth ? (
-              <MainPage
-                auth={auth}
-                setAuth={setAuth}
+            <Route exact path="/main">
+              {auth ? (
+                <MainPage
+                  auth={auth}
+                  setAuth={setAuth}
                 // isRead={isRead}
-              />
-            ) : (
-              <Redirect to="/" />
-            )}
-          </Route>
+                />
+              ) : (
+                <Redirect to="/" />
+              )}
+            </Route>
 
-          <Route exact path="/requests">
-            {auth ? (
-              <RequestsPage auth={auth} setAuth={setAuth} />
-            ) : (
-              <Redirect to="/" />
-            )}
-          </Route>
+            <Route exact path="/requests">
+              {auth ? (
+                <RequestsPage auth={auth} setAuth={setAuth} />
+              ) : (
+                <Redirect to="/" />
+              )}
+            </Route>
 
-          <Route exact path="/settings">
-            {auth ? (
-              <Settings
-                auth={auth}
-                setAuth={setAuth}
+            <Route exact path="/settings">
+              {auth ? (
+                <Settings
+                  auth={auth}
+                  setAuth={setAuth}
                 // isRead={isRead}
-              />
-            ) : (
-              <Redirect to="/" />
-            )}
-          </Route>
+                />
+              ) : (
+                <Redirect to="/" />
+              )}
+            </Route>
 
-          <Route path="/404" component={ErrorPage} />
-          <Redirect to="/404" />
-        </Switch>
+            <Route path="/404" component={ErrorPage} />
+            <Redirect to="/404" />
+          </Switch>
+        </Suspense>
       )}
     </div>
   );

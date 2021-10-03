@@ -23,7 +23,7 @@ A simple CSS preset to enable box-sizing, set some text rendering options to dec
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-kerning: auto;
-  overflow: hidden visible;
+  overflow: hidden;
 }
 
 input:focus{
@@ -576,7 +576,7 @@ body {
 }
 
 .admin-settings-addskill {
-  height: 200px;
+  height: 170px;
   box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
   border: 1px solid #dfdfdf;
   border-radius: 3px;
@@ -601,6 +601,7 @@ body {
   border: 1px solid #dfdfdf;
   border-radius: 3px;
   background-color: white;
+  height: 180px;
 }
 
 .user-settings-newskills {
@@ -610,11 +611,12 @@ body {
   border: 1px solid #dfdfdf;
   border-radius: 3px;
   background-color: white;
+  height: calc((100% - 220px)/2);
 }
 
 .listofskills {
   overflow: scroll;
-  // height: calc(100% - 70px);
+  height: calc(100% - 70px);
 }
 
 .skill-add-error {
@@ -690,7 +692,7 @@ body {
   text-align: center;
   // background: rgb(105, 146, 216);
   padding: 10px 0px 10px 0px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   font-size: 18px;
   color: $base-text-color-light-bg;
   border-radius: 5px;
@@ -699,7 +701,7 @@ body {
 .form-title {
   text-align: center;
   padding: 10px 0px 10px 0px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   font-size: 18px;
   color: #667085;
   border-radius: 5px;
