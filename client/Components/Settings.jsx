@@ -1,49 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React from 'react';
 import SettingsAdmin from './SettingsAdmin';
 import SettingsReg from './SettingsReg';
-import scratchLogo from '../images/logo-graph.png';
+import Navbar from './Navbar';
+
 
 const Settings = (props) => {
   const isAdmin = localStorage.getItem('admin');
-  const isRead = localStorage.getItem('isRead');
+  const newMessage = localStorage.getItem('newMessage');
 
   return (
     <div className="requestspage">
-      <div className="navbar">
-        <div className="main-navbuttoncontainer2">Logo</div>
-        <div className="navbuttoncontainer22">
-          <Link to="/">
-            <img src={scratchLogo} alt="scratchLogo" />
-          </Link>
-          {isAdmin === 'true' && <span className="isadmin">ADMIN</span>}
-        </div>
-        <div className="navbuttoncontainer2">
-          <Link to="/requests">
-            <button
-              className={
-                isRead === null ? 'btn requestsbutton' : 'btn requestsbutton-a'
-              }
-            >
-              Requests
-            </button>
-          </Link>
-        </div>
-        <div className="navbuttoncontainer2">
-          <button className="btn btn-text">Settings</button>
-        </div>
-        <div className="navbuttoncontainer3">
-          <button
-            className="btn accent"
-            onClick={(e) => {
-              localStorage.clear();
-              props.setAuth(false);
-            }}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
+      <Navbar 
+        isAdmin={isAdmin}
+        newMessage={newMessage}
+        setAuth={props.setAuth} />
+
       {isAdmin === 'true' && <SettingsAdmin />}
       {isAdmin !== 'true' && <SettingsReg />}
     </div>

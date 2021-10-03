@@ -26,6 +26,10 @@ A simple CSS preset to enable box-sizing, set some text rendering options to dec
   overflow: hidden visible;
 }
 
+input:focus{
+outline: 1px solid $primary-color;
+}
+
 html {
   font-family: $base-font-family;
   -webkit-text-size-adjust: 100%;
@@ -125,96 +129,34 @@ body {
 // **********
 .navbar {
   background: white;
-  // background: linear-gradient(
-  //   180deg,
-  //   rgba(18, 72, 159, 1) 9%,
-  //   $primary-color 52%,
-  //   rgba(75, 111, 180, 1) 91%
-  // );
-  // box-shadow: 2px 0px 11px rgb(80, 124, 201);
   width: 100%;
-  height: 80px;
+  height: 70px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #f5f6f9;
+  border-bottom: 1px solid #dededf;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 0px 32px;
 
-  .navbuttoncontainer1 {
-    width: 83.6vw;
-    margin-left: 3vw;
-  }
 
   .main-navbuttoncontainer1 {
-    width: 80vw;
-    margin-left: 3vw;
+    width: 70vw;
     color: white;
+    flex:1;
   }
 
-  .main-navbuttoncontainer2 {
-    margin-left: 3.1vw;
-    color: white;
-  }
-
-  .navbuttoncontainer22 {
-    width: 78vw;
-  }
-
-  .aboutbutton {
-    background: transparent;
-    color: #667085;
-    height: 3.5vh;
-    border: none;
-    font-size: 1em;
-    font-weight: 400;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 
   // **********
   // Buttons
   // **********
 
-  .authbutton {
-    font-family: $base-font-family;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    background: transparent;
-    color: #ffffff;
-    height: 30px;
-    width: 70px;
-    margin: 1vh 1vw;
-    border: 1.2px solid white;
-    border-radius: 3px;
-    &:hover {
-      border: 2px solid white;
-      font-weight: 600;
-    }
-  }
-
-  .authbutton-s {
-    background: transparent;
-    color: white;
-    height: 30px;
-    width: 70px;
-    margin: 1vh 1vw;
-    border: 2.2px solid white;
-    border-radius: 3px;
-    &:hover {
-      border: 2px solid white;
-      font-weight: 600;
-    }
-  }
 
   .requestsbutton {
     background: transparent;
     color: $base-text-color-light-bg;
     border: none;
+    width: 100px;
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
@@ -228,7 +170,7 @@ body {
     background: transparent;
     color: rgb(224, 240, 255);
     height: 30px;
-    width: 30px;
+    width: 100px;
     margin: 1vh 1vw;
     font-size: 15px;
     border: 2.2px solid white;
@@ -246,6 +188,7 @@ body {
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
+    width: 100px;
     &:hover {
       border: 1px solid $primary-color;
       font-weight: 900;
@@ -264,7 +207,7 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px 18px;
+  padding: 7px 10px;
   margin: 8px 8px 8px 0;
 
   background: #ffffff;
@@ -283,9 +226,13 @@ body {
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-
+  width: 100px;
   /* Gray/500 */
   color: #667085;
+  &:hover {
+    border: 2px solid white;
+    font-weight: 600;
+  }
 }
 
 .accent {
@@ -303,10 +250,17 @@ body {
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 22px;
 
   /* White */
   color: #ffffff;
+}
+
+.logout {
+  width: 86px;
+    &:hover {
+      border: 1px solid #fefefe;
+  }
 }
 
 // **********
@@ -543,7 +497,8 @@ body {
 .requests-inner {
   width: 40vw;
   margin: 5vh 30vw;
-  height: calc(95vh - 110px);
+  height: calc(95vh - 115px);
+  overflow: hidden;
 }
 
 .requests-container {
@@ -553,8 +508,8 @@ body {
 }
 
 .requests-name {
-  margin: 0 0 10px 0;
   font-size: 14px;
+  height: 30px;
 }
 
 .requests-body {
@@ -562,7 +517,7 @@ body {
   box-sizing: content-box;
   padding: 20px 15px;
   border-radius: 5px;
-  background: #937bb930;
+  background: $skill-fill-selected;
 }
 
 .requests-body-new {
@@ -615,7 +570,7 @@ body {
 
 .admin-settings-internal {
   width: 26vw;
-  height: calc(90vh - 60px);
+  height: calc(90vh - 70px);
   margin: 5vh 37vw;
   border-radius: 5px;
 }
@@ -735,7 +690,7 @@ body {
   text-align: center;
   // background: rgb(105, 146, 216);
   padding: 10px 0px 10px 0px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   font-size: 18px;
   color: $base-text-color-light-bg;
   border-radius: 5px;
@@ -771,4 +726,5 @@ body {
 .isadmin-main {
   color: rgb(27, 232, 27);
   float: right;
+  width: 90px;
 }
