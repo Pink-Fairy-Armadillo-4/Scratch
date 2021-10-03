@@ -23,7 +23,7 @@ A simple CSS preset to enable box-sizing, set some text rendering options to dec
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-kerning: auto;
-  overflow: hidden visible;
+  overflow: hidden scroll;
 }
 
 input:focus{
@@ -60,7 +60,7 @@ body {
 
 .landing-page-bg {
   /* The image used */
-  background-image: url("./images/landing-page-flip.jpg");
+  background-image: url("./images/landing-page.jpg");
 
   /* Full height */
 
@@ -576,7 +576,7 @@ body {
 }
 
 .admin-settings-addskill {
-  height: 200px;
+  height: 180px;
   box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
   border: 1px solid #dfdfdf;
   border-radius: 3px;
@@ -651,7 +651,7 @@ body {
   width: 30px;
   height: 30px;
   border-radius: 30px;
-  margin: 5%;
+  margin: 5px;
   background: $primary-color;
   border: 3px solid $primary-color;
   color: white;
