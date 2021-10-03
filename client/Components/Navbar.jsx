@@ -2,7 +2,12 @@ import React from 'react';
 import scratchLogo from '../images/logo-graph.png';
 import { Link } from 'react-router-dom';
 
-
+/* 
+component rendered in all protected routes. 
+if props.newMessage is true will change class of Requests button to show newMessages available
+if props.isAdmin is true will render  Admin button
+Logout on click sets Auth to false and clears localStorage;
+*/
 
 const Navbar = (props) => {
 

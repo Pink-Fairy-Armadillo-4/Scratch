@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 
+/*
+sends data received from state of parent component - MainPage 
+and value of input field (or props email if input field is empty);
+updates state of statusReceived and conditionally renders error or 
+success div
+ */
+
 const SendMessage = (props) => {
   const sourceEmail = localStorage.getItem('email');
   const [email, setEmail] = useState(sourceEmail);
   const [statusReceived, setStatusReceived] = useState(false);
+
   const emailEntered = (e) => {
     setEmail(e.target.value);
   };
@@ -20,7 +28,6 @@ const SendMessage = (props) => {
         targetName: props.selectedUser.name,
         skill: props.graphData.skills[0],
       };
-      console.log(data);
       const sent = await fetch('/api/sendMessage', {
         method: 'POST',
         headers: {

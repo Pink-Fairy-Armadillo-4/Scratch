@@ -5,7 +5,7 @@ import SkillButton from './SkillButton';
 signup pop up component
  */
 const PopUpReg = (props) => {
-  // initial state to submit info for authorization
+  // initial state info for authorization
   const info = {
     firstName: null,
     lastName: null,
@@ -13,7 +13,7 @@ const PopUpReg = (props) => {
     password: null,
     skillsToTeach: {},
   };
-  //state to submit info for authorization
+  //state to hold info for authorization
   const [data, setData] = useState(info);
   //state to handle skills available in database
   const [skills, setSkills] = useState([]);
@@ -21,7 +21,7 @@ const PopUpReg = (props) => {
   const [skillId, setSkillId] = useState({});
   //loading component while awaiting data
   const [isLoading, setIsLoading] = useState(true);
-
+  //state to conditionally render error message on unsuccessfull signup
   const [errorOnSignup, setErrorOnSignup] = useState(false);
 
   //getting skills on mount from backend
@@ -45,10 +45,12 @@ const PopUpReg = (props) => {
       setIsLoading(false);
     }
   };
+
   //function to close popup window
   const handleClick = () => {
     props.toggleReg();
   };
+
   //if skills to teach weren't added to array - add, otherwise remove from array
   const skillButtonClick = (e) => {
     data.skillsToTeach[e]
@@ -77,7 +79,7 @@ const PopUpReg = (props) => {
   const lastNameEntered = (e) => {
     setData((data) => ({ ...data, lastName: e.target.value }));
   };
-
+  // func to find right cookie on successfull auth that holds token;
   const findCookie = (cookies) => {
     let res = cookies.split('; ');
     let rightCookie = '';
@@ -89,7 +91,11 @@ const PopUpReg = (props) => {
     res = rightCookie.split('=')[1];
     return res;
   };
-
+  // func to submit auth info. updates states of errors on unsuccessful signup.
+  // on successful signup stores cookie as token in localStorage;
+  // finds if user is admin, has messages and stores data in localStorage;
+  // sets auth to true and redirects to '/main';
+  
   const submitInfo = async () => {
     try {
       const res = await fetch('/auth/signup', {
@@ -100,7 +106,6 @@ const PopUpReg = (props) => {
         body: JSON.stringify(data),
       });
       const resp = await res.json();
-      // console.log('resp', resp);
       if (!resp.hasLogged) {
         setErrorOnSignup(true);
       } else if (resp.hasLogged === 'format') {

@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
+
 /*
 login popup component
-
  */
+
 const PopUpLog = ({ auth, setAuth, toggleLog }) => {
+
+  //data to set initial state
   const info = {
     email: null,
     password: null,
   };
   const [login, setLogin] = useState(info);
   const [errorOnLogin, setErrorOnLogin] = useState(false);
-  // console.log(login);
+
   // func to extract right cookie with token from response;
   const findCookie = (cookies) => {
     let res = cookies.split('; ');
@@ -23,17 +26,12 @@ const PopUpLog = ({ auth, setAuth, toggleLog }) => {
     res = rightCookie.split('=')[1];
     return res;
   };
-  //  expect to receive an object with property haslogged: true || false
-  //  and property - {firstName,
-  //  lastName}
-  //  expect cookie to be received with key SSID and value of token
-  //  if login successfull
-
-  // const resp = {haslogged: false|| true, name: {firstName: 'dd', lastName: 'dd'}, isAdmin: 'fj'}
 
   // submitting request to verify user,
+  // if success - set auth to true, this will trigger rerender of App component and redirect from landing to main page;
   // if success - set user name in localStorage,
   // if admin - set user status in localStorage,
+  // if new messages available - set newMessage property in localStorage
   // get cookie and store in localStorage,
 
   const submitInfo = async (e) => {

@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 
+/*
+Rendered component in SettingsAdmin
+OnClick triggers handleClick in parent component passing id as arg. 
+ */
+
 const SkillAdmin = (props) => {
   const buttonClicked = (e) => {
     props.handleClick(e.target.id);

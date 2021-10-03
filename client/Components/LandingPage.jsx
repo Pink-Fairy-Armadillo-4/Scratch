@@ -1,34 +1,25 @@
-import React, { useState, useEffect } from "react"
-import PopUp from "./PopUp"
-import PopUpLog from "./PopUpLog"
-import PopUpReg from "./PopUpReg"
-import logo from "../images/landing-page.jpg"
+import React, { useState, useEffect } from 'react';
+import PopUpLog from './PopUpLog';
+import PopUpReg from './PopUpReg';
 
 const LandingPage = (props) => {
-  // console.log('landing page rendered');
-  const [seen, setSeen] = useState(false)
-  const [seenLog, setSeenLog] = useState(false)
-  const [seenSignUp, setSeenSignUp] = useState(false)
+  //states to open/close modal, passed as props to PopUpLog, PopUpReg components;
+  const [seenLog, setSeenLog] = useState(false);
+  const [seenSignUp, setSeenSignUp] = useState(false);
 
-  const togglePop = () => {
-    seen ? setSeen(false) : setSeen(true)
-    seenLog ? setSeenLog(false) : null
-    seenSignUp ? setSeenSignUp(false) : null
-  }
+  // functions on click to modify state of PopUpLog, PopUpReg 
+  // and open/close modals. condit rendering
   const togglePopLog = () => {
-    seenLog ? setSeenLog(false) : setSeenLog(true)
-    seen ? setSeen(false) : null
-    seenSignUp ? setSeenSignUp(false) : null
-  }
+    seenLog ? setSeenLog(false) : setSeenLog(true);
+    seenSignUp ? setSeenSignUp(false) : null;
+  };
   const togglePopReg = () => {
-    seenSignUp ? setSeenSignUp(false) : setSeenSignUp(true)
-    seen ? setSeen(false) : null
-    seenLog ? setSeenLog(false) : null
-  }
+    seenSignUp ? setSeenSignUp(false) : setSeenSignUp(true);
+    seenLog ? setSeenLog(false) : null;
+  };
 
   return (
     <div className="parent landing-page-bg">
-      {seen && <PopUp toggle={togglePop} />}
       {seenLog && (
         <PopUpLog
           toggleLog={togglePopLog}
@@ -57,7 +48,7 @@ const LandingPage = (props) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;

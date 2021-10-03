@@ -2,12 +2,18 @@ import React, {useEffect, useState} from 'react';
 import SkillAdmin from './SkillAdmin';
 
 const SettingsAdmin = (props) => {
+  //handles all skills received on mount from fetch,
   const [allSkills, setAllSkills] = useState([]);
+  //holds newSkill state that is set on Change of input value;
   const [newSkill, setNewSkill] = useState('');
+  // state updates if newSkill is not set but submit clicked. 
+  // conditionally renders error div
   const [error, setError] = useState(false);
+  //state updates if newSkill is already existing in list of allSkills
+  //conditionally renders error div
   const [errorExist, setErrorExist] = useState(false);
 
-
+  //triggers func to fetch all skills on mount
   useEffect(() => {
     fetchData();
   }, []);
@@ -28,9 +34,11 @@ const SettingsAdmin = (props) => {
   }
   , [errorExist]);
 
+  // func to delete skill, triggered in SkillAdmin component, 
+  // receives new skills and sets state to hold all skills, rerenders component
+  // sorts all skills in ascending order 
   const handleClick = async (arg) => {
     try{
-      console.log('arg', arg);
       const response = await fetch('/api/delSkill', {
         method: 'DELETE', 
         headers: {
@@ -46,6 +54,8 @@ const SettingsAdmin = (props) => {
     catch (err) {console.log(err);}
   };
 
+  // receives new skills and sets state to hold all skills, rerenders component on mount
+  // sorts all skills in ascending order 
   const fetchData = async() => {
     try{
       const res = await fetch('/api/allSkills/all');
@@ -63,6 +73,9 @@ const SettingsAdmin = (props) => {
     setNewSkill(e.target.value);
   };
   
+  // func to add skill, receives skill from state that is set as value of input on change
+  // receives new skills and sets state to hold all skills, rerenders component
+  // sorts all skills in ascending order 
   const addSkill = async () => {
     try {
       if (!newSkill) {
@@ -84,7 +97,6 @@ const SettingsAdmin = (props) => {
       });
 
       const data = await res.json();
-      console.log(data);
       data.sort((a, b) => (a.name > b.name) ? 1 : -1);
       setAllSkills(data);
     }

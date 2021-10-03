@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, Trash } from '@fortawesome/free-solid-svg-icons';
+/*
+ Request/Message component.
+ renders date, sender and Request Body.
+ Has different classes for read and unread requests
+ */
 
 const Request = (props) => {
+
   const [style, setStyle] = useState('requests-body');
-  console.log('req props', props);
   const date = new Date(props.time);
   const time = date.toLocaleTimeString('en-US', {
     hour: '2-digit',
@@ -14,7 +17,6 @@ const Request = (props) => {
   const day = date.toLocaleDateString('en-US');
 
   const deleteMessage = (e) => {
-    console.log('what should be passed', e.target.id);
     props.handleClick(e.target.id);
   };
 
@@ -22,13 +24,6 @@ const Request = (props) => {
     !props.isRead ? setStyle('requests-body-new') : null;
   }, []);
 
-  // useEffect(() => {
-  //   if (style === 'requests-body-new') {
-  //     setTimeout(() => {
-  //       setStyle('requests-body');
-  //     }, 5000);}
-  // }
-  // , [style]);
 
   return (
     <div className="request">

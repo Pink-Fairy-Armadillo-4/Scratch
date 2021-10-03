@@ -2,27 +2,33 @@ import React, { useEffect, useState } from 'react';
 import SkillAdmin from './SkillAdmin';
 
 const SettingsReg = (props) => {
+  //holds newSkills state
   const [newSkills, setNewSkills] = useState([]);
+  //holds skills user already teaches
   const [userSkills, setUserSkills] = useState([]);
+  //states below represent different errors
   const [error, setError] = useState(false);
   const [errorExist, setErrorExist] = useState(false);
   const [errorEmail, setErrorEmail] = useState(false);
   const [wrongEmail, setWrongEmail] = useState(false);
+
   const emailLS = localStorage.getItem('email');
   const [email, setNewEmail] = useState(emailLS);
   const [emailChange, setEmailChange] = useState(false);
 
-  console.log('email:', email);
-
+  // email validation func, returns boolean;
   function validateEmail(str) {
     const re =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(str).toLowerCase());
   }
-
+  
+  // calls func to fetch allSkills on mount;
   useEffect(() => {
     fetchData();
   }, []);
+
+  // useEffects below set timeout to udate states of errors if errors are true in 1.5 sec;
 
   useEffect(() => {
     if (error === true) {
@@ -63,6 +69,10 @@ const SettingsReg = (props) => {
       }, 1500);
     }
   }, [wrongEmail]);
+
+  // fetches data on mount; 
+  // GET request;
+  // sorting skills to 2 states - newSkills and userSkills by finding if user id is present in skills teachers array of objects;
 
   const fetchData = async () => {
     try {
@@ -131,6 +141,11 @@ const SettingsReg = (props) => {
     }
   };
 
+    
+  //triggered in SkillAdmin Component;
+  //sends POST request to add the skill;
+  //response - new list of all skills;
+  //sorting skills to 2 states - newSkills and userSkills by finding if user id is present in skills teachers array of objects
   const addNewSkill = async (arg) => {
     try {
       console.log({ skillName: arg, email: email });
@@ -166,10 +181,13 @@ const SettingsReg = (props) => {
       console.log(err);
     }
   };
-
+  
+  //triggered in SkillAdmin Component;
+  //sends delete request to delete the skill;
+  //response - new list of all skills;
+  //sorting skills to 2 states - newSkills and userSkills by finding if user id is present in skills teachers array of objects
   const deleteUserSkill = async (arg) => {
     try {
-      console.log({ skillName: arg, email: email });
       const res = await fetch('api/deleteuserskill', {
         method: 'DELETE',
         headers: {

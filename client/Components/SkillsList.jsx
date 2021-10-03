@@ -1,10 +1,15 @@
 import React, {useState, useEffect} from 'react';
 
+/*
+component is rendered on MainPage;
+onClick on button which is skill will fetch GraphData and pass it to parent component to rerender ForceGraph;
+ */
+
 const SkillsList = (props) => {
   const [allSkills, setAllSkills] = useState(props.graphData.skills);
   const [classname, setClassName] = useState('skillslist-button');
   const [selectedSkill, setSelectedSkill] = useState('');
-  const email = localStorage.getItem('email');
+
   const handleClick = async (e) => {
     try{
       if (props.activeStyle === 'text-inactive') {props.setActiveStyle('text-active');}

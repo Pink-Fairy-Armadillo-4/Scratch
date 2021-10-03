@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import './index.scss';
 import { CircularProgress } from '@material-ui/core';
 
-
+//lazy loading components to split bundle.js into chunks
 const LandingPage = lazy(() => import( './Components/LandingPage'));
 const MainPage = lazy(() => import ('./Components/MainPage'));
 const ErrorPage = lazy(() => import ('./Components/ErrorPage'));
@@ -11,23 +11,21 @@ const RequestsPage = lazy(() => import ('./Components/RequestsPage'));
 const Settings = lazy(() => import ('./Components/Settings'));
 
 const App = (props) => {
-  console.log('app.jsx rendered');
+  //state updated on login, signup
   const [auth, setAuth] = useState(false);
+  //token stored upon successful auth to replace sessions. 
   const authToken = localStorage.getItem('token');
+  
   const [isLoading, setIsLoading] = useState(true);
 
-  //we will use useRef for storing isRead
-  //we will pass it to landing page and update it there if
+  //verifying token from localStorage on mount and auth to avoid hacked localStorage
+  //checked every time we refresh browser or load one of urls in browser
 
   useEffect(() => {
     fetchData();
     console.log('useeffect called in app.jsx');
   }, [auth]);
 
-  useEffect(() => {
-    //if auth true - we will send a request for
-    //reading us
-  }, []);
 
   const fetchData = async () => {
     try {
@@ -42,7 +40,6 @@ const App = (props) => {
         const data = await res.json();
         if (data.verified === true) {
           setAuth(true);
-          console.log(data);
         } else {
           localStorage.clear();
           setAuth(false);
@@ -69,6 +66,12 @@ const App = (props) => {
           <CircularProgress />
         </div>} >
           <Switch>
+
+            {/*
+            if authorized upon visiting one of the routes will be loaded component, 
+            otherwise will be redirected to landing page
+             */}
+             
             <Route exact path="/">
               {auth ? (
                 <Redirect to="/main" />
@@ -82,7 +85,6 @@ const App = (props) => {
                 <MainPage
                   auth={auth}
                   setAuth={setAuth}
-                // isRead={isRead}
                 />
               ) : (
                 <Redirect to="/" />
@@ -102,7 +104,6 @@ const App = (props) => {
                 <Settings
                   auth={auth}
                   setAuth={setAuth}
-                // isRead={isRead}
                 />
               ) : (
                 <Redirect to="/" />

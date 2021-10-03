@@ -7,31 +7,42 @@ import SkillsList from './SkillsList';
 import Navbar from './Navbar';
 
 const MainPage = (props) => {
+  //state passed to nodes of ForceGraph to select user on click on node in graph
+  //and pass to SendMessage component as prop
   const [selectedUser, setSelectedUser] = useState({});
+  //state to hold all data fetched on mount and passed to ForceGraph
   const [graphData, setGraphData] = useState({});
+
   const [isLoading, setIsLoading] = useState(true);
+  //
   const [activeStyle, setActiveStyle] = useState('text-active');
+
+  // checking if user has new messages/requests in localStorage
+  // stored upon successful auth
   const newMessage = localStorage.getItem('newMessage');
+
+  // checking if user is admin in localStorage
+  // stored upon successful auth
   const isAdmin = localStorage.getItem('admin');
 
+  // func to display tooltip on hover over node in ForceGraph. 
+  // passed as prop to ForceGraph
   const nodeHoverTooltip = React.useCallback((node) => {
     return `<div>${node.name}</div>`;
   }, []);
-
+  
+  //func triggered onclick on node in ForceGraph. 
+  //sets selectedUser state to render SendMessage component
   function getNodeInfo(nodeInfo) {
     return setSelectedUser(nodeInfo);
   }
 
+  //fetches graphData on mount and updates state
   const dataFetch = async () => {
     try {
       const resp = await fetch('/api/nodes/all');
       const data = await resp.json();
-      console.log('Fetch ', data);
       setGraphData(data);
-
-      //uncomment after request works
-      //props.setRequests(data.messages);
-      // data.messages.forEach(message => {if(message.isRead === false){props.setIsRead(false);}});
     } catch (err) {
       console.log(err);
     } finally {
@@ -39,6 +50,8 @@ const MainPage = (props) => {
     }
   };
 
+
+  // updates class in SkillsList after 2 sec 
   useEffect(() => {
     setTimeout(() => {
       if (activeStyle === 'text-inactive') setActiveStyle('text-active');
@@ -46,17 +59,15 @@ const MainPage = (props) => {
   }, [activeStyle]);
 
   useEffect(() => {
-    // console.log("called")
     dataFetch();
   }, []);
-
+  //sets selectedUser to empty object to unmount SendMessage component on click on span in SendMessage component
   const cancelMessage = () => {
     setSelectedUser({});
   };
 
   return (
     <div className="mainpage">
-
       <Navbar 
         isAdmin={isAdmin}
         newMessage={newMessage}
@@ -92,18 +103,7 @@ const MainPage = (props) => {
           )}
         </section>
       )}
-      {/* <section className="Main">
-        {graphData.nodes !== undefined && (
-        )}
-      </section> */}
-      {/* {graphData.nodes !== undefined && (
-        <ForceGraph
-          getNodeInfo={getNodeInfo}
-          setActiveStyle={setActiveStyle}
-          activeStyle={activeStyle}
-          graphData={graphData}
-        />
-      )} */}
+     
       {selectedUser.id && graphData.skills.length === 1 && (
         <SendMessage
           selectedUser={selectedUser}

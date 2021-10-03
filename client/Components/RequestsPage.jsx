@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Request from './Request';
 import { CircularProgress } from '@material-ui/core';
-import scratchLogo from '../images/logo-graph.png';
 import Navbar from './Navbar';
 
+/*
+fetches data on mount and renders Request Components;
+handleClick sends delete request and receives new data, updates requests state and rerenders component with new data.
+ */
+
 const RequestsPage = (props) => {
+
   localStorage.removeItem('newMessage');
   const isAdmin = localStorage.getItem('admin');
   const [requests, setRequests] = useState([]);
@@ -43,7 +47,6 @@ const RequestsPage = (props) => {
       setIsLoading(false);
     }
   };
-  console.log('requests are', requests);
 
   return (
     <div className="requestspage">
