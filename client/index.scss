@@ -1,0 +1,752 @@
+$primary-color: #7f56d9;
+$skill-fill-selected: #ede6ff;
+$background-color-modal: #cfcfcf3c;
+$base-text-color-light-bg: #667085;
+$base-text-color-dark-bg: #ffffff;
+$base-font-family: Inter;
+
+/*
+# CSS Preset
+## version 1.0.0
+A simple CSS preset to enable box-sizing, set some text rendering options to decrease the differences between browsers, and set a couple of nice defaults.
+## Usage
+    <link href=preset.css rel=stylesheet>
+## Info
+- author: Tommy Hodgins
+- license: MIT
+- website: https://github.com/tomhodgins/preset
+*/
+
+* {
+  box-sizing: border-box;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-kerning: auto;
+  overflow: hidden;
+}
+
+input:focus {
+outline: 1px solid $primary-color;
+}
+
+html {
+  font-family: $base-font-family;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+body {
+  background-color: white;
+  margin: 0;
+}
+
+.landingpage {
+  width: 100vw;
+  height: 100vh;
+
+  .logocontainer {
+    height: 92vh;
+    margin: 2vh 0 0 10vw;
+
+    .logoImg {
+      max-height: 100%;
+    }
+  }
+}
+
+.landing-page-bg {
+  /* The image used */
+  background-image: url("./images/landing-page.jpg");
+
+  /* Full height */
+
+  object-fit: fill;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+// **********
+// Containers
+// **********
+.parent {
+  display: flex;
+  min-height: 100vh;
+}
+
+.children {
+  margin: auto 20% auto 37.5%;
+  max-width: 30%;
+}
+
+.split-6 {
+  display: flex;
+  flex-direction: row;
+}
+
+.landingpage-image {
+  background-image: url("./images/landing-page.jpg");
+  background-color: #cccccc;
+  border-radius: 0px 64px;
+}
+
+.change-email-form {
+  display: flex;
+  align-items: center;
+  /* justify-content: stretch; */
+  flex: 1;
+  padding: 0 20px 0 20px;
+}
+
+.update-email-input {
+  flex-grow: 1;
+  margin: 15px 0 15px 15px;
+  border-radius: 8px;
+  border: 1px solid $primary-color;
+  padding: 8px;
+  background: $skill-fill-selected;
+}
+
+.update-email {
+  padding: 8px;
+  margin: 5px 0 5px 20px;
+  border: 3px solid $primary-color;
+  background: $primary-color;
+  color: $base-text-color-dark-bg;
+  border-radius: 8px;
+  &:hover {
+    border: 1px solid white;
+  }
+}
+
+// **********
+// Component level styles
+// **********
+.navbar {
+  background: white;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #dededf;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 32px;
+
+
+  .main-navbuttoncontainer1 {
+    width: 70vw;
+    color: white;
+    flex:1;
+  }
+
+
+  // **********
+  // Buttons
+  // **********
+
+
+  .requestsbutton {
+    background: transparent;
+    color: $base-text-color-light-bg;
+    border: none;
+    width: 100px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    &:hover {
+      border: 2px solid white;
+      font-weight: 600;
+    }
+  }
+
+  .requestsbutton-r {
+    background: transparent;
+    color: rgb(224, 240, 255);
+    height: 30px;
+    width: 100px;
+    margin: 1vh 1vw;
+    font-size: 15px;
+    border: 2.2px solid white;
+    border-radius: 50%;
+    &:hover {
+      border: 2px solid white;
+      font-weight: 600;
+    }
+  }
+
+  .requestsbutton-a {
+    background: transparent;
+    color: $primary-color;
+    border: none;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    width: 100px;
+    &:hover {
+      border: 1px solid $primary-color;
+      font-weight: 900;
+      border: none;
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+}
+
+.btn-group {
+  display: felx;
+  flex-direction: row;
+}
+.btn {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 7px 10px;
+  margin: 8px 8px 8px 0;
+
+  background: #ffffff;
+  box-sizing: border-box;
+  border: none;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: $base-text-color-light-bg;
+}
+
+.btn-text {
+  font-family: $base-font-family;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  width: 100px;
+  /* Gray/500 */
+  color: #667085;
+  &:hover {
+    border: 2px solid white;
+    font-weight: 600;
+  }
+}
+
+.accent {
+  background: #7f56d9;
+  /* Primary/600 */
+
+  border: 1px solid #7f56d9;
+  box-sizing: border-box;
+  /* Shadow/xs */
+
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+
+  font-family: $base-font-family;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+
+  /* White */
+  color: #ffffff;
+}
+
+.logout {
+  width: 86px;
+    &:hover {
+      border: 1px solid #fefefe;
+  }
+}
+
+// **********
+// Modals
+// **********
+.modal {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background-color: #cfcfcf3c;
+
+  .modal_content {
+    background-color: white;
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+    padding: 20px;
+    border-radius: 8px;
+    border-radius: 5px;
+    border: 1px solid rgb(230, 230, 230);
+    box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.2);
+    overflow: scroll;
+  }
+
+  .modal_content_login {
+    background-color: white;
+    position: absolute;
+    top: 20%;
+    right: 37.5%;
+    width: 25%;
+    padding: 20px;
+    border-radius: 8px;
+    min-height: 200px;
+    border-radius: 5px;
+    border: 1px solid rgb(230, 230, 230);
+    box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .modal_content_signup {
+    background-color: white;
+    position: absolute;
+    top: 20%;
+    right: 37.5%;
+    width: 25%;
+    padding: 20px;
+    border-radius: 8px;
+    border-radius: 5px;
+    border: 1px solid rgb(230, 230, 230);
+    box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .close {
+    color: Black;
+    float: right;
+    &:hover {
+      color: rgb(101, 101, 101);
+      cursor: pointer;
+    }
+  }
+}
+
+.inactiveskillbutton {
+  background: white;
+  border: 1px solid $primary-color;
+  color: $primary-color;
+  border-radius: 3px;
+  height: 25px;
+  margin: 0.2vh 0.2vw;
+}
+
+.activeskillbutton {
+  background: $skill-fill-selected;
+  border: 1px solid $primary-color;
+  color: $primary-color;
+  border-radius: 3px;
+  height: 25px;
+  font-weight: 600;
+  margin: 0.2vh 0.2vw;
+}
+
+.form-control {
+  height: 30px;
+  width: 95%;
+  margin: 0.5vh 0.2vw;
+  border-radius: 5px;
+  border: 1px solid $primary-color;
+  padding: 8px;
+}
+
+.loginbutton,
+.signupbutton {
+  background: $primary-color;
+  color: white;
+  height: 35px;
+  width: 70px;
+  margin: 2vh 0.2vw;
+  border: 1.2px solid $primary-color;
+  border-radius: 3px;
+}
+
+.form-group-add {
+  margin: 1vh 0.2vw;
+  font-size: 18px;
+}
+
+.loginerror-message {
+  margin: 1vh 0.2vw;
+  color: red;
+}
+
+.messenger {
+  height: 22vh;
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  margin: 0.4vh;
+  box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgb(223, 223, 223);
+  border-radius: 3px;
+  background-color: white;
+  display: flex;
+}
+
+.internal-messenger {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  p {
+    text-align: center;
+    margin: 2vh 50px;
+  }
+}
+
+.sendmessage {
+  height: 33px;
+  width: 50px;
+  margin: 5px 0 5px 20px;
+  border: 3px solid $primary-color;
+  background: $primary-color;
+  color: white;
+  border-radius: 5px;
+  &:hover {
+    border: 1px solid white;
+  }
+}
+
+.close {
+  color: Black;
+  float: right;
+  &:hover {
+    color: rgb(101, 101, 101);
+    cursor: pointer;
+  }
+}
+
+.form-control-messenger {
+  height: 30px;
+  width: 360px;
+  margin: 5px 0 5px 0;
+  border-radius: 5px;
+  border: 1px solid $primary-color;
+  padding: 8px;
+  background: $skill-fill-selected;
+}
+
+.form-control-admin {
+  margin: 15px 0 15px 15px;
+  height: 30px;
+  width: calc(100% - 110px);
+  border-radius: 5px;
+  border: 1px solid $primary-color;
+  padding: 8px;
+  background: $skill-fill-selected;
+}
+
+.form-wrapperdiv {
+  display: block;
+  text-align: center;
+}
+
+.recepientname {
+  font-weight: 600;
+}
+
+.skills-container {
+  // position: absolute;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px 0 20px 0;
+  // transform: translate(-50%, -50%);
+}
+
+.skills-inner {
+  max-width: 600px;
+  max-height: 80px;
+  overflow: scroll;
+  margin-top: 8px;
+}
+
+.skillslist-button {
+  background: white;
+  border: 1px solid $primary-color;
+  color: $primary-color;
+  border-radius: 3px;
+  height: 25px;
+  margin: 0.2vh 0.2vw;
+  &:hover {
+    border: 2px solid $primary-color;
+    // background: $primary-color;
+    // color: white;
+  }
+}
+
+.skillslist-button-a {
+  border: 1px solid $primary-color;
+  background: $primary-color;
+  height: 25px;
+  border-radius: 3px;
+  color: white;
+}
+
+.loading {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.requests-inner {
+  width: 40vw;
+  margin: 5vh 30vw;
+  height: calc(95vh - 115px);
+  overflow: hidden;
+}
+
+.requests-container {
+  padding-top: 20px;
+  height: calc(95vh - 175px);
+  overflow: scroll;
+}
+
+.requests-name {
+  font-size: 14px;
+  height: 30px;
+}
+
+.requests-body {
+  display: inline-block;
+  box-sizing: content-box;
+  padding: 20px 15px;
+  border-radius: 5px;
+  background: $skill-fill-selected;
+}
+
+.requests-body-new {
+  display: inline-block;
+  box-sizing: content-box;
+  padding: 20px 15px;
+  border-radius: 5px;
+  border: 2px solid $primary-color;
+  background: #937bb930;
+}
+
+.request {
+  margin-bottom: 40px;
+}
+
+.text-inactive {
+  color: red;
+}
+
+.delete-request {
+  background: $primary-color;
+  border: 3px solid $primary-color;
+  position: relative;
+  bottom: 20px;
+  float: right;
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  color: white;
+  border: none;
+  &:hover {
+    border: 1px solid white;
+  }
+}
+
+.norequests {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3vh;
+  color: rgb(62, 52, 52);
+}
+
+.noskills {
+  text-align: center;
+  font-size: 2vh;
+  color: rgb(62, 52, 52);
+}
+
+.admin-settings-internal {
+  width: 26vw;
+  height: calc(90vh - 70px);
+  margin: 5vh 37vw;
+  border-radius: 5px;
+}
+
+.admin-settings-addskill {
+  height: 170px;
+  box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.admin-settings-skills {
+  height: calc(100% - 200px);
+  margin-bottom: 2vh;
+  box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.updateEmail {
+  // height: 150px;
+  margin-bottom: 15px;
+  box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  background-color: white;
+  height: 180px;
+}
+
+.user-settings-newskills {
+  // height: calc((100% - 180px) / 2);
+  margin-bottom: 15px;
+  box-shadow: 10px 10px 10px rgb(0 0 0 / 20%);
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  background-color: white;
+  height: calc((100% - 220px)/2);
+}
+
+.listofskills {
+  overflow: scroll;
+  height: calc(100% - 70px);
+}
+
+.skill-add-error {
+  text-align: center;
+  color: red;
+}
+
+.email-changed {
+  text-align: center;
+  color: green;
+}
+
+.password-form {
+  display: flex;
+  align-items: center;
+}
+
+.skill-admin {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  border: 1px solid $primary-color;
+  border-radius: 5px;
+  margin: 10px;
+}
+
+.skill-name-container {
+  margin-left: 5%;
+  flex: 1;
+  font-size: 18px;
+}
+
+.skill-admin-delete {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  margin: 5px;
+  background: $primary-color;
+  border: 3px solid $primary-color;
+  color: white;
+  &:hover {
+    border: 1px solid white;
+  }
+}
+
+.skill-admin-add {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  margin: 5%;
+  background: $primary-color;
+  border: 3px solid $primary-color;
+  color: white;
+  &:hover {
+    border: 1px solid white;
+  }
+}
+
+// **********
+// Text
+// **********
+.display-xl {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 60px;
+  line-height: 72px;
+  /* or 120% */
+
+  letter-spacing: -0.02em;
+}
+.page-title {
+  text-align: center;
+  // background: rgb(105, 146, 216);
+  padding: 10px 0px 10px 0px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: $base-text-color-light-bg;
+  border-radius: 5px;
+}
+
+.form-title {
+  text-align: center;
+  padding: 10px 0px 10px 0px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #667085;
+  border-radius: 5px;
+}
+
+.time {
+  float: right;
+  color: grey;
+  font-size: 12px;
+}
+
+.username {
+  padding: 8px;
+  border-radius: 4px;
+  color: #282828;
+}
+
+.isadmin {
+  color: rgb(27, 232, 27);
+  float: right;
+  padding-top: 15px;
+}
+
+.isadmin-main {
+  color: rgb(27, 232, 27);
+  float: right;
+  width: 90px;
+}
+
+.errorPage {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.errorPage :nth-child(1) {
+  font-size: 15vh;
+  margin-bottom: 4vh;
+}
+
+.errorPage :nth-child(2) {
+  font-size: 5vh;
+  margin: 0;
+}

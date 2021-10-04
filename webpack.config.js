@@ -1,25 +1,28 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: [
     './client/index.js'
   ],
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist'),npm
     filename: 'bundle.js',
     publicPath: '/'
   },
-  mode: 'production',  
-  devtool: 'eval-source-map',
+  mode: 'development',
+  // devtool: 'eval-source-map',
   devServer: {
     port: 8080,
     open: true,
     historyApiFallback: true,
     proxy: {
       '/api/**': {
+        target: 'http://localhost:3000/',
+      },
+      '/auth/**': {
         target: 'http://localhost:3000/',
       }
     }
@@ -37,9 +40,9 @@ module.exports = {
           }
         },
       },
-      { 
-        test: /\.(svg|ico|png|webp|jpg|gif|jpeg)$/, 
-        type: 'asset/resource' 
+      {
+        test: /\.(svg|ico|png|webp|jpg|gif|jpeg)$/,
+        type: 'asset/resource',
       },
       {
         test: /.(css|scss)$/,
@@ -51,8 +54,18 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './client/index.html',
-    },
-    ),
+    },),
+    new ImageMinimizerPlugin({
+      minimizerOptions: {
+        // Lossless optimization with custom option
+        // Feel free to experiment with options for better result for you
+        plugins: [
+          ['gifsicle', { interlaced: true }],
+          ['jpegtran', { progressive: true }],
+          ['optipng', { optimizationLevel: 5 }],
+        ],
+      },
+    }),
   ],
   resolve: {
     // Enable importing JS / JSX files without specifying their extension
