@@ -8,7 +8,7 @@ module.exports = {
     './client/index.js'
   ],
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist'),npm
     filename: 'bundle.js',
     publicPath: '/'
   },
@@ -40,8 +40,8 @@ module.exports = {
           }
         },
       },
-      { 
-        test: /\.(svg|ico|png|webp|jpg|gif|jpeg)$/, 
+      {
+        test: /\.(svg|ico|png|webp|jpg|gif|jpeg)$/,
         type: 'asset/resource',
       },
       {

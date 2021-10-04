@@ -11,6 +11,7 @@ export function runForceGraph(
   setActiveStyle,
   activeStyle
 ) {
+  // D3 requires an array of links and nodes for the force graph.
   const links = linksData.map((d) => Object.assign({}, d))
   const nodes = nodesData.map((d) => Object.assign({}, d))
 
@@ -18,6 +19,7 @@ export function runForceGraph(
   const height = containerRect.height
   const width = containerRect.width
 
+  // The drag function is configured here and eventually bound to the nodes
   const drag = (simulation) => {
     const dragstarted = (d) => {
       if (!d3.event.active) simulation.alphaTarget(0.3).restart()
@@ -43,7 +45,7 @@ export function runForceGraph(
       .on("end", dragended)
   }
 
-  // Add the tooltip element to the graph
+  // Add the tooltip element to the DOM
   const tooltip = document.querySelector("#graph-tooltip")
   if (!tooltip) {
     const tooltipDiv = document.createElement("div")
@@ -54,6 +56,7 @@ export function runForceGraph(
   }
   const div = d3.select("#graph-tooltip")
 
+  // Style and position the tooltip on hover
   const addTooltip = (hoverTooltip, d, x, y) => {
     div.transition().duration(200).style("opacity", 0.9)
     div
@@ -62,6 +65,7 @@ export function runForceGraph(
       .style("top", `${y - 28}px`)
   }
 
+  // Only show the message contain when a single skill is selected
   const showMessageContainer = (getNodeInfo, d) => {
     if (skillsData.length > 1) {
       setActiveStyle("text-inactive")
@@ -77,7 +81,7 @@ export function runForceGraph(
     div.transition().duration(200).style("opacity", 0)
   }
 
-  // All of the d3 code to create the graph
+  // The simulation will be call for every tick and drag event
   const simulation = d3
     .forceSimulation(nodes)
     .force(
@@ -88,6 +92,7 @@ export function runForceGraph(
     .force("x", d3.forceX())
     .force("y", d3.forceY())
 
+  // Bind an SVG to the container
   const svg = d3
     .select(container)
     .append("svg")
@@ -98,6 +103,7 @@ export function runForceGraph(
       })
     )
 
+  // Append a group and line for each elem of the links array to the svg
   const link = svg
     .append("g")
     .selectAll("line")
@@ -108,6 +114,7 @@ export function runForceGraph(
     .attr("stroke-opacity", 0.6)
     .attr("stroke-width", (d) => Math.sqrt(d.value))
 
+  // Append a group and circle for each elem of the nodes array to the svg
   const node = svg
     .append("g")
     .selectAll("circle")
@@ -117,7 +124,7 @@ export function runForceGraph(
     .attr("stroke", "#fff")
     .attr("stroke-width", 2)
     .attr("r", (d) => {
-      return d.radius;
+      return d.radius
     })
     .attr("fill", (d) => {
       return d.group === "user" ? "#a58afc" : "#5b93f0"
@@ -136,6 +143,7 @@ export function runForceGraph(
   //   .text((d) => d.group)
   //   .call(drag(simulation))
 
+  // Create the event listeners to the nodes
   node
     .on("mouseover", (d) => {
       addTooltip(nodeHoverTooltip, d, d3.event.pageX, d3.event.pageY)
@@ -148,14 +156,12 @@ export function runForceGraph(
     })
 
   simulation.on("tick", () => {
-    //update link positions
     link
       .attr("x1", (d) => d.source.x)
       .attr("y1", (d) => d.source.y)
       .attr("x2", (d) => d.target.x)
       .attr("y2", (d) => d.target.y)
 
-    // update node positions
     node.attr("cx", (d) => d.x).attr("cy", (d) => d.y)
 
     // update label positions
@@ -167,6 +173,8 @@ export function runForceGraph(
     //     return d.y
     //   })
   })
+
+  // Return the view box and ability to stop the simulation
   return {
     destroy: () => {
       simulation.stop()
