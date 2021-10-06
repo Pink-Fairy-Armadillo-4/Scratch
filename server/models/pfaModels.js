@@ -1,4 +1,8 @@
+//! /////////////////////////////////
+//! /////////////////////////////////
 //! THIS FILE IS NOT BEING USED.
+//* - All of the models are in their own file.
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
