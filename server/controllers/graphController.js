@@ -1,5 +1,3 @@
-const models = require('../models/pfaModels');
-
 const graphController = {};
 
 graphController.createNodes = (req, res, next) => {

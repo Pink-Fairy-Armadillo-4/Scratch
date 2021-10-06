@@ -1,6 +1,7 @@
-const models = require('../models/pfaModels');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const User = require('../models/userModel');
+const Skill = require('../models/skillModel');
 
 const authController = {};
 
@@ -34,7 +35,7 @@ authController.verifyUser = async (req, res, next) => {
       hasLogged: false,
     };
 
-    const user = await models.User.findOne({ email });
+    const user = await User.findOne({ email });
 
     if (!user || (await user.verify(password)) === false) {
       verification.hasLogged = false;
@@ -48,7 +49,7 @@ authController.verifyUser = async (req, res, next) => {
       }
 
       if (user.newMessage) {
-        await models.User.updateOne({ email }, { $set: { newMessage: false } });
+        await User.updateOne({ email }, { $set: { newMessage: false } });
       }
 
       res.locals.verification = verification;
@@ -105,14 +106,14 @@ authController.createUser = async (req, res, next) => {
       newMessage: 1,
     };
     // console.log('hit db lines');
-    const emailExist = await models.User.findOne({ email });
+    const emailExist = await User.findOne({ email });
 
     if (emailExist) {
       res.locals.verification = verification;
       return next();
     }
 
-    const user = await models.User.create(userDoc);
+    const user = await User.create(userDoc);
 
     // update teachers in skill to reflect the new user
     const newTeacher = {
@@ -124,7 +125,7 @@ authController.createUser = async (req, res, next) => {
 
     const skills = Object.keys(skillsToTeach);
     if (skills.length != 0) {
-      await models.Skill.updateMany({ name: { $in: skills } }, { $push: { teachers: newTeacher } });
+      await Skill.updateMany({ name: { $in: skills } }, { $push: { teachers: newTeacher } });
     }
 
     verification.hasLogged = true;
