@@ -33,7 +33,7 @@ authController.verifyUser = async (req, res, next) => {
     const verification = {
       hasLogged: false,
     };
-    
+
     const user = await models.User.findOne({ email });
 
     if (!user || (await user.verify(password)) === false) {
@@ -48,17 +48,14 @@ authController.verifyUser = async (req, res, next) => {
       }
 
       if (user.newMessage) {
-        await models.User.updateOne({ email }, {$set: {newMessage: false}});
+        await models.User.updateOne({ email }, { $set: { newMessage: false } });
       }
 
       res.locals.verification = verification;
       return next();
     }
   } catch (err) {
-    return next({
-      log: 'Express error handler caught an error at authController.verifyUser',
-      message: { err },
-    });
+    return next(err);
   }
 };
 
@@ -127,10 +124,7 @@ authController.createUser = async (req, res, next) => {
 
     const skills = Object.keys(skillsToTeach);
     if (skills.length != 0) {
-      await models.Skill.updateMany(
-        { name: { $in: skills } },
-        { $push: { teachers: newTeacher } }
-      );
+      await models.Skill.updateMany({ name: { $in: skills } }, { $push: { teachers: newTeacher } });
     }
 
     verification.hasLogged = true;
@@ -145,11 +139,7 @@ authController.createUser = async (req, res, next) => {
     // console.log('verification: ', verification);
     return next();
   } catch (err) {
-    console.log(err);
-    return next({
-      log: 'Express error handler caught an error at authController.verifyUser',
-      message: { err },
-    });
+    return next(err);
   }
 };
 
@@ -193,10 +183,7 @@ authController.verifyToken = async (req, res, next) => {
     } else res.locals.tokenVerif = false;
     return next();
   } catch (err) {
-    return next({
-      log: 'Express error handler caught an error at authController.verifyToken',
-      message: { err },
-    });
+    return next(err);
   }
 };
 
