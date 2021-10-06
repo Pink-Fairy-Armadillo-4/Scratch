@@ -4,18 +4,18 @@ import './index.scss';
 import { CircularProgress } from '@material-ui/core';
 
 //lazy loading components to split bundle.js into chunks
-const LandingPage = lazy(() => import( './Components/LandingPage'));
-const MainPage = lazy(() => import ('./Components/MainPage'));
-const ErrorPage = lazy(() => import ('./Components/ErrorPage'));
-const RequestsPage = lazy(() => import ('./Components/RequestsPage'));
-const Settings = lazy(() => import ('./Components/Settings'));
+const LandingPage = lazy(() => import('./Components/LandingPage'));
+const MainPage = lazy(() => import('./Components/MainPage'));
+const ErrorPage = lazy(() => import('./Components/ErrorPage'));
+const RequestsPage = lazy(() => import('./Components/RequestsPage'));
+const Settings = lazy(() => import('./Components/Settings'));
 
 const App = (props) => {
   //state updated on login, signup
   const [auth, setAuth] = useState(false);
-  //token stored upon successful auth to replace sessions. 
+  //token stored upon successful auth to replace sessions.
   const authToken = localStorage.getItem('token');
-  
+
   const [isLoading, setIsLoading] = useState(true);
 
   //verifying token from localStorage on mount and auth to avoid hacked localStorage
@@ -25,7 +25,6 @@ const App = (props) => {
     fetchData();
     console.log('useeffect called in app.jsx');
   }, [auth]);
-
 
   const fetchData = async () => {
     try {
@@ -62,52 +61,33 @@ const App = (props) => {
         </div>
       )}
       {!isLoading && (
-        <Suspense fallback = { <div className="loading">
-          <CircularProgress />
-        </div>} >
+        <Suspense
+          fallback={
+            <div className="loading">
+              <CircularProgress />
+            </div>
+          }
+        >
           <Switch>
-
             {/*
             if authorized upon visiting one of the routes will be loaded component, 
             otherwise will be redirected to landing page
              */}
-             
+
             <Route exact path="/">
-              {auth ? (
-                <Redirect to="/main" />
-              ) : (
-                <LandingPage auth={auth} setAuth={setAuth} />
-              )}
+              {auth ? <Redirect to="/main" /> : <LandingPage auth={auth} setAuth={setAuth} />}
             </Route>
 
             <Route exact path="/main">
-              {auth ? (
-                <MainPage
-                  auth={auth}
-                  setAuth={setAuth}
-                />
-              ) : (
-                <Redirect to="/" />
-              )}
+              {auth ? <MainPage auth={auth} setAuth={setAuth} /> : <Redirect to="/" />}
             </Route>
 
             <Route exact path="/requests">
-              {auth ? (
-                <RequestsPage auth={auth} setAuth={setAuth} />
-              ) : (
-                <Redirect to="/" />
-              )}
+              {auth ? <RequestsPage auth={auth} setAuth={setAuth} /> : <Redirect to="/" />}
             </Route>
 
             <Route exact path="/settings">
-              {auth ? (
-                <Settings
-                  auth={auth}
-                  setAuth={setAuth}
-                />
-              ) : (
-                <Redirect to="/" />
-              )}
+              {auth ? <Settings auth={auth} setAuth={setAuth} /> : <Redirect to="/" />}
             </Route>
 
             <Route path="/404" component={ErrorPage} />

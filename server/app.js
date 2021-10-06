@@ -1,16 +1,12 @@
+const express = require('express');
+const app = express();
+
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const mongoSanitize = require('express-mongo-sanitize');
-const express = require('express');
 
-// App initial set up
-const app = express();
-const http = require('http');
-const server = http.createServer(app);
-// socket io server
-const { Server } = require('socket.io');
-const io = new Server(server);
+// socket.io
 
 const apiRouter = require('./routes/api');
 const authRouter = require('./routes/auth');
@@ -46,4 +42,4 @@ app.all('*', (req, res, next) => {
 // Global error handler
 app.use(globalErrorHandler);
 
-module.exports = server;
+module.exports = app;

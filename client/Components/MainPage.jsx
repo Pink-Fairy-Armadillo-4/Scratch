@@ -5,6 +5,7 @@ import { CircularProgress } from '@material-ui/core';
 import SendMessage from './SendMessage';
 import SkillsList from './SkillsList';
 import Navbar from './Navbar';
+import socket from '../socket';
 
 const MainPage = (props) => {
   //state passed to nodes of ForceGraph to select user on click on node in graph
@@ -25,13 +26,13 @@ const MainPage = (props) => {
   // stored upon successful auth
   const isAdmin = localStorage.getItem('admin');
 
-  // func to display tooltip on hover over node in ForceGraph. 
+  // func to display tooltip on hover over node in ForceGraph.
   // passed as prop to ForceGraph
   const nodeHoverTooltip = React.useCallback((node) => {
     return `<div>${node.name}</div>`;
   }, []);
-  
-  //func triggered onclick on node in ForceGraph. 
+
+  //func triggered onclick on node in ForceGraph.
   //sets selectedUser state to render SendMessage component
   function getNodeInfo(nodeInfo) {
     return setSelectedUser(nodeInfo);
@@ -50,8 +51,7 @@ const MainPage = (props) => {
     }
   };
 
-
-  // updates class in SkillsList after 2 sec 
+  // updates class in SkillsList after 2 sec
   useEffect(() => {
     setTimeout(() => {
       if (activeStyle === 'text-inactive') setActiveStyle('text-active');
@@ -68,11 +68,8 @@ const MainPage = (props) => {
 
   return (
     <div className="mainpage">
-      <Navbar 
-        isAdmin={isAdmin}
-        newMessage={newMessage}
-        setAuth={props.setAuth} />
-     
+      <Navbar isAdmin={isAdmin} newMessage={newMessage} setAuth={props.setAuth} />
+
       {isLoading && (
         <div className="loading">
           <CircularProgress />
@@ -103,7 +100,7 @@ const MainPage = (props) => {
           )}
         </section>
       )}
-     
+
       {selectedUser.id && graphData.skills.length === 1 && (
         <SendMessage
           selectedUser={selectedUser}
