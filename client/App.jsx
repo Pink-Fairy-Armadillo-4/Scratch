@@ -114,7 +114,6 @@ const App = (props) => {
           </Switch>
         </Suspense>
       )}
-
       <GlobalStyles />
     </div>
   )
