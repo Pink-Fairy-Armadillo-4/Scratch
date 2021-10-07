@@ -22,10 +22,7 @@ dbController.getUsers = async (req, res, next) => {
     res.locals.userCount = users.length;
     next();
   } catch (err) {
-    next({
-      log: 'Express error handler caught an error at dbController.getUsers',
-      message: { err },
-    });
+    next(err);
   }
 };
 
@@ -41,17 +38,11 @@ dbController.getUserGroups = async (req, res, next) => {
       color: 1,
     };
 
-    const userGroups = await models.UserGroup.find(
-      queryFilter,
-      specifiedFields
-    );
+    const userGroups = await models.UserGroup.find(queryFilter, specifiedFields);
     res.locals.userGroups = userGroups;
     next();
   } catch (err) {
-    next({
-      log: 'Express error handler caught an error at dbController.getUserGroups',
-      message: { err },
-    });
+    next(err);
   }
 };
 
@@ -75,10 +66,7 @@ dbController.getSkills = async (req, res, next) => {
     res.locals.skillCount = skills.length;
     next();
   } catch (err) {
-    next({
-      log: 'Express error handler caught an error at dbController.getSkills',
-      message: { err },
-    });
+    next(err);
   }
 };
 
@@ -94,30 +82,17 @@ dbController.getSkillGroups = async (req, res, next) => {
       color: 1,
     };
 
-    const skillGroups = await models.SkillGroup.find(
-      queryFilter,
-      specifiedFields
-    );
+    const skillGroups = await models.SkillGroup.find(queryFilter, specifiedFields);
     res.locals.skillGroups = skillGroups;
     next();
   } catch (err) {
-    next({
-      log: 'Express error handler caught an error at dbController.getSkillGroups',
-      message: { err },
-    });
+    next(err);
   }
 };
 
 dbController.createMessage = async (req, res, next) => {
   try {
-    let {
-      contactEmail,
-      sourceName,
-      sourceEmail,
-      targetEmail,
-      targetName,
-      skill,
-    } = req.body;
+    let { contactEmail, sourceName, sourceEmail, targetEmail, targetName, skill } = req.body;
 
     if (!contactEmail) {
       contactEmail = sourceEmail;
@@ -145,7 +120,7 @@ dbController.createMessage = async (req, res, next) => {
     };
 
     const message = await models.Message.create(messageDoc);
-    await models.User.updateOne({email: targetEmail}, {$set: {newMessage: true}});
+    await models.User.updateOne({ email: targetEmail }, { $set: { newMessage: true } });
 
     return next();
   } catch (err) {
@@ -179,19 +154,16 @@ dbController.getMessages = async (req, res, next) => {
       },
     };
 
-    const messages = await models.Message.find(
-      queryFilter,
-      specifiedFields
-    ).sort({ createdAt: -1 });
+    const messages = await models.Message.find(queryFilter, specifiedFields).sort({
+      createdAt: -1,
+    });
     await models.Message.updateMany(queryFilter, updateFields);
 
     res.locals.messages = messages;
 
     return next();
   } catch (err) {
-    console.log('Error at dbController.getMessages');
-    console.log(err);
-    return next();
+    next(err);
   }
 };
 
@@ -218,7 +190,7 @@ dbController.delMessages = async (req, res, next) => {
     console.log('Error at dbController.delMessages');
     console.log(err);
     res.locals.deleted = false;
-    return next();
+    return next(err);
   }
 };
 
@@ -236,7 +208,7 @@ dbController.addSkill = async (req, res, next) => {
     console.log('Error at dbController.addSkill');
     console.log(err);
     res.locals.deleted = false;
-    return next();
+    return next(err);
   }
 };
 
@@ -252,7 +224,6 @@ dbController.delSkill = async (req, res, next) => {
 
     const skill = await models.Skill.findOneAndDelete(queryFilter);
 
-
     const teachers = skill.teachers;
 
     const userIDs = [];
@@ -260,49 +231,52 @@ dbController.delSkill = async (req, res, next) => {
       userIDs.push(mongoose.Types.ObjectId(teacher._id));
     }
 
-    
-    await models.User.updateMany({_id: {$in: userIDs}}, {$pull: {teach: {name: skill.name}}});
+    await models.User.updateMany(
+      { _id: { $in: userIDs } },
+      { $pull: { teach: { name: skill.name } } },
+    );
 
     res.locals.getSkills = true;
     return next();
   } catch (err) {
     console.log('Error at dbController.delSkill');
     console.log(err);
-    return next();
+    return next(err);
   }
 };
-
 
 dbController.addUserSkill = async (req, res, next) => {
   try {
     const { skillName, email } = req.body;
     // console.log('req body: ', req.body);
 
-    const userInfo = await models.User.findOne({email}, {});
-
+    const userInfo = await models.User.findOne({ email }, {});
 
     const newTeacher = {
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,
       email,
-      _id: userInfo._id
+      _id: userInfo._id,
     };
 
-    const skillInfo = await models.Skill.findOneAndUpdate({name: skillName}, { $push: {teachers: newTeacher}});
+    const skillInfo = await models.Skill.findOneAndUpdate(
+      { name: skillName },
+      { $push: { teachers: newTeacher } },
+    );
 
     const newSkill = {
-      name : skillInfo.name,
-      _id : skillInfo._id,
+      name: skillInfo.name,
+      _id: skillInfo._id,
     };
 
-    await models.User.updateOne({email}, { $push: {teach: newSkill}});
+    await models.User.updateOne({ email }, { $push: { teach: newSkill } });
 
     res.locals.getSkills = true;
     return next();
   } catch (err) {
     console.log('Error at dbController.addUserSkill');
     console.log(err);
-    return next();
+    return next(err);
   }
 };
 
@@ -310,16 +284,22 @@ dbController.delUserSkill = async (req, res, next) => {
   try {
     const { skillName, email } = req.body;
 
-    const userInfo = await models.User.findOneAndUpdate({email}, {$pull: {teach: {name: skillName}}});
+    const userInfo = await models.User.findOneAndUpdate(
+      { email },
+      { $pull: { teach: { name: skillName } } },
+    );
 
-    const skillInfo = await models.Skill.findOneAndUpdate({name: skillName}, { $pull: {teachers: {email: email}}});
+    const skillInfo = await models.Skill.findOneAndUpdate(
+      { name: skillName },
+      { $pull: { teachers: { email: email } } },
+    );
 
     res.locals.getSkills = true;
     return next();
   } catch (err) {
     console.log('Error at dbController.delUserSkill');
     console.log(err);
-    return next();
+    return next(err);
   }
 };
 
@@ -327,27 +307,27 @@ dbController.updateemail = async (req, res, next) => {
   try {
     const { newEmail, currentEmail } = req.body;
 
-    const conflict = await models.User.findOne({email: newEmail});
+    const conflict = await models.User.findOne({ email: newEmail });
 
     if (conflict != null) {
       res.locals.update = false;
       return next();
     }
 
-    const skillFilter = {'teachers.email': currentEmail};
-    const skillUpdate = {$set: {'teachers.$.email' : newEmail}};
+    const skillFilter = { 'teachers.email': currentEmail };
+    const skillUpdate = { $set: { 'teachers.$.email': newEmail } };
     await models.Skill.updateMany(skillFilter, skillUpdate);
 
-    const targetEmailFilter = {targetEmail: currentEmail};
-    const targetEmailUpdate = {$set: {targetEmail: newEmail}};
+    const targetEmailFilter = { targetEmail: currentEmail };
+    const targetEmailUpdate = { $set: { targetEmail: newEmail } };
     await models.Message.updateMany(targetEmailFilter, targetEmailUpdate);
 
-    const sourceEmailFilter = {sourceEmail: currentEmail};
-    const sourceEmailUpdate = {$set: {sourceEmail: newEmail}};
+    const sourceEmailFilter = { sourceEmail: currentEmail };
+    const sourceEmailUpdate = { $set: { sourceEmail: newEmail } };
     await models.Message.updateMany(sourceEmailFilter, sourceEmailUpdate);
 
-    const userFilter = {email: currentEmail};
-    const userUpdate = {$set: {email: newEmail}};
+    const userFilter = { email: currentEmail };
+    const userUpdate = { $set: { email: newEmail } };
     await models.User.updateOne(userFilter, userUpdate);
 
     res.locals.update = true;
@@ -356,9 +336,8 @@ dbController.updateemail = async (req, res, next) => {
     console.log('Error at dbController.delUserSkill');
     console.log(err);
     res.locals.update = false;
-    return next();
+    return next(err);
   }
 };
-
 
 module.exports = dbController;

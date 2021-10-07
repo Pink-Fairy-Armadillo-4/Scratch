@@ -4,13 +4,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
-  entry: [
-    './client/index.js'
-  ],
+  entry: ['./client/index.js'],
   output: {
-    path: path.resolve(__dirname, 'dist'),npm
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   mode: 'development',
   // devtool: 'eval-source-map',
@@ -24,8 +22,8 @@ module.exports = {
       },
       '/auth/**': {
         target: 'http://localhost:3000/',
-      }
-    }
+      },
+    },
   },
   module: {
     rules: [
@@ -36,8 +34,8 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: ['@babel/plugin-transform-runtime']
-          }
+            plugins: ['@babel/plugin-transform-runtime'],
+          },
         },
       },
       {
@@ -49,12 +47,12 @@ module.exports = {
         exclude: /node_modules/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
-    ]
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './client/index.html',
-    },),
+    }),
     new ImageMinimizerPlugin({
       minimizerOptions: {
         // Lossless optimization with custom option
@@ -69,6 +67,6 @@ module.exports = {
   ],
   resolve: {
     // Enable importing JS / JSX files without specifying their extension
-    extensions: ['.js', '.jsx']
-  }
+    extensions: ['.js', '.jsx'],
+  },
 };
