@@ -1,60 +1,60 @@
-import React, { useState, useEffect, lazy, Suspense } from "react"
-import { Switch, Route, Redirect } from "react-router-dom"
+import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 // Styles
-import GlobalStyles from "./GlobalStyles"
-import "./index.scss"
-import { CircularProgress } from "@material-ui/core"
+import GlobalStyles from './GlobalStyles';
+import './index.scss';
+import { CircularProgress } from '@material-ui/core';
 
 //lazy loading components to split bundle.js into chunks
-const LandingPage = lazy(() => import("./Components/LandingPage"))
-const MainPage = lazy(() => import("./Components/MainPage"))
-const ErrorPage = lazy(() => import("./Components/ErrorPage"))
-const RequestsPage = lazy(() => import("./Components/RequestsPage"))
-const Settings = lazy(() => import("./Components/Settings"))
+const LandingPage = lazy(() => import('./Components/LandingPage'));
+const MainPage = lazy(() => import('./Components/MainPage'));
+const ErrorPage = lazy(() => import('./Components/ErrorPage'));
+const RequestsPage = lazy(() => import('./Components/RequestsPage'));
+const Settings = lazy(() => import('./Components/Settings'));
 
 const App = (props) => {
   //state updated on login, signup
-  const [auth, setAuth] = useState(false)
+  const [auth, setAuth] = useState(false);
   //token stored upon successful auth to replace sessions.
-  const authToken = localStorage.getItem("token")
+  const authToken = localStorage.getItem('token');
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
   //verifying token from localStorage on mount and auth to avoid hacked localStorage
   //checked every time we refresh browser or load one of urls in browser
 
   useEffect(() => {
-    fetchData()
-    console.log("useeffect called in app.jsx")
-  }, [auth])
+    fetchData();
+    console.log('useeffect called in app.jsx');
+  }, [auth]);
 
   const fetchData = async () => {
     try {
       if (authToken) {
-        const res = await fetch("auth/verify", {
-          method: "POST",
+        const res = await fetch('auth/verify', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ token: authToken }),
-        })
-        const data = await res.json()
+        });
+        const data = await res.json();
         if (data.verified === true) {
-          setAuth(true)
+          setAuth(true);
         } else {
-          localStorage.clear()
-          setAuth(false)
+          localStorage.clear();
+          setAuth(false);
         }
       } else {
-        setAuth(false)
+        setAuth(false);
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="maindiv">
@@ -116,7 +116,7 @@ const App = (props) => {
       )}
       <GlobalStyles />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
