@@ -1,5 +1,8 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
+
+// Styles
+import GlobalStyles from './GlobalStyles';
 import './index.scss';
 import { CircularProgress } from '@material-ui/core';
 
@@ -70,7 +73,7 @@ const App = (props) => {
         >
           <Switch>
             {/*
-            if authorized upon visiting one of the routes will be loaded component, 
+            if authorized upon visiting one of the routes will be loaded component,
             otherwise will be redirected to landing page
              */}
 
@@ -95,6 +98,7 @@ const App = (props) => {
           </Switch>
         </Suspense>
       )}
+      <GlobalStyles />
     </div>
   );
 };
