@@ -5,11 +5,8 @@ import { CircularProgress } from '@material-ui/core';
 import SendMessage from './SendMessage';
 import SkillsList from './SkillsList';
 import Navbar from './Navbar';
-import ChatBox from './ChatBox.jsx';
-import socket from '../socket';
 
 const MainPage = (props) => {
-  
   //state passed to nodes of ForceGraph to select user on click on node in graph
   //and pass to SendMessage component as prop
   const [selectedUser, setSelectedUser] = useState({});
@@ -70,8 +67,12 @@ const MainPage = (props) => {
 
   return (
     <div className="mainpage">
-      <Navbar isAdmin={isAdmin} newMessage={newMessage} setAuth={props.setAuth} />
-      <ChatBox/>
+      <Navbar
+        setCurrentUser={props.setCurrentUser}
+        isAdmin={isAdmin}
+        newMessage={newMessage}
+        setAuth={props.setAuth}
+      />
 
       {isLoading && (
         <div className="loading">
@@ -110,7 +111,6 @@ const MainPage = (props) => {
           cancelMessage={cancelMessage}
         />
       )}
-     
     </div>
   );
 };

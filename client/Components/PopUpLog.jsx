@@ -4,8 +4,7 @@ import React, { useState, useEffect } from 'react';
 login popup component
  */
 
-const PopUpLog = ({ auth, setAuth, toggleLog }) => {
-
+const PopUpLog = ({ setCurrentUser, auth, setAuth, toggleLog }) => {
   //data to set initial state
   const info = {
     email: null,
@@ -50,12 +49,10 @@ const PopUpLog = ({ auth, setAuth, toggleLog }) => {
       } else if (resp.hasLogged) {
         const rightCookie = findCookie(document.cookie);
         localStorage.setItem('email', `${login.email}`);
+        setCurrentUser(resp.userInfo);
         if (rightCookie) {
           localStorage.setItem('token', rightCookie);
-          localStorage.setItem(
-            'name',
-            `${resp.userInfo.firstName} ${resp.userInfo.lastName}`
-          );
+          localStorage.setItem('name', `${resp.userInfo.firstName} ${resp.userInfo.lastName}`);
         }
         if (resp.userInfo.isAdmin) {
           localStorage.setItem('admin', 'true');
@@ -121,11 +118,7 @@ const PopUpLog = ({ auth, setAuth, toggleLog }) => {
               />
             </div>
             <div className="form-group">
-              <button
-                type="button"
-                className="loginbutton"
-                onClick={submitInfo}
-              >
+              <button type="button" className="loginbutton" onClick={submitInfo}>
                 Login
               </button>
             </div>
