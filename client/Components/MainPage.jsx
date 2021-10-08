@@ -31,8 +31,8 @@ const MainPage = (props) => {
     return `<div>${node.name}</div>`;
   }, []);
 
-  //func triggered onclick on node in ForceGraph.
-  //sets selectedUser state to render SendMessage component
+  // func triggered onclick on node in ForceGraph.
+  // sets selectedUser state to render SendMessage component
   function getNodeInfo(nodeInfo) {
     return setSelectedUser(nodeInfo);
   }
@@ -57,6 +57,7 @@ const MainPage = (props) => {
     }, 2000);
   }, [activeStyle]);
 
+  // IIFY syntax: https://dev.to/stlnick/useeffect-and-async-4da8
   useEffect(() => {
     dataFetch();
   }, []);
@@ -86,7 +87,7 @@ const MainPage = (props) => {
               <SkillsList
                 setSelectedUser={setSelectedUser}
                 selectedUser={selectedUser}
-                graphData={graphData}
+                skills={graphData.skills}
                 setGraphData={setGraphData}
                 activeStyle={activeStyle}
                 setActiveStyle={setActiveStyle}

@@ -6,7 +6,7 @@ onClick on button which is skill will fetch GraphData and pass it to parent comp
  */
 
 const SkillsList = (props) => {
-  const [allSkills, setAllSkills] = useState(props.graphData.skills);
+  const [allSkills, setAllSkills] = useState(props.skills);
   const [classname, setClassName] = useState('skillslist-button');
   const [selectedSkill, setSelectedSkill] = useState('');
 

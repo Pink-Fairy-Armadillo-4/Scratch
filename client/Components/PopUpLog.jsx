@@ -16,6 +16,7 @@ const PopUpLog = ({ setCurrentUser, auth, setAuth, toggleLog }) => {
   // func to extract right cookie with token from response;
   const findCookie = (cookies) => {
     let res = cookies.split('; ');
+    console.log(res);
     let rightCookie = '';
     for (let i = 0; i < res.length; i++) {
       if (res[i].includes('ssid=')) {
@@ -23,6 +24,7 @@ const PopUpLog = ({ setCurrentUser, auth, setAuth, toggleLog }) => {
       }
     }
     res = rightCookie.split('=')[1];
+    console.log(res);
     return res;
   };
 
@@ -43,7 +45,7 @@ const PopUpLog = ({ setCurrentUser, auth, setAuth, toggleLog }) => {
         body: JSON.stringify(login),
       });
       const resp = await data.json();
-      // console.log('resp on log is', resp);
+      console.log('resp on log is', resp);
       if (!resp.hasLogged) {
         setErrorOnLogin(true);
       } else if (resp.hasLogged) {

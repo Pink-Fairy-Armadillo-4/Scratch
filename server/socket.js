@@ -10,17 +10,6 @@ const io = require('socket.io')(server, {
   },
 });
 
-// io.use(async (socket, next) => {
-//   try {
-//     const token = socket.handshake.query.token; //match socket in ChatBox
-//     const payload = await jwt.verify(token, process.env.SECRET);
-//     socket.userId = payload.id;
-//     next();
-//   } catch (err) {
-//     console.log('err in io.use in socket.js and the err is' + err);
-//   }
-// });
-
 io.use((socket, next) => {
   const { user } = socket.handshake.auth;
 
@@ -49,16 +38,6 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     io.emit('user left', `${socket.user.firstName} left`);
   });
-
-  // socket.on('joinRoom', ({ chatroomId }) => {
-  //   socket.join(chatroomId);
-  //   console.log('A user joined chatroom: ' + chatroomId);
-  // });
-
-  // socket.on('leaveRoom', ({ chatroomId }) => {
-  //   socket.leave(chatroomId);
-  //   console.log('A user left chatroom: ' + chatroomId);
-  // });
 });
 
 module.exports = server;
