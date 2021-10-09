@@ -10,26 +10,21 @@ Logout on click sets Auth to false and clears localStorage;
 */
 
 const Navbar = (props) => {
-
   return (
     <div className="navbar">
       <div className="main-navbuttoncontainer1">
         <Link to="/">
           <img src={scratchLogo} alt="scratchLogo" />
-        </Link>     
+        </Link>
       </div>
-      <div>
-        {props.isAdmin === 'true' && <div className="btn isadmin-main">ADMIN</div>}
-      </div>
+      <div>{props.isAdmin === 'true' && <div className="btn isadmin-main">ADMIN</div>}</div>
       <Link to="/requests">
-        <button
-          className={
-            props.newMessage === null ? 'requestsbutton' : 'requestsbutton-a'
-          }
-        >
-            Requests
+        <button className={props.newMessage === null ? 'requestsbutton' : 'requestsbutton-a'}>
+          Requests
         </button>
       </Link>
+
+      <Link to="/chat">Chat</Link>
       <Link to="/settings">
         <button className="btn btn-text">Settings</button>
       </Link>
@@ -40,9 +35,10 @@ const Navbar = (props) => {
           props.setAuth(false);
         }}
       >
-          Logout
+        Logout
       </button>
-    </div>  );
+    </div>
+  );
 };
 
 export default Navbar;

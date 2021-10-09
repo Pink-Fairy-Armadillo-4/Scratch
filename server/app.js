@@ -1,10 +1,12 @@
-const path = require('path');
 const express = require('express');
+const app = express();
+
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const mongoSanitize = require('express-mongo-sanitize');
 
-const app = express();
+// socket.io
 
 const apiRouter = require('./routes/api');
 const authRouter = require('./routes/auth');

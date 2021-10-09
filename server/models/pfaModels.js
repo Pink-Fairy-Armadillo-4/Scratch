@@ -1,3 +1,8 @@
+//! /////////////////////////////////
+//! /////////////////////////////////
+//! THIS FILE IS NOT BEING USED.
+//* - All of the models are in their own file.
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
@@ -8,9 +13,9 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  isAdmin: { type: Boolean, required: true, default: false},
+  isAdmin: { type: Boolean, required: true, default: false },
   userGroup: { type: String, default: 'user' },
-  newMessage: {type: Boolean, required: true, default: false},
+  newMessage: { type: Boolean, required: true, default: false },
   teach: [
     {
       name: String,
@@ -87,20 +92,22 @@ const skillGroupSchema = new Schema({
 
 const SkillGroup = mongoose.model('skillGroup', skillGroupSchema);
 
-const messageSchema = new Schema({
-  // info stored on login
-  sourceName: { type: String, required: true },
-  sourceEmail: { type: String, required: true },
-  contactEmail: { type: String, required: true },
-  // info stored on node
-  targetName: { type: String, required: true },
-  targetEmail: { type: String, required: true },
-  // message generate on click node and send message functionality
-  messageBody: { type: String, required: true },
-  skill: { type: String },
-  isRead: { type: Boolean, default: false },
-
-}, {timestamps: true});
+const messageSchema = new Schema(
+  {
+    // info stored on login
+    sourceName: { type: String, required: true },
+    sourceEmail: { type: String, required: true },
+    contactEmail: { type: String, required: true },
+    // info stored on node
+    targetName: { type: String, required: true },
+    targetEmail: { type: String, required: true },
+    // message generate on click node and send message functionality
+    messageBody: { type: String, required: true },
+    skill: { type: String },
+    isRead: { type: Boolean, default: false },
+  },
+  { timestamps: true },
+);
 
 const Message = mongoose.model('message', messageSchema);
 

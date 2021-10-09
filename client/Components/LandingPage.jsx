@@ -32,19 +32,14 @@ const LandingPage = (props) => {
           toggleLog={togglePopLog}
           auth={props.auth}
           setAuth={props.setAuth}
+          setCurrentUser={props.setCurrentUser}
         />
       )}
       {seenSignUp && (
-        <PopUpReg
-          toggleReg={togglePopReg}
-          auth={props.auth}
-          setAuth={props.setAuth}
-        />
+        <PopUpReg toggleReg={togglePopReg} auth={props.auth} setAuth={props.setAuth} />
       )}
       <div className="children">
-        <main className="display-xl">
-          Connect with your cohort. They have a lot to teach.
-        </main>
+        <main className="display-xl">Connect with your cohort. They have a lot to teach.</main>
         <div className="btn-group">
           {/* Example of an alternative approach */}
           {/* onClick{() => setSeenLog(!seenLog)} */}

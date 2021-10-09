@@ -34,10 +34,21 @@ const MainPage = (props) => {
   // func triggered onclick on node in ForceGraph.
   // sets selectedUser state to render SendMessage component
   function getNodeInfo(nodeInfo) {
-    console.log('result from setSelectedUser(nodeInfo) --> ', setSelectedUser(nodeInfo));
-    console.log('nodeInfo is -->', nodeInfo);
     return setSelectedUser(nodeInfo);
   }
+
+  //fetches graphData on mount and updates state
+  const dataFetch = async () => {
+    try {
+      const resp = await fetch('/api/nodes/all');
+      const data = await resp.json();
+      setGraphData(data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // updates class in SkillsList after 2 sec
   useEffect(() => {
@@ -48,19 +59,8 @@ const MainPage = (props) => {
 
   // IIFY syntax: https://dev.to/stlnick/useeffect-and-async-4da8
   useEffect(() => {
-    (async () => {
-      try {
-        const resp = await fetch('/api/nodes/all');
-        const data = await resp.json();
-        setGraphData(data);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
+    dataFetch();
   }, []);
-
   //sets selectedUser to empty object to unmount SendMessage component on click on span in SendMessage component
   const cancelMessage = () => {
     setSelectedUser({});
@@ -69,6 +69,7 @@ const MainPage = (props) => {
   return (
     <div className="mainpage">
       <Navbar
+        setCurrentUser={props.setCurrentUser}
         isAdmin={isAdmin}
         newMessage={newMessage}
         setAuth={props.setAuth}

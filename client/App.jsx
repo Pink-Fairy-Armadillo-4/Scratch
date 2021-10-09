@@ -1,5 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import useLocalStorage from './hooks/useLocalStorage';
+import Chat from './Components/Chat.jsx';
 
 // Styles
 import GlobalStyles from './GlobalStyles';
@@ -20,6 +22,8 @@ const App = (props) => {
   const authToken = localStorage.getItem('token');
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const [currentUser, setCurrentUser] = useLocalStorage('user', {});
 
   //verifying token from localStorage on mount and auth to avoid hacked localStorage
   //checked every time we refresh browser or load one of urls in browser
@@ -81,32 +85,34 @@ const App = (props) => {
               {auth ? (
                 <Redirect to="/main" />
               ) : (
-                <LandingPage auth={auth} setAuth={setAuth} />
+                <LandingPage setCurrentUser={setCurrentUser} auth={auth} setAuth={setAuth} />
               )}
             </Route>
 
             <Route exact path="/main">
               {auth ? (
-                <MainPage auth={auth} setAuth={setAuth} />
+                <MainPage
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                  auth={auth}
+                  setAuth={setAuth}
+                />
               ) : (
                 <Redirect to="/" />
               )}
+            </Route>
+
+            <Route exact path="/chat">
+              {' '}
+              <Chat currentUser={currentUser} />
             </Route>
 
             <Route exact path="/requests">
-              {auth ? (
-                <RequestsPage auth={auth} setAuth={setAuth} />
-              ) : (
-                <Redirect to="/" />
-              )}
+              {auth ? <RequestsPage auth={auth} setAuth={setAuth} /> : <Redirect to="/" />}
             </Route>
 
             <Route exact path="/settings">
-              {auth ? (
-                <Settings auth={auth} setAuth={setAuth} />
-              ) : (
-                <Redirect to="/" />
-              )}
+              {auth ? <Settings auth={auth} setAuth={setAuth} /> : <Redirect to="/" />}
             </Route>
 
             <Route path="/404" component={ErrorPage} />
