@@ -35,6 +35,18 @@ io.on('connection', (socket) => {
   //* io.emit send to all users 😎
   io.emit('hello', `${socket.user.firstName} just joined`);
 
+ 
+  socket.on('sendMessage',(msg)=>{
+
+   
+    
+    socket.emit('receiveMessage >>',msg);
+   
+   
+
+    console.log('receiveMessage',msg);
+  });
+
   socket.on('disconnect', () => {
     io.emit('user left', `${socket.user.firstName} left`);
   });
