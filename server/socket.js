@@ -2,6 +2,10 @@ const app = require('./app');
 const server = require('http').createServer(app);
 const jwt = require('jsonwebtoken');
 const { SocketAddress } = require('net');
+const cors = require("cors");
+app.use(cors());
+
+
 const io = require('socket.io')(server, {
   cors: {
     origin: 'http://localhost:8080',
@@ -35,16 +39,19 @@ io.on('connection', (socket) => {
   //* io.emit send to all users 😎
   io.emit('hello', `${socket.user.firstName} just joined`);
 
- 
-  socket.on('sendMessage',(msg)=>{
-
-   
+  
+  socket.on('sendMessage',(data)=>{
     
-    socket.emit('receiveMessage >>',msg);
+    socket.to(data.room).emit('receiveMessage',data);
    
-   
+    console.log('receiveMessage',data);
+  });
 
-    console.log('receiveMessage',msg);
+
+
+  socket.on("joinRoom", (data) => {
+    socket.join(data);
+    console.log(`User: ${socket.user.firstName} joined room: ${data}`);
   });
 
   socket.on('disconnect', () => {

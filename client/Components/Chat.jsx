@@ -1,18 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import socket from '../socket';
 import './Chat.css';
+
 
 const Chat = ({ currentUser}) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [messageSent,setMessageSent] = useState([]);
-  const [typing,setTyping]=useState("");
+ 
+  const [typing,setTyping] = useState('');
+  const messageRef = useRef();
 
+  const [room, setRoom] = useState('');
+  const [showChat, setShowChat] = useState(false);
 
-  let i = 0;
+  
+  const setRoomHandler = (e) => {
+    setRoom(e.target.value);
+  };
+
+  const joinRoom = () => {
+    if (currentUser.firstName !== '' && room !== '') {
+      socket.emit("joinRoom", room);
+      // setShowChat(true);
+    }
+  };
+
+  
+  
   
   useEffect(() => {
-    i++;
-    console.log('in useEffect',i)
+   
+    console.log('in useEffect for users');
     // Retrieve all online users
     socket.on('users', (users) => {
       users.forEach((user) => {
@@ -25,107 +43,86 @@ const Chat = ({ currentUser}) => {
     socket.auth = { user: currentUser };
 
    
-    
-
-
-    
-
     socket.connect();
 
+  }, [currentUser]);
 
-
-
-  }, [messageSent]);
-
-  useEffect(()=>{
-    i++;
-    console.log('in useEffect 2',i)
-     // Message from server
-     socket.on('receiveMessage',msg=>{
-      console.log('client message sent back from back end   >>>',msg); //come back as array
-      const newMessages = [...msg, msg];
-      // setMessageSent((list) => [...list, msg]);
-      setMessageSent(newMessages);
-      
-    });
-
-  },[messageSent]);
-
-  const disconnect = () => {
-    socket.disconnect();
+  //Get message texts
+  const typeMessage = (e) =>{
+    setTyping(e.target.value);
+    
   };
 
-  
-  console.log('onlineUsers',onlineUsers);
-  console.log('messageSent',messageSent)
-
-
-  //Get message texts;
-  const message = (e) =>{
-    
-    let msg = e.target.value;
-
-    msg = msg.trim();
-
-    if (!msg) {
-      return false;
-    }
-    console.log('msg in message',msg);
-
-    const messageData = {
-      
-      author: currentUser.firstName,
-      message: msg,
-      time:
+  //sending message
+  const message = async() =>{
+    if (typing !== ''){
+      const messageData = {
+        room: room,
+        author: currentUser.firstName,
+        message: typing,
+        time:
         new Date(Date.now()).getHours() +
         ":" +
         new Date(Date.now()).getMinutes(),
-    };
+      };
+  
+      //emit message to server(socket.js);
+      await socket.emit('sendMessage',messageData);
+      setMessageSent((list) => [...list, messageData]);
+      console.log('look',messageSent)
+      setTyping('');
 
-    //emit message to server(socket.js);
-    socket.emit('sendMessage',messageData);
-    setMessageSent((list) => [...list, messageData]);
-    setTyping("");
-
-    
+    }
   };
 
-  //display chat
-  const output = () => {
+  useEffect(()=>{
+   
+    console.log('in useEffect 2 for messages');
+    // Message from server
+    socket.on('receiveMessage',data=>{
+    //come back as an obj
+     
+      setMessageSent((list) => [...list, data]);
+       
+    });
+    console.log('data in useEffect 2',messageSent);
+    socket.connect();
 
-    return messageSent.map(messageContent=>{
+  },[socket]);
+
+  
+
+  
+  console.log('onlineUsers',onlineUsers);
+  console.log('messageSent',messageSent);
+  
+  
+ 
+  //display chat
+  const output = (list) => {
+
+    return list.map(messageContent=>{
       return (
-        <div key={i}
+        <div key='outputMessage'
           className="message"
          
         >
           <div>
+            <div className="message-meta">
+              <p id="time">{messageContent.author} {messageContent.time}</p>
+              
+            </div>
             <div className="message-content">
               <p>{messageContent.message}</p>
             </div>
-            <div className="message-meta">
-              <p id="time">{messageContent.time}</p>
-              <p id="author">{messageContent.author}</p>
-            </div>
+           
           </div>
         </div>
-    );
-  });
+      );
+    });
 
     
   };
-
-
-  
-
-  
-
-
-  
-
-  
-  
-  console.log('text here',messageSent);
 
   
   //get all online users displayed
@@ -140,24 +137,38 @@ const Chat = ({ currentUser}) => {
     });
   };
 
+  //leave chat
+  const disconnect = () => {
+    socket.disconnect();
+  };
+
   return (
     <>
-     <div className='chat-container'>
-      <main className="chat-main" >
-      <div className='sidebar'>
-        <h3> Room Name:</h3>
-          
-        <h3> Users:{allOnlineUsers(onlineUsers)}</h3>
-        <ul id="users"></ul>
-      </div>
-      <div className="chat-messages">
-        messages should display here
-        {output(messageSent)}
-      
-        
+      <div className='joinRoom'>
+        <input
+          type="text"
+          placeholder="Room ID..."
+          onChange={setRoomHandler}
+        />
+        <button onClick={joinRoom}>Join A Room</button>
       </div>
      
-      </main>
+      <div className='chat-container'>
+        <main className="chat-main" >
+          <div className='sidebar'>
+            <h3> Room Name:</h3>
+          
+            <h3> Users:{allOnlineUsers(onlineUsers)}</h3>
+            <ul id="users"></ul>
+          </div>
+          <div className="chat-messages">
+           messages should display here
+            {output(messageSent)}
+      
+        
+          </div>
+     
+        </main>
       </div>
 
       
@@ -165,12 +176,14 @@ const Chat = ({ currentUser}) => {
      
       <div>
         <input
-          onChange={message}
-          id="msg"
+          onChange={typeMessage}
+          value={typing}
           type="text"
           placeholder="Enter Message"
           required
-          
+          onKeyPress={(event) => {
+            event.key === "Enter" && message();
+          }}
         />
         <button onClick={message}> Send</button>
         <button onClick={disconnect}>Disconnect</button>
