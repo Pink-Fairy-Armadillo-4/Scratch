@@ -1,10 +1,9 @@
 const app = require('./app');
 const server = require('http').createServer(app);
 // const jwt = require('jsonwebtoken');
-const { SocketAddress } = require('net');
 const cors = require('cors');
-const Chat = require('./models/chatModel');
 const Message = require('./models/messageModel');
+const Chat = require('./models/chatModel');
 const genRoomId = require('./utils/genRoomId');
 app.use(cors());
 
@@ -17,64 +16,63 @@ const io = require('socket.io')(server, {
 });
 
 io.use((socket, next) => {
-  const { user } = socket.handshake.auth;
+  const { user, room } = socket.handshake.auth;
 
   socket.user = user;
+  socket.room = room;
 
   next();
 });
 
 //io is socket io server, 2nd arg socket is client socket
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
   // console.log('Connected: ' + socket.user._id);
+  const { room, user } = socket;
 
-  const users = [];
+  try {
+    const users = [];
 
-  for (const [id, socket] of io.of('/').sockets) {
-    users.push({
-      ...socket.user,
-    });
-  }
-
-  // Send a list of all online users to socket
-  socket.emit('online users', users);
-
-  //
-
-  socket.on('enter chat room', async ({ room }, next) => {
-    try {
-      let chat;
-      // Check if room exists
-      chat = await Chat.findOne({ room });
-      // If room does not exist, create a new one
-      if (!chat) {
-        chat = await Chat.create({ room });
-      }
-
-      //TODO: Get all past messages from chat and send them
-
-      // If everything is okay, join the room
-      socket.join(room);
-
-      // Listen for message
-      socket.on('message', async (data) => {
-        const { from, to, content } = JSON.parse(data);
-
-        const room = genRoomId(from, to);
-        try {
-          // Store message (in database)
-          const message = await Message.create({ from, to, content, room });
-
-          io.to(room).emit('message', JSON.stringify({ from, to, content }));
-        } catch (err) {
-          // socket.emit('error', new Error('Something went wrong'));
-          console.log(err);
-        }
+    for (const [id, socket] of io.of('/').sockets) {
+      users.push({
+        ...socket.user,
       });
-    } catch (err) {
-      // socket.emit('error', new Error('Something went wrong'));
     }
-  });
+
+    // Send a list of all online users to socket
+    socket.emit('online users', users);
+
+    let chat;
+    // Check if room exists
+    chat = await Chat.findOne({ room: room });
+    // If room does not exist, create a new one
+    if (!chat) {
+      chat = await Chat.create({ room: room });
+    }
+
+    // Get chat history
+    const { messages } = await Chat.findOne({ room }).populate('messages');
+
+    // Join the room
+    socket.join(room);
+
+    // Send chat history to client
+    io.to(room).emit('messages', JSON.stringify(messages));
+
+    // Listen for message
+    socket.on('message', async (data) => {
+      console.log(data);
+      const { from, to, content } = JSON.parse(data);
+
+      console.log('CONTENT', content);
+      // Store message (in database)
+      const message = await Message.create({ from, to, content, room });
+
+      // Send message
+      io.to(room).emit('message', JSON.stringify(message));
+    });
+  } catch (err) {
+    console.log(err);
+  }
 
   //
 });

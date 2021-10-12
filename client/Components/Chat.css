@@ -17,11 +17,12 @@
 /* This the message element */
 .Chat ul li {
   padding: 12px 22px;
+  margin-bottom: 2px;
   background-color: rgb(221, 221, 221);
   border-radius: 12px;
 }
 
-/* Messages from self */
+/* message from self */
 #self {
   align-self: flex-end;
   color: white;

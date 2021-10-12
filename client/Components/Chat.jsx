@@ -4,98 +4,69 @@ import axios from 'axios';
 import './Chat.css';
 import genRoomId from '../utils/genRoomId';
 
-const Chat = ({ currentUser }) => {
+const Chat = ({ currentUser, recipientEmail = 'hello@hot.com' }) => {
   const [text, setText] = useState('');
-  const [users, setUsers] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
 
   const online = {};
 
-  // 3) get all online users
+  // 1) get all online users
   socket.on('online users', (onlineUsers) => {
     setOnlineUsers(onlineUsers);
   });
 
-  // JUST FOR TESTING!!!
-  socket.on('Hello from chat room', (content) => {
-    console.log(content);
+  socket.on('message', (message) => {
+    setMessages([...messages, JSON.parse(message)]);
   });
 
   useEffect(async () => {
-    try {
-      // 1) Get all users
-      const res = await axios.get('/api/allUsers');
+    socket.auth = { user: currentUser, room: genRoomId('me@somewhere.com', recipientEmail) };
+    socket.connect();
+  });
 
-      setUsers(res.data.users);
-      // 2) connect to socket.io
-      socket.auth = { user: currentUser };
-      socket.connect();
-    } catch (error) {
-      console.error(error);
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    socket.emit(
+      'message',
+      JSON.stringify({ from: currentUser.email, to: recipientEmail, content: text }),
+    );
+
+    setText('');
+  };
+
+  const messageList = messages.map(({ content, from, to }, i) => {
+    // Check if message is from current user
+    const self = from === currentUser.email;
+
+    return (
+      <li id={(self && 'self') || ''} key={i}>
+        <div>{content}</div>
+      </li>
+    );
   });
 
   return (
     <div className="Chat">
       <ul>
-        <li id="self">
+        {/* <li id="self">
           <div>Some really important message</div>
-        </li>{' '}
-        <li>
-          <div>Some really important message</div>
-        </li>{' '}
-        <li id="self">
-          <div>Some really important message</div>
-        </li>{' '}
-        <li>
-          <div>Some really important message</div>
-        </li>
+        </li> */}
+
+        {messageList}
       </ul>
-      <form>
-        <input />
+      <form onSubmit={handleSubmit}>
+        <input
+          onChange={(e) => {
+            setText(e.target.value);
+          }}
+          value={text}
+        />
         <button>send</button>
       </form>
     </div>
   );
-
-  // return (
-  //   <div>
-  //     <ul>
-  //       <li>
-  //         <button
-  //           onClick={(e) => {
-  //             socket.emit('enter chat room', {
-  //               room: genRoomId('hello@john.com', 'hello@anchi.com'),
-  //             });
-  //           }}
-  //         >
-  //           Anchi
-  //         </button>
-  //       </li>
-  //     </ul>
-  //     <form
-  //       onSubmit={(e) => {
-  //         e.preventDefault();
-  //         socket.emit(
-  //           'message',
-  //           JSON.stringify({
-  //             from: 'hello@john.com',
-  //             to: 'hello@anchi.com',
-  //             content: text,
-  //           }),
-  //         );
-  //       }}
-  //     >
-  //       <input
-  //         value={text}
-  //         onChange={(e) => {
-  //           setText(e.target.value);
-  //         }}
-  //       />
-  //       <button>Send Message</button>
-  //     </form>
-  //   </div>
-  // );
 };
 
 export default Chat;

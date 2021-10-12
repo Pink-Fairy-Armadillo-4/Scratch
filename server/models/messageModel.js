@@ -16,7 +16,7 @@ const messageSchema = new Schema(
       type: Date,
       default: Date.now(),
     },
-    room: { type: String, required: [true, 'Message must beling to a chat'] },
+    room: { type: String, required: [true, 'Message must beling to a chat'], ref: 'Chat' },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
