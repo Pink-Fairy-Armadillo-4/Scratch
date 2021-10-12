@@ -33,10 +33,12 @@ const Chat = ({ currentUser, recipientEmail = 'hello@hot.com' }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    socket.emit(
-      'message',
-      JSON.stringify({ from: currentUser.email, to: recipientEmail, content: text }),
-    );
+    // Add message to sender's messages
+    const message = { from: currentUser.email, to: recipientEmail, content: text };
+    setMessages([...messages, message]);
+
+    // Send message to recipient
+    socket.emit('message', JSON.stringify(message));
 
     setText('');
   };

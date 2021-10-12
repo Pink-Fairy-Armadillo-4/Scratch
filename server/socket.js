@@ -43,20 +43,17 @@ io.on('connection', async (socket) => {
 
     let chat;
     // Check if room exists
-    chat = await Chat.findOne({ room: room });
+    chat = await Chat.findOne({ room: room }).populate('messages');
     // If room does not exist, create a new one
     if (!chat) {
       chat = await Chat.create({ room: room });
     }
 
-    // Get chat history
-    const { messages } = await Chat.findOne({ room }).populate('messages');
-
     // Join the room
     socket.join(room);
 
     // Send chat history to client
-    io.to(room).emit('messages', JSON.stringify(messages));
+    io.to(room).emit('messages', JSON.stringify(chat.messages));
 
     // Listen for message
     socket.on('message', async (data) => {
@@ -66,8 +63,9 @@ io.on('connection', async (socket) => {
       // Store message (in database)
       const message = await Message.create({ from, to, content, room });
 
-      // Send message
-      io.to(room).emit('message', JSON.stringify(message));
+      // Send message to room
+      // io.to(room).emit('message', JSON.stringify(message));
+      socket.broadcast.emit('message', JSON.stringify(message));
     });
   } catch (err) {
     console.log(err);
