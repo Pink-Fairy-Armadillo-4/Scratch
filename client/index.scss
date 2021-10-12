@@ -27,7 +27,7 @@ A simple CSS preset to enable box-sizing, set some text rendering options to dec
 }
 
 input:focus {
-outline: 1px solid $primary-color;
+  outline: 1px solid $primary-color;
 }
 
 html {
@@ -60,7 +60,7 @@ body {
 
 .landing-page-bg {
   /* The image used */
-  background-image: url("./images/landing-page.jpg");
+  background-image: url('./images/landing-page.jpg');
 
   /* Full height */
 
@@ -90,7 +90,7 @@ body {
 }
 
 .landingpage-image {
-  background-image: url("./images/landing-page.jpg");
+  background-image: url('./images/landing-page.jpg');
   background-color: #cccccc;
   border-radius: 0px 64px;
 }
@@ -139,18 +139,15 @@ body {
   align-items: center;
   padding: 0px 32px;
 
-
   .main-navbuttoncontainer1 {
     width: 70vw;
     color: white;
-    flex:1;
+    flex: 1;
   }
-
 
   // **********
   // Buttons
   // **********
-
 
   .requestsbutton {
     background: transparent;
@@ -258,8 +255,8 @@ body {
 
 .logout {
   width: 86px;
-    &:hover {
-      border: 1px solid #fefefe;
+  &:hover {
+    border: 1px solid #fefefe;
   }
 }
 
@@ -611,7 +608,7 @@ body {
   border: 1px solid #dfdfdf;
   border-radius: 3px;
   background-color: white;
-  height: calc((100% - 220px)/2);
+  height: calc((100% - 220px) / 2);
 }
 
 .listofskills {

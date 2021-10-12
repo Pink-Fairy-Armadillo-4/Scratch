@@ -2,8 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import socket from '../socket';
 import axios from 'axios';
 import './Chat.css';
+import genRoomId from '../utils/genRoomId';
 
 const Chat = ({ currentUser }) => {
+  const [text, setText] = useState('');
   const [users, setUsers] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
 
@@ -12,6 +14,11 @@ const Chat = ({ currentUser }) => {
   // 3) get all online users
   socket.on('online users', (onlineUsers) => {
     setOnlineUsers(onlineUsers);
+  });
+
+  // JUST FOR TESTING!!!
+  socket.on('Hello from chat room', (content) => {
+    console.log(content);
   });
 
   useEffect(async () => {
@@ -28,36 +35,67 @@ const Chat = ({ currentUser }) => {
     }
   });
 
-  const anchi = {
-    name: 'Anchi',
-    email: 'hello@anchi.com',
-  };
-
   return (
-    <div>
+    <div className="Chat">
       <ul>
+        <li id="self">
+          <div>Some really important message</div>
+        </li>{' '}
         <li>
-          <button
-            onClick={(e) => {
-              socket.emit('private message', {
-                content: 'Hello from Yochi',
-                to: anchi.email,
-                from: currentUser.email,
-              });
-            }}
-          >
-            {anchi.name}
-          </button>
+          <div>Some really important message</div>
+        </li>{' '}
+        <li id="self">
+          <div>Some really important message</div>
+        </li>{' '}
+        <li>
+          <div>Some really important message</div>
         </li>
-        <li>
-          <button>Harrold</button>
-        </li>{' '}
-        <li>
-          <button>Rob</button>
-        </li>{' '}
       </ul>
+      <form>
+        <input />
+        <button>send</button>
+      </form>
     </div>
   );
+
+  // return (
+  //   <div>
+  //     <ul>
+  //       <li>
+  //         <button
+  //           onClick={(e) => {
+  //             socket.emit('enter chat room', {
+  //               room: genRoomId('hello@john.com', 'hello@anchi.com'),
+  //             });
+  //           }}
+  //         >
+  //           Anchi
+  //         </button>
+  //       </li>
+  //     </ul>
+  //     <form
+  //       onSubmit={(e) => {
+  //         e.preventDefault();
+  //         socket.emit(
+  //           'message',
+  //           JSON.stringify({
+  //             from: 'hello@john.com',
+  //             to: 'hello@anchi.com',
+  //             content: text,
+  //           }),
+  //         );
+  //       }}
+  //     >
+  //       <input
+  //         value={text}
+  //         onChange={(e) => {
+  //           setText(e.target.value);
+  //         }}
+  //       />
+  //       <button>Send Message</button>
+  //     </form>
+  //   </div>
+  // );
 };
 
 export default Chat;

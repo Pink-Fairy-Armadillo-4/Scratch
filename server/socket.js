@@ -5,6 +5,7 @@ const { SocketAddress } = require('net');
 const cors = require('cors');
 const Chat = require('./models/chatModel');
 const Message = require('./models/messageModel');
+const genRoomId = require('./utils/genRoomId');
 app.use(cors());
 
 const io = require('socket.io')(server, {
@@ -35,25 +36,47 @@ io.on('connection', (socket) => {
     });
   }
 
+  // Send a list of all online users to socket
   socket.emit('online users', users);
 
-  //* io.emit send to all users 😎
-  // io.emit('hello', `${socket.user.firstName} just joined`);
+  //
 
-  // socket.on('sendMessage', (data) => {
-  //   socket.to(data.room).emit('receiveMessage', data);
+  socket.on('enter chat room', async ({ room }, next) => {
+    try {
+      let chat;
+      // Check if room exists
+      chat = await Chat.findOne({ room });
+      // If room does not exist, create a new one
+      if (!chat) {
+        chat = await Chat.create({ room });
+      }
 
-  //   console.log('receiveMessage', data);
-  // });
+      //TODO: Get all past messages from chat and send them
 
-  // socket.on('joinRoom', (data) => {
-  //   socket.join(data);
-  //   console.log(`User: ${socket.user.firstName} joined room: ${data}`);
-  // });
+      // If everything is okay, join the room
+      socket.join(room);
 
-  // socket.on('disconnect', () => {
-  //   io.emit('user left', `${socket.user.firstName} left`);
-  // });
+      // Listen for message
+      socket.on('message', async (data) => {
+        const { from, to, content } = JSON.parse(data);
+
+        const room = genRoomId(from, to);
+        try {
+          // Store message (in database)
+          const message = await Message.create({ from, to, content, room });
+
+          io.to(room).emit('message', JSON.stringify({ from, to, content }));
+        } catch (err) {
+          // socket.emit('error', new Error('Something went wrong'));
+          console.log(err);
+        }
+      });
+    } catch (err) {
+      // socket.emit('error', new Error('Something went wrong'));
+    }
+  });
+
+  //
 });
 
 module.exports = server;

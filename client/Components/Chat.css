@@ -1,15 +1,41 @@
-.chat-main {
-	display: grid;
-	grid-template-columns: 1fr 3fr;
+/* .Chat is the container */
+.Chat {
+  position: absolute;
+  width: 600px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-.chat-container {
-	max-width: 1100px;
-	background: #fff;
-	margin: 30px auto;
-	overflow: hidden;
+
+.Chat ul {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
-.chat-messages {
-	padding: 30px;
-	max-height: 500px;
-	overflow-y: scroll;
+
+/* This the message element */
+.Chat ul li {
+  padding: 12px 22px;
+  background-color: rgb(221, 221, 221);
+  border-radius: 12px;
+}
+
+/* Messages from self */
+#self {
+  align-self: flex-end;
+  color: white;
+  background-color: #7f56d9;
+}
+
+.Chat form {
+  margin-bottom: 50px;
+}
+
+.Chat form input {
+  height: 40px;
+  width: 360px;
+}
+
+.Chat form button {
 }

@@ -4,16 +4,14 @@ const { Schema } = mongoose;
 const messageSchema = new Schema(
   {
     from: {
-      type: Schema.ObjectId,
-      ref: 'User',
+      type: String,
       required: [true, 'A message must have an origin'],
     },
     to: {
-      type: Schema.ObjectId,
-      ref: 'User',
+      type: String,
       required: [true, 'A message must have a destination'],
     },
-    message: { type: String, required: [true, 'Message cannot be empty'] },
+    content: { type: String, required: [true, 'Message cannot be empty'] },
     sentAt: {
       type: Date,
       default: Date.now(),
