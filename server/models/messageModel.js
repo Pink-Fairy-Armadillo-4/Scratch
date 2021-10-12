@@ -3,19 +3,24 @@ const { Schema } = mongoose;
 
 const messageSchema = new Schema(
   {
-    // info stored on login
-    sourceName: { type: String, required: true },
-    sourceEmail: { type: String, required: true },
-    contactEmail: { type: String, required: true },
-    // info stored on node
-    targetName: { type: String, required: true },
-    targetEmail: { type: String, required: true },
-    // message generate on click node and send message functionality
-    messageBody: { type: String, required: true },
-    skill: { type: String },
-    isRead: { type: Boolean, default: false },
+    from: {
+      type: Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'A message must have an origin'],
+    },
+    to: {
+      type: Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'A message must have a destination'],
+    },
+    message: { type: String, required: [true, 'Message cannot be empty'] },
+    sentAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    room: { type: String, required: [true, 'Message must beling to a chat'] },
   },
-  { timestamps: true },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
 const Message = mongoose.model('message', messageSchema);

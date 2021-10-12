@@ -1,7 +1,12 @@
 const app = require('./app');
 const server = require('http').createServer(app);
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const { SocketAddress } = require('net');
+const cors = require('cors');
+const Chat = require('./models/chatModel');
+const Message = require('./models/messageModel');
+app.use(cors());
+
 const io = require('socket.io')(server, {
   cors: {
     origin: 'http://localhost:8080',
@@ -30,14 +35,25 @@ io.on('connection', (socket) => {
     });
   }
 
-  socket.emit('users', users);
+  socket.emit('online users', users);
 
   //* io.emit send to all users 😎
-  io.emit('hello', `${socket.user.firstName} just joined`);
+  // io.emit('hello', `${socket.user.firstName} just joined`);
 
-  socket.on('disconnect', () => {
-    io.emit('user left', `${socket.user.firstName} left`);
-  });
+  // socket.on('sendMessage', (data) => {
+  //   socket.to(data.room).emit('receiveMessage', data);
+
+  //   console.log('receiveMessage', data);
+  // });
+
+  // socket.on('joinRoom', (data) => {
+  //   socket.join(data);
+  //   console.log(`User: ${socket.user.firstName} joined room: ${data}`);
+  // });
+
+  // socket.on('disconnect', () => {
+  //   io.emit('user left', `${socket.user.firstName} left`);
+  // });
 });
 
 module.exports = server;
