@@ -21,6 +21,6 @@ const messageSchema = new Schema(
   { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
-const Message = mongoose.model('message', messageSchema);
+const Message = mongoose.model('Message', messageSchema);
 
 module.exports = Message;

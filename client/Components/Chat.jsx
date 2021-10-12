@@ -20,6 +20,11 @@ const Chat = ({ currentUser, recipientEmail = 'hello@hot.com' }) => {
     setMessages([...messages, JSON.parse(message)]);
   });
 
+  socket.on('messages', (data) => {
+    const messages = JSON.parse(data);
+    setMessages(messages);
+  });
+
   useEffect(async () => {
     socket.auth = { user: currentUser, room: genRoomId('me@somewhere.com', recipientEmail) };
     socket.connect();
@@ -49,13 +54,7 @@ const Chat = ({ currentUser, recipientEmail = 'hello@hot.com' }) => {
 
   return (
     <div className="Chat">
-      <ul>
-        {/* <li id="self">
-          <div>Some really important message</div>
-        </li> */}
-
-        {messageList}
-      </ul>
+      <ul>{messageList}</ul>
       <form onSubmit={handleSubmit}>
         <input
           onChange={(e) => {

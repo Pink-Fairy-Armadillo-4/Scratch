@@ -63,7 +63,6 @@ io.on('connection', async (socket) => {
       console.log(data);
       const { from, to, content } = JSON.parse(data);
 
-      console.log('CONTENT', content);
       // Store message (in database)
       const message = await Message.create({ from, to, content, room });
 
