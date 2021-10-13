@@ -66,7 +66,7 @@ io.on('connection', async (socket) => {
 
       // Send message to room
 
-      socket.broadcast.emit('message', JSON.stringify(message));
+      socket.to(room).emit('message', JSON.stringify(message));
     });
   } catch (err) {
     console.log(err);
