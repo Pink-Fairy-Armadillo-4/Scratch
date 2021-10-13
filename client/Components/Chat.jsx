@@ -58,7 +58,7 @@ const Chat = ({ currentUser, recipient, setRecipient }) => {
     socket.connect();
   }, []);
 
-  const messageList = messages.map(({ content, from, to }, i) => {
+  const messageList = messages.map(({ content, from, to, sentAt }, i) => {
     // Check if message is from current user
     const self = from === currentUser.email;
     const side = self ? 'right' : 'left';
@@ -69,7 +69,7 @@ const Chat = ({ currentUser, recipient, setRecipient }) => {
         <div className="msg-bubble">
           <div className="msg-info">
             <div className="msg-info-name">{name}</div>
-            <div className="msg-info-time">{`${formatDate(Date.now())}`}</div>
+            <div className="msg-info-time">{formatDate(sentAt)}</div>
           </div>
 
           <div className="msg-text">{content}</div>
