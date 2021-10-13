@@ -3,6 +3,7 @@ import socket from '../socket';
 import axios from 'axios';
 import './Chat.css';
 import genRoomId from '../utils/genRoomId';
+import { Hidden } from '@material-ui/core';
 
 const Chat = ({ currentUser, recipient }) => {
   const [text, setText] = useState('');
@@ -10,12 +11,10 @@ const Chat = ({ currentUser, recipient }) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   // console.log('currentUser', currentUser);
   // console.log('recipient', recipient);
-
+  let messagesEnd;
   useEffect(() => {
-    console.log('Chat rendered');
+    messagesEnd.scrollIntoView({ behavior: 'smooth' });
   });
-
-  const online = {};
 
   // 1) get all online users
   socket.on('online users', (onlineUsers) => {
@@ -62,7 +61,13 @@ const Chat = ({ currentUser, recipient }) => {
 
   return (
     <div className="Chat">
-      <ul>{messageList}</ul>
+      <ul>
+        {messageList}
+        <div
+          style={{ float: 'left', clear: 'both', display: 'hidden' }}
+          ref={(el) => (messagesEnd = el)}
+        ></div>
+      </ul>
       <form onSubmit={handleSubmit}>
         <input
           onChange={(e) => {
