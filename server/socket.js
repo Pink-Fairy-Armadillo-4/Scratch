@@ -17,7 +17,7 @@ const io = require('socket.io')(server, {
 
 io.use((socket, next) => {
   const { user, room } = socket.handshake.auth;
-
+  console.log(user, room);
   socket.user = user;
   socket.room = room;
 
@@ -53,18 +53,18 @@ io.on('connection', async (socket) => {
     socket.join(room);
 
     // Send chat history to client
-    io.to(room).emit('messages', JSON.stringify(chat.messages));
+    socket.emit('messages', JSON.stringify(chat.messages));
 
     // Listen for message
     socket.on('message', async (data) => {
-      console.log(data);
+      // console.log(data);
       const { from, to, content } = JSON.parse(data);
 
       // Store message (in database)
       const message = await Message.create({ from, to, content, room });
 
       // Send message to room
-      // io.to(room).emit('message', JSON.stringify(message));
+
       socket.broadcast.emit('message', JSON.stringify(message));
     });
   } catch (err) {

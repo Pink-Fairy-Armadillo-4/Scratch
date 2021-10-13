@@ -2,10 +2,12 @@
 .Chat {
   position: absolute;
   width: 600px;
-  height: 100%;
+  height: 75%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  z-index: 100;
+  background-color: rgb(131, 212, 168);
 }
 
 .Chat ul {

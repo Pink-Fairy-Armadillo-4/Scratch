@@ -4,10 +4,16 @@ import axios from 'axios';
 import './Chat.css';
 import genRoomId from '../utils/genRoomId';
 
-const Chat = ({ currentUser, recipientEmail = 'hello@hot.com' }) => {
+const Chat = ({ currentUser, recipient }) => {
   const [text, setText] = useState('');
   const [messages, setMessages] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  // console.log('currentUser', currentUser);
+  // console.log('recipient', recipient);
+
+  useEffect(() => {
+    console.log('Chat rendered');
+  });
 
   const online = {};
 
@@ -26,15 +32,15 @@ const Chat = ({ currentUser, recipientEmail = 'hello@hot.com' }) => {
   });
 
   useEffect(async () => {
-    socket.auth = { user: currentUser, room: genRoomId('me@somewhere.com', recipientEmail) };
+    socket.auth = { user: currentUser, room: genRoomId(currentUser.email, recipient.email) };
     socket.connect();
-  });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // Add message to sender's messages
-    const message = { from: currentUser.email, to: recipientEmail, content: text };
+    const message = { from: currentUser.email, to: recipient.email, content: text };
     setMessages([...messages, message]);
 
     // Send message to recipient

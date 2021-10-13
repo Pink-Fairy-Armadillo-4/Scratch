@@ -5,6 +5,7 @@ import { CircularProgress } from '@material-ui/core';
 import SendMessage from './SendMessage';
 import SkillsList from './SkillsList';
 import Navbar from './Navbar';
+import Chat from './Chat';
 
 const MainPage = (props) => {
   //state passed to nodes of ForceGraph to select user on click on node in graph
@@ -75,6 +76,8 @@ const MainPage = (props) => {
         setAuth={props.setAuth}
       />
 
+      {props.recipient && <Chat currentUser={props.currentUser} recipient={props.recipient} />}
+
       {isLoading && (
         <div className="loading">
           <CircularProgress />
@@ -93,6 +96,7 @@ const MainPage = (props) => {
                 setActiveStyle={setActiveStyle}
               />
               <ForceGraph
+                setRecipient={props.setRecipient}
                 skillsData={graphData.skills}
                 linksData={graphData.links}
                 nodesData={graphData.nodes}
