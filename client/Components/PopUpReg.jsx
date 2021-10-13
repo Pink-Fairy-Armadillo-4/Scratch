@@ -55,13 +55,13 @@ const PopUpReg = (props) => {
   const skillButtonClick = (e) => {
     data.skillsToTeach[e]
       ? setData((prevstate) => {
-        delete prevstate.skillsToTeach[e];
-        return prevstate;
-      })
+          delete prevstate.skillsToTeach[e];
+          return prevstate;
+        })
       : setData((prevstate) => {
-        prevstate.skillsToTeach[e] = skillId[e];
-        return prevstate;
-      });
+          prevstate.skillsToTeach[e] = skillId[e];
+          return prevstate;
+        });
   };
 
   const passwordEntered = (e) => {
@@ -95,7 +95,7 @@ const PopUpReg = (props) => {
   // on successful signup stores cookie as token in localStorage;
   // finds if user is admin, has messages and stores data in localStorage;
   // sets auth to true and redirects to '/main';
-  
+
   const submitInfo = async () => {
     try {
       const res = await fetch('/auth/signup', {
@@ -117,10 +117,8 @@ const PopUpReg = (props) => {
         localStorage.setItem('email', `${data.email}`);
         if (rightCookie) {
           localStorage.setItem('token', rightCookie);
-          localStorage.setItem(
-            'name',
-            `${resp.userInfo.firstName} ${resp.userInfo.lastName}`
-          );
+          localStorage.setItem('name', `${resp.userInfo.firstName} ${resp.userInfo.lastName}`);
+          props.setCurrentUser(data);
         }
         if (resp.userInfo.isAdmin) {
           localStorage.setItem('admin', 'true');
@@ -136,11 +134,7 @@ const PopUpReg = (props) => {
   };
 
   useEffect(() => {
-    if (
-      errorOnSignup === true ||
-      errorOnSignup === 'format' ||
-      errorOnSignup === 'empty'
-    ) {
+    if (errorOnSignup === true || errorOnSignup === 'format' || errorOnSignup === 'empty') {
       setTimeout(() => {
         setErrorOnSignup(false);
       }, 3000);
@@ -168,9 +162,7 @@ const PopUpReg = (props) => {
                 </div>
               )}
               {errorOnSignup === 'empty' && (
-                <div className="loginerror-message">
-                  All fields are required.
-                </div>
+                <div className="loginerror-message">All fields are required.</div>
               )}
               {errorOnSignup === 'format' && (
                 <div className="errordiv">
@@ -212,23 +204,12 @@ const PopUpReg = (props) => {
                     onChange={lastNameEntered}
                   />
                 </div>
-                <div className="form-group-add">
-                  Please select skills you can help others with
-                </div>
+                <div className="form-group-add">Please select skills you can help others with</div>
                 {skills.map((skill) => (
-                  <SkillButton
-                    key={skill}
-                    id={skill}
-                    onClick={skillButtonClick}
-                    skill={skill}
-                  />
+                  <SkillButton key={skill} id={skill} onClick={skillButtonClick} skill={skill} />
                 ))}
                 <div className="form-group">
-                  <button
-                    type="button"
-                    className="signupbutton"
-                    onClick={submitInfo}
-                  >
+                  <button type="button" className="signupbutton" onClick={submitInfo}>
                     Signup
                   </button>
                 </div>

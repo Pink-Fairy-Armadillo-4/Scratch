@@ -6,13 +6,20 @@ import genRoomId from '../utils/genRoomId';
 import { Hidden } from '@material-ui/core';
 import formatDate from '../utils/formatDate';
 
-const Chat = ({ currentUser, recipient }) => {
+const Chat = ({ currentUser, recipient, setRecipient }) => {
   const [text, setText] = useState('');
   const [messages, setMessages] = useState([]);
-  const [onlineUsers, setOnlineUsers] = useState([]);
+  // const [onlineUsers, setOnlineUsers] = useState([]);
+
+  const closeChat = (e) => {
+    setRecipient(null);
+    socket.disconnect();
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!text) return;
 
     // Add message to sender's messages
     const message = {
@@ -30,10 +37,10 @@ const Chat = ({ currentUser, recipient }) => {
   };
 
   // SOCKET IO EVENT LISTENERS
-  // 1) get all online users
-  socket.on('online users', (onlineUsers) => {
-    setOnlineUsers(onlineUsers);
-  });
+  // // 1) get all online users
+  // socket.on('online users', (onlineUsers) => {
+  //   setOnlineUsers(onlineUsers);
+  // });
 
   socket.on('message', (message) => {
     setMessages([...messages, JSON.parse(message)]);
@@ -41,6 +48,7 @@ const Chat = ({ currentUser, recipient }) => {
 
   socket.on('messages', (data) => {
     const messages = JSON.parse(data);
+    // console.log('messages:', messages);
     setMessages(messages);
   });
 
@@ -74,13 +82,17 @@ const Chat = ({ currentUser, recipient }) => {
     <section className="msger">
       <header className="msger-header">
         <div className="msger-header-title">
-          <i className="fas fa-comment-alt"></i> {recipient.name}
+          <i className="fas fa-comment-alt"></i>{' '}
+          {recipient.name === currentUser ? currentUser.name : recipient.name}
         </div>
-        <div className="msger-header-options">
+        <div onClick={closeChat} className="msgr-close">
+          <ion-icon name="close"></ion-icon>
+        </div>
+        {/* <div className="msger-header-options">
           <span>
             <i className="fas fa-cog"></i>
           </span>
-        </div>
+        </div> */}
       </header>
 
       <main className="msger-chat">{messageList}</main>

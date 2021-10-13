@@ -76,7 +76,13 @@ const MainPage = (props) => {
         setAuth={props.setAuth}
       />
 
-      {props.recipient && <Chat currentUser={props.currentUser} recipient={props.recipient} />}
+      {props.recipient && (
+        <Chat
+          currentUser={props.currentUser}
+          recipient={props.recipient}
+          setRecipient={props.setRecipient}
+        />
+      )}
 
       {isLoading && (
         <div className="loading">

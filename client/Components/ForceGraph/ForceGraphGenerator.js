@@ -149,8 +149,6 @@ export function runForceGraph(
       removeTooltip();
     })
     .on('click', (d) => {
-      // TODO: Update recipr ... d.email === clicked node
-      console.log('d??', d);
       setRecipient(d);
       showMessageContainer(getNodeInfo, d);
     });

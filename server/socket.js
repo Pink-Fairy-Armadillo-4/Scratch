@@ -5,6 +5,7 @@ const cors = require('cors');
 const Message = require('./models/messageModel');
 const Chat = require('./models/chatModel');
 const genRoomId = require('./utils/genRoomId');
+
 app.use(cors());
 
 const io = require('socket.io')(server, {
@@ -32,14 +33,14 @@ io.on('connection', async (socket) => {
   try {
     const users = [];
 
-    for (const [id, socket] of io.of('/').sockets) {
-      users.push({
-        ...socket.user,
-      });
-    }
+    // for (const [id, socket] of io.of('/').sockets) {
+    //   users.push({
+    //     ...socket.user,
+    //   });
+    // }
 
-    // Send a list of all online users to socket
-    socket.emit('online users', users);
+    // // Send a list of all online users to socket
+    // socket.emit('online users', users);
 
     let chat;
     // Check if room exists
@@ -53,7 +54,7 @@ io.on('connection', async (socket) => {
     socket.join(room);
 
     // Send chat history to client
-    socket.emit('messages', JSON.stringify(chat.messages));
+    if (chat.messages) socket.emit('messages', JSON.stringify(chat.messages));
 
     // Listen for message
     socket.on('message', async (data) => {

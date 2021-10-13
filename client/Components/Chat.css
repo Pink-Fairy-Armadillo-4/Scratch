@@ -18,17 +18,9 @@ html {
   box-sizing: inherit;
 }
 
-/* body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-image: var(--body-bg);
-  font-family: Helvetica, sans-serif;
-} */
-
 .msger {
   display: flex;
+
   flex-flow: column wrap;
   justify-content: space-between;
   width: 100%;
@@ -40,6 +32,7 @@ html {
   border-radius: 5px;
   background: var(--msger-bg);
   box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);
+  font-family: 'Inter', sans-serif;
 }
 
 .msger-header {
@@ -55,6 +48,7 @@ html {
   flex: 1;
   overflow-y: auto;
   padding: 10px;
+  scroll-behavior: smooth;
 }
 .msger-chat::-webkit-scrollbar {
   width: 6px;
@@ -149,4 +143,10 @@ html {
 
 .msger-chat {
   background-color: #fcfcfe;
+}
+
+.msgr-close {
+  margin-right: 4px;
+  cursor: pointer;
+  color: #666;
 }
