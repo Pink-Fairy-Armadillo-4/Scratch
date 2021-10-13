@@ -36,7 +36,12 @@ const LandingPage = (props) => {
         />
       )}
       {seenSignUp && (
-        <PopUpReg toggleReg={togglePopReg} auth={props.auth} setAuth={props.setAuth} />
+        <PopUpReg
+          setCurrentUser={props.setCurrentUser}
+          toggleReg={togglePopReg}
+          auth={props.auth}
+          setAuth={props.setAuth}
+        />
       )}
       <div className="children">
         <main className="display-xl">Connect with your cohort. They have a lot to teach.</main>

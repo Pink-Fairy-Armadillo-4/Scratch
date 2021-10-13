@@ -24,6 +24,7 @@ const App = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [currentUser, setCurrentUser] = useLocalStorage('user', {});
+  const [recipient, setRecipient] = useState();
 
   //verifying token from localStorage on mount and auth to avoid hacked localStorage
   //checked every time we refresh browser or load one of urls in browser
@@ -94,6 +95,8 @@ const App = (props) => {
                 <MainPage
                   currentUser={currentUser}
                   setCurrentUser={setCurrentUser}
+                  setRecipient={setRecipient}
+                  recipient={recipient}
                   auth={auth}
                   setAuth={setAuth}
                 />
@@ -104,7 +107,7 @@ const App = (props) => {
 
             <Route exact path="/chat">
               {' '}
-              <Chat currentUser={currentUser} />
+              <Chat recipient={recipient} currentUser={currentUser} />
             </Route>
 
             <Route exact path="/requests">

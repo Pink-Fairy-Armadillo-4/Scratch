@@ -24,7 +24,9 @@ dbController.getUsers = async (req, res, next) => {
     const users = await User.find(queryFilter, specifiedFields);
     res.locals.users = users;
     res.locals.userCount = users.length;
-    next();
+    // next();
+
+    res.status(200).json({ status: 'success', users });
   } catch (err) {
     next(err);
   }
